@@ -1,0 +1,14 @@
+1. mengapa weight packing list nol muncul saat create SPK Produksi
+
+[{"kode":"P2300374-1","id_stock":"6071","berat":"146.30","id_gudang":1},{"kode":"P2300392","id_stock":"6071","berat":"146.30","id_gudang":1}]
+
+2. stok material : 308
+3. spk 12 
+4. [{"kode":"P2300374-1","id_stock":"6071","berat":"146.30","id_gudang":1},{"kode":"P2300392","id_stock":"6071","berat":"146.30","id_gudang":1}]
+5. sisa potongan = 146,30
+
+
+
+1. saat ganti lot number lot number masih sama
+2. saat edit tidak berubah lot numbernya
+3. yang muncul di select hanya yang ada stocknya aja
