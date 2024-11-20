@@ -706,8 +706,8 @@ class Posting_new extends CI_Controller
 		
 		$this->db->query("DELETE FROM jurnal WHERE keterangan='$Keterangan_delete'");
 		$this->db->query("DELETE FROM javh WHERE keterangan='$Keterangan_delete'");
-		$this->db->query("DELETE FROM ori_dummy.tr_kartu_piutang WHERE keterangan='$Keterangan_delete'");
-		$this->db->query("DELETE FROM ori_dummy.tr_kartu_hutang WHERE keterangan='$Keterangan_delete'");
+		$this->db->query("DELETE FROM sentralsistem.tr_kartu_piutang WHERE keterangan='$Keterangan_delete'");
+		$this->db->query("DELETE FROM sentralsistem.tr_kartu_hutang WHERE keterangan='$Keterangan_delete'");
 
 		
 		$Keterangan_Delete1		    = 'JURNAL TUTUP BULAN FAV '.$bln_aktif.'/'.$thn_aktif;
@@ -878,7 +878,7 @@ class Posting_new extends CI_Controller
 
 															 );
 															 
-														// $this->db->insert_batch('ori_dummy.tr_kartu_hutang',$det_Jurnalhutang);
+														// $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnalhutang);
 														
 														
 													  
@@ -975,7 +975,7 @@ class Posting_new extends CI_Controller
 
 															 );
 															 
-														// $this->db->insert_batch('ori_dummy.tr_kartu_hutang',$det_Jurnalhutang);
+														// $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnalhutang);
 														
 														
 													  
@@ -1598,7 +1598,7 @@ class Posting_new extends CI_Controller
 
 				 );
 				 
-		    $this->db->insert_batch('ori_dummy.tr_kartu_piutang',$det_Jurnal);
+		    $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnal);
 			
 			}
 			
@@ -1619,7 +1619,7 @@ class Posting_new extends CI_Controller
 
 				 );
 				 
-		    $this->db->insert_batch('ori_dummy.tr_kartu_piutang',$det_Jurnal);
+		    $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnal);
 			
 			}
 			
@@ -1641,7 +1641,7 @@ class Posting_new extends CI_Controller
 
 				 );
 				 
-		    $this->db->insert_batch('ori_dummy.tr_kartu_piutang',$det_Jurnal);
+		    $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnal);
 			
 			}
 			
@@ -1662,7 +1662,7 @@ class Posting_new extends CI_Controller
 
 				 );
 				 
-		    $this->db->insert_batch('ori_dummy.tr_kartu_piutang',$det_Jurnal);
+		    $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnal);
 			
 			}
 			
@@ -1711,7 +1711,7 @@ class Posting_new extends CI_Controller
 
 				 );
 				 
-		    $this->db->insert_batch('ori_dummy.tr_kartu_hutang',$det_Jurnal);
+		    $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnal);
 			
 			}
 			
@@ -1730,7 +1730,7 @@ class Posting_new extends CI_Controller
 					
 
 				 );
-		    $this->db->insert_batch('ori_dummy.tr_kartu_hutang',$det_Jurnal);
+		    $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnal);
 			
 			}
 			
