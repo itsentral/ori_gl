@@ -303,13 +303,15 @@ if ($data_perkiraan) {
 													</tr>
 											<?php
 													$saldo_awal[$count] = $current_saldo[$count3];
+													$saldo_awal_kurs[$count] = $current_saldo_kurs[$count3];
 												}
 											} else {
 												$saldo_akhir				= $saldo_awal[$count];
+												$saldo_akhir_kurs				= $saldo_awal_kurs[$count];
 											}
 											
 											$Temp_SaldoAkhir	= number_format($saldo_akhir, 0, ',', '.');
-											$Temp_SaldoAkhirKurs	= number_format($saldo_akhir, 0, ',', '.');
+											$Temp_SaldoAkhirKurs	= number_format($saldo_akhir_kurs, 0, ',', '.');
 											
 											if($OK_Warehouse == 'Y' && $Periode_Akhir >= $cutoff_stock && floatval($saldo_akhir) !== 0 && !empty($saldo_akhir)){
 												$Code_SaldoAkhir	= $row_sa->no_perkiraan.'^'.$Periode_Akhir;
