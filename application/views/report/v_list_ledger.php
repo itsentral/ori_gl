@@ -297,9 +297,9 @@ if ($data_perkiraan) {
 														<td align="right"><?= number_format($nilai_debet[$count2], 0, ',', '.'); ?></td>
 														<td align="right"><?= number_format($nilai_kredit[$count2], 0, ',', '.'); ?></td>
 														<td align="right"><?= number_format($current_saldo[$count3], 0, ',', '.'); ?></td>
-														<td align="right"><?= number_format($nilai_debet_kurs[$count2], 0, ',', '.'); ?></td>
-														<td align="right"><?= number_format($nilai_kredit_kurs[$count2], 0, ',', '.'); ?></td>
-														<td align="right"><?= number_format($current_saldo_kurs[$count3], 0, ',', '.'); ?></td>
+														<td align="right"><?= number_format($nilai_debet_kurs[$count2], 2, ',', '.'); ?></td>
+														<td align="right"><?= number_format($nilai_kredit_kurs[$count2], 2, ',', '.'); ?></td>
+														<td align="right"><?= number_format($current_saldo_kurs[$count3], 2, ',', '.'); ?></td>
 													</tr>
 											<?php
 													$saldo_awal[$count] = $current_saldo[$count3];
@@ -311,7 +311,7 @@ if ($data_perkiraan) {
 											}
 											
 											$Temp_SaldoAkhir	= number_format($saldo_akhir, 0, ',', '.');
-											$Temp_SaldoAkhirKurs	= number_format($saldo_akhir_kurs, 0, ',', '.');
+											$Temp_SaldoAkhirKurs	= number_format($saldo_akhir_kurs, 2, ',', '.');
 											
 											if($OK_Warehouse == 'Y' && $Periode_Akhir >= $cutoff_stock && floatval($saldo_akhir) !== 0 && !empty($saldo_akhir)){
 												$Code_SaldoAkhir	= $row_sa->no_perkiraan.'^'.$Periode_Akhir;
