@@ -122,8 +122,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 											$format_debet = number_format($row->debet, 0, ',', '.');
 											$format_kredit = number_format($row->kredit, 0, ',', '.');
 											
-											$format_debet_usd = number_format($row->nilai_valas_debet, 0, ',', '.');
-											$format_kredit_usd = number_format($row->nilai_valas_kredit, 0, ',', '.');
+											$format_debet_usd = number_format($row->nilai_valas_debet, 2, ',', '.');
+											$format_kredit_usd = number_format($row->nilai_valas_kredit, 2, ',', '.');
 
 
 											$format_sumdebet = number_format($sum_debet, 0, ',', '.');
