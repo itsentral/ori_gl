@@ -227,6 +227,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 	function edit(id,nomor){
 		var debet  =$('#debet_'+id).val();
 		var kredit =$('#kredit_'+id).val();
+		var debetkurs  =$('#debet_kurs_'+id).val();
+		var kreditkurs =$('#kredit_kurs_'+id).val();
 		
 		swal({
           title: "Peringatan !",
@@ -245,7 +247,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 					url: base_url+"index.php/jurnal/save_edit_jv",
 					dataType : "json",
 					type: 'POST',
-					data: "id="+id+"&debet="+debet+"&kredit="+kredit,
+					data: "id="+id+"&debet="+debet+"&kredit="+kredit+"&debetkurs="+debetkurs+"&kreditkurs="+kreditkurs,
 					success: function(data){
 						if(data.status == 1){
 						swal({
