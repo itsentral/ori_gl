@@ -226,7 +226,7 @@ if ($data_perkiraan) {
 												<td align="right"><?= $Temp_SaldoAwal; ?></td>
 												<td></td>
 												<td></td>
-												<!-- <td align="right"><?= number_format($saldo_awal[$count]); ?></td> -->
+												<!-- <td align="right"><?= number_format($saldo_awal[$count],2); ?></td> -->
 												<td align="right"><?= $Temp_SaldoAwalKurs; ?></td>
 											</tr>
 											<!-- DATA DARI JURNAL -->
