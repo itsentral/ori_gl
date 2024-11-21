@@ -190,8 +190,8 @@ class Jurnal extends CI_Controller
 		$id       = $post['id'];
 		$debet    = str_replace(".","",$post['debet']);
 		$kredit   = str_replace(".","",$post['kredit']);
-		$debetkurs    = str_replace(".","",$post['debetkurs']);
-		$kreditkurs   = str_replace(".","",$post['kreditkurs']);
+		$debetkurs    = str_replace(",","",$post['debetkurs']);
+		$kreditkurs   = str_replace(",","",$post['kreditkurs']);
 		
 		// print_r($debet);
 		// exit;
