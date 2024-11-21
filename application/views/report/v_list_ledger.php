@@ -180,6 +180,15 @@ if ($data_perkiraan) {
 										<td>
 											<center><b>Saldo</b></center>
 										</td>
+										<td>
+											<center><b>Debet Kurs</b></center>
+										</td>
+										<td>
+											<center><b>Kredit Kurs</b></center>
+										</td>
+										<td>
+											<center><b>Saldo Kurs</b></center>
+										</td>
 									</tr>
 									<!-- DATA DARI COA -->
 									<?php
@@ -191,6 +200,7 @@ if ($data_perkiraan) {
 											$nokir_induk 		= $row_sa->no_perkiraan;
 											$nama_perkiraan		= $row_sa->nama;
 											$saldo_awal[$count]	= $row_sa->saldoawal;
+											$saldo_awal_kurs[$count]	= $row_sa->saldo_valas;
 											
 											$OK_Warehouse		= 'N';
 											if(!empty($COA_Warehouse[$nokir_induk])){
@@ -198,6 +208,7 @@ if ($data_perkiraan) {
 											}
 											
 											$Temp_SaldoAwal	= number_format($saldo_awal[$count], 0, ',', '.');
+											$Temp_SaldoAwalKurs	= number_format($saldo_awal_kurs[$count], 0, ',', '.');
 											$DateFR			= date('Y-m-d', strtotime($Periode_Awal. ' - 1 days'));
 											if($OK_Warehouse == 'Y' && $DateFR >= $cutoff_stock && floatval($row_sa->saldoawal) !== 0 && !empty($row_sa->saldoawal)){
 												$Code_SaldoAwal	= $row_sa->no_perkiraan.'^'.$DateFR;
@@ -213,6 +224,10 @@ if ($data_perkiraan) {
 												<td></td>
 												<!-- <td align="right"><?= number_format($saldo_awal[$count]); ?></td> -->
 												<td align="right"><?= $Temp_SaldoAwal; ?></td>
+												<td></td>
+												<td></td>
+												<!-- <td align="right"><?= number_format($saldo_awal[$count]); ?></td> -->
+												<td align="right"><?= $Temp_SaldoAwalKurs; ?></td>
 											</tr>
 											<!-- DATA DARI JURNAL -->
 											<?php
@@ -222,6 +237,12 @@ if ($data_perkiraan) {
 											$sum_kredit = array();
 											$nilai_debet = array();
 											$nilai_kredit = array();
+											$sum_debet_kurs = 0;
+											$sum_kredit_kurs = 0;
+											$sum_debet_kurs = array();
+											$sum_kredit_kurs = array();
+											$nilai_debet_kurs = array();
+											$nilai_kredit_kurs = array();
 											$detail_jurnal	= $this->Report_model->get_detail_jurnal2($nokir_induk, $var_tgl_awal, $var_tgl_akhir);
 											if ($detail_jurnal > 0) {
 												$count2 = 0;
@@ -237,18 +258,27 @@ if ($data_perkiraan) {
 													$tipe_sm[$count2] 			= $row_dj->tipe;
 													$nilai_debet[$count2] 		= $row_dj->debet;
 													$nilai_kredit[$count2] 		= $row_dj->kredit;
+													$sum_debet[$count]	 		+= $nilai_debet[$count2];
+													$sum_kredit[$count]  		+= $nilai_kredit[$count2];
+													$current_saldo[$count3]		= $saldo_awal[$count] + $nilai_debet[$count2] - $nilai_kredit[$count2];
+													$saldo_akhir				= $current_saldo[$count3];
+
+													$nilai_debet_kurs[$count2] 		= $row_dj->nilai_valas_debet;
+													$nilai_kredit_kurs[$count2] 	= $row_dj->nilai_valas_kredit;
+													$sum_debet_kurs[$count]	 		+= $nilai_debet_kurs[$count2];
+													$sum_kredit_kurs[$count]  		+= $nilai_kredit_kurs[$count2];
+													$current_saldo_kurs[$count3]	= $saldo_awal_kurs[$count] + $nilai_debet_kurs[$count2] - $nilai_kredit_kurs[$count2];
+													$saldo_akhir_kurs				= $current_saldo_kurs[$count3];
+													
 													// if ((isset($sum_debet[$count]))  == "" || (isset($sum_kredit[$count])) == "" || (isset($nilai_debet[$count2]))  == "" || (isset($nilai_kredit[$count2])) == "") {
 													// 	$sum_debet[$count]	 		+= $nilai_debet[$count2];
 													// 	$sum_kredit[$count]  		+= $nilai_kredit[$count2];
 													// } else {
-													$sum_debet[$count]	 		+= $nilai_debet[$count2];
-													$sum_kredit[$count]  		+= $nilai_kredit[$count2];
+													
 													//}
 													//$current_saldo[$count3]	= $saldo_awal[$count];
-													$current_saldo[$count3]		= $saldo_awal[$count] + $nilai_debet[$count2] - $nilai_kredit[$count2];
 													//$current_saldo[$count2]	+= $current_saldo[$count2] + $nilai_debet[$count2] - $nilai_kredit[$count2];
 													// $saldo_akhir				= $sum_debet + $saldo_awal[$count] - $sum_kredit;	
-													$saldo_akhir				= $current_saldo[$count3];
 													$Code_Unik				= $row_dj->nomor.'^'.$row_dj->tipe;
 													$Template_Preview		= '<a href="#" class="text-red" onClick="PreviewDetail({code:\''.$Code_Unik.'\',action:\'preview_detail_jurnal_new\',title:\'PREVIEW DETAIL JURNAL\'});"> '.$row_dj->nomor.' </a>';
 													
@@ -267,6 +297,9 @@ if ($data_perkiraan) {
 														<td align="right"><?= number_format($nilai_debet[$count2], 0, ',', '.'); ?></td>
 														<td align="right"><?= number_format($nilai_kredit[$count2], 0, ',', '.'); ?></td>
 														<td align="right"><?= number_format($current_saldo[$count3], 0, ',', '.'); ?></td>
+														<td align="right"><?= number_format($nilai_debet_kurs[$count2], 0, ',', '.'); ?></td>
+														<td align="right"><?= number_format($nilai_kredit_kurs[$count2], 0, ',', '.'); ?></td>
+														<td align="right"><?= number_format($current_saldo_kurs[$count3], 0, ',', '.'); ?></td>
 													</tr>
 											<?php
 													$saldo_awal[$count] = $current_saldo[$count3];
@@ -276,6 +309,7 @@ if ($data_perkiraan) {
 											}
 											
 											$Temp_SaldoAkhir	= number_format($saldo_akhir, 0, ',', '.');
+											$Temp_SaldoAkhirKurs	= number_format($saldo_akhir, 0, ',', '.');
 											
 											if($OK_Warehouse == 'Y' && $Periode_Akhir >= $cutoff_stock && floatval($saldo_akhir) !== 0 && !empty($saldo_akhir)){
 												$Code_SaldoAkhir	= $row_sa->no_perkiraan.'^'.$Periode_Akhir;
@@ -290,11 +324,17 @@ if ($data_perkiraan) {
 												<td align="right"><?= number_format($sum_debet[$count], 0, ',', '.'); ?></td>
 												<td align="right"><?= number_format($sum_kredit[$count], 0, ',', '.'); ?></td>
 												<td align="right"><?= $Temp_SaldoAkhir; ?></td>
+												<td align="right"><?= number_format($sum_debet_kurs[$count], 0, ',', '.'); ?></td>
+												<td align="right"><?= number_format($sum_kredit_kurs[$count], 0, ',', '.'); ?></td>
+												<td align="right"><?= $Temp_SaldoAkhirKurs; ?></td>
 											</tr>
 											<tr>
 												<td></td>
 												<td></td>
 												<td align="right" colspan="3"></td>
+												<td align="right"></td>
+												<td align="right"></td>
+												<td align="right"></td>
 												<td align="right"></td>
 												<td align="right"></td>
 												<td align="right"></td>
