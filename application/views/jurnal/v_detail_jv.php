@@ -129,8 +129,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 											$format_sumdebet = number_format($sum_debet, 0, ',', '.');
 											$format_sumkredit = number_format($sum_kredit, 0, ',', '.');
 											
-											$format_sumdebet_usd = number_format($sum_debet_usd, 0, ',', '.');
-											$format_sumkredit_usd = number_format($sum_kredit_usd, 0, ',', '.');
+											$format_sumdebet_usd = number_format($sum_debet_usd, 2, ',', '.');
+											$format_sumkredit_usd = number_format($sum_kredit_usd, 2, ',', '.');
 
 											$periode_jv	= $row->tanggal;
 											$bln_jv		= substr($row->tanggal, 5, 2); // 2019-11-20
