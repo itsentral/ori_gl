@@ -208,7 +208,7 @@ if ($data_perkiraan) {
 											}
 											
 											$Temp_SaldoAwal	= number_format($saldo_awal[$count], 0, ',', '.');
-											$Temp_SaldoAwalKurs	= number_format($saldo_awal_kurs[$count], 0, ',', '.');
+											$Temp_SaldoAwalKurs	= number_format($saldo_awal_kurs[$count], 2, ',', '.');
 											$DateFR			= date('Y-m-d', strtotime($Periode_Awal. ' - 1 days'));
 											if($OK_Warehouse == 'Y' && $DateFR >= $cutoff_stock && floatval($row_sa->saldoawal) !== 0 && !empty($row_sa->saldoawal)){
 												$Code_SaldoAwal	= $row_sa->no_perkiraan.'^'.$DateFR;
@@ -226,7 +226,7 @@ if ($data_perkiraan) {
 												<td align="right"><?= $Temp_SaldoAwal; ?></td>
 												<td></td>
 												<td></td>
-												<!-- <td align="right"><?= number_format($saldo_awal[$count],2); ?></td> -->
+												<!-- <td align="right"><?= number_format($saldo_awal[$count],2, ',', '.'); ?></td> -->
 												<td align="right"><?= $Temp_SaldoAwalKurs; ?></td>
 											</tr>
 											<!-- DATA DARI JURNAL -->
@@ -326,8 +326,8 @@ if ($data_perkiraan) {
 												<td align="right"><?= number_format($sum_debet[$count], 0, ',', '.'); ?></td>
 												<td align="right"><?= number_format($sum_kredit[$count], 0, ',', '.'); ?></td>
 												<td align="right"><?= $Temp_SaldoAkhir; ?></td>
-												<td align="right"><?= number_format($sum_debet_kurs[$count], 0, ',', '.'); ?></td>
-												<td align="right"><?= number_format($sum_kredit_kurs[$count], 0, ',', '.'); ?></td>
+												<td align="right"><?= number_format($sum_debet_kurs[$count], 2, ',', '.'); ?></td>
+												<td align="right"><?= number_format($sum_kredit_kurs[$count], 2, ',', '.'); ?></td>
 												<td align="right"><?= $Temp_SaldoAkhirKurs; ?></td>
 											</tr>
 											<tr>
