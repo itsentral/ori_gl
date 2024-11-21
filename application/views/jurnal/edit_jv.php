@@ -95,6 +95,12 @@ error_reporting(E_ALL & ~E_NOTICE);
 										<th>
 											<center>Kredit</center>
 										</th>
+										<th>
+											<center>Debit Kurs</center>
+										</th>
+										<th>
+											<center>Kredit Kurs</center>
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -113,6 +119,9 @@ error_reporting(E_ALL & ~E_NOTICE);
 											$format_debet = number_format($row->debet, 0, ',', '.');
 											$format_kredit = number_format($row->kredit, 0, ',', '.');
 
+											$format_debet_kurs = number_format($row->debet, 2, ',', '.');
+											$format_kredit_kurs = number_format($row->kredit, 2, ',', '.');
+
 											$format_sumdebet = number_format($sum_debet, 0, ',', '.');
 											$format_sumkredit = number_format($sum_kredit, 0, ',', '.');
 
@@ -130,6 +139,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 												<td align="center"><?= $row->no_reff ?></td>
 												<td align="right"><input id="debet_<?= $row->id ?>" name="debet_<?= $row->id ?>" value="<?= $format_debet ?>" onblur="edit('<?php echo $row->id?>','<?= $row->nomor ?>')"></td>
 												<td align="right"><input id="kredit_<?= $row->id ?>" name="kredit_<?= $row->id ?>" value="<?= $format_kredit ?>" onblur="edit('<?php echo $row->id?>','<?= $row->nomor ?>')"></td>
+												<td align="right"><input id="debet_kurs_<?= $row->id ?>" name="debet_kurs_<?= $row->id ?>" value="<?= $format_debet_kurs ?>" onblur="edit('<?php echo $row->id?>','<?= $row->nomor ?>')"></td>
+												<td align="right"><input id="kredit_kurs_<?= $row->id ?>" name="kredit_kurs_<?= $row->id ?>" value="<?= $format_kredit_kurs ?>" onblur="edit('<?php echo $row->id?>','<?= $row->nomor ?>')"></td>
 											</tr>
 									<?php
 										}
