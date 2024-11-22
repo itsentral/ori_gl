@@ -1198,13 +1198,13 @@ class Posting_new extends CI_Controller
 		
 		
 		
-		$consum1 = $this->db->query("select sum(debet-kredit) AS consumable FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-01'")->row();
+		$consum1 = $this->db->query("select sum(kredit-debet) AS consumable FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-01'")->row();
 		$standart_consumable = $consum1->consumable;		
-		$consum2 = $this->db->query("select sum(debet-kredit) AS directlabour FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-02'")->row();
+		$consum2 = $this->db->query("select sum(kredit-debet) AS directlabour FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-02'")->row();
 		$standart_dl = $consum2->directlabour;
-		$consum3 = $this->db->query("select sum(debet-kredit) AS indirectlabour FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-03'")->row();
+		$consum3 = $this->db->query("select sum(kredit-debet) AS indirectlabour FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-03'")->row();
 		$standart_idl = $consum3->indirectlabour;
-		$consum4 = $this->db->query("select sum(debet-kredit) AS foh FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-04'")->row();
+		$consum4 = $this->db->query("select sum(kredit-debet) AS foh FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-04'")->row();
 		$standart_foh = $consum4->foh;
 		
 		$consumact1 = $this->db->query("select sum(debet-kredit) AS consumable FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5205%'")->row();
