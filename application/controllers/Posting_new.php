@@ -1207,13 +1207,13 @@ class Posting_new extends CI_Controller
 		$consum4 = $this->db->query("select sum(kredit-debet) AS foh FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan ='2107-01-04'")->row();
 		$standart_foh = $consum4->foh;
 		
-		$consumact1 = $this->db->query("select sum(debet-kredit) AS consumable FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5205%'")->row();
+		$consumact1 = $this->db->query("select sum(debet-kredit) AS consumable FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5201%'")->row();
 		$aktual_consumable = $consumact1->consumable;
-		$consumact2 = $this->db->query("select sum(debet-kredit) AS directlabour FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5206%'")->row();
+		$consumact2 = $this->db->query("select sum(debet-kredit) AS directlabour FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5202%'")->row();
 		$aktual_dl = $consumact2->directlabour;
-		$consumact3 = $this->db->query("select sum(debet-kredit) AS indirectlabour FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5207%'")->row();
+		$consumact3 = $this->db->query("select sum(debet-kredit) AS indirectlabour FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5203%'")->row();
 		$aktual_idl = $consumact3->indirectlabour;
-		$consumact4 = $this->db->query("select sum(debet-kredit) AS foh FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5208%'")->row();
+		$consumact4 = $this->db->query("select sum(debet-kredit) AS foh FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5204%'")->row();
 		$aktual_foh = $consumact4->foh;
 		$consumact5 = $this->db->query("select sum(debet-kredit) AS foh FROM jurnal WHERE tanggal between'$tahun-$bulan-01' AND '$tgl' AND no_perkiraan like'5209%'")->row();
 		$aktual_inst = $consumact5->foh;
