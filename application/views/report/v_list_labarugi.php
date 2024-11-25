@@ -979,4 +979,4 @@
 			return false;
 		}
 	}
-</script>
+</script> 
