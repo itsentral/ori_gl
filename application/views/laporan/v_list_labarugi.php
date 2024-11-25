@@ -604,9 +604,9 @@
 								<tr>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT PC</b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_pYTD_pdptn - $total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_YTD_pdptn + $total_YTD_hpp5104, 0, ',', '.'); ?></b></td>
 						        </tr>								
 								
 								<?php } ?>
@@ -708,11 +708,11 @@
 								
 								<tr>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
-									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT - </b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104-$total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
-						          </tr>	
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_pYTD_pdptn - $total_pYTD_hpp5104 - $total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_cmonth_pdptn - $total_cmonth_hpp5104 - $total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_YTD_pdptn + $total_YTD_hpp5104 - $total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
+						        </tr>	
 								
 								
 								
@@ -736,32 +736,24 @@
 								
 								$coahpp52 = substr($rowhpp52->no_perkiraan,0,4);
 								
-								//echo $coahpp52;
+								echo $coahpp52;
 								
 								
-								
-								$data_total_biaya52  = $this->Laporan_model->get_total_hpp52_lvl5($var_bulan, $var_tahun, 5);
-
-
 								$data_nokir_biaya52  = $this->Laporan_model->get_nokir_biaya52_lvl5($var_bulan, $var_tahun, 5, $coahpp52);
 
 								if ($data_nokir_biaya52 > 0) {
-									
+
 									foreach ($data_nokir_biaya52 as $row52) {
 										$nokir_biaya52 				= $row52->no_perkiraan;
 										$nm_perkiraan_biaya52		= $row52->nama;
 										$v_faktor52					= $row52->faktor;
 										$pYTD_biaya52					= $row52->saldoawal * $v_faktor52;
-										$cmonth_biaya52				    = ($row52->debet - $row52->kredit)* $v_faktor52;
+										$cmonth_biaya52				    = ($row52->debet - $row52->kredit) * $v_faktor52;
 										$YTD_biaya52					= $pYTD_biaya52 + $cmonth_biaya52;
 
 										$total_pYTD_biaya52 += $pYTD_biaya52;
 										$total_cmonth_biaya52 += $cmonth_biaya52;
 										$total_YTD_biaya52 += $YTD_biaya52;
-										
-										
-										
-										
 								?>
 										<tr>
 											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_biaya52 ?></td>
@@ -803,20 +795,14 @@
 								<?php } ?>
 								
 								<?php 
-								
-								foreach ($data_total_biaya52 as $tot52) {
-								$SubTotalHpp_cmonth2 = 	($tot52->total_debet - $tot52->total_kredit);
-								}
-								
-								$SubTotalHpp_pYTD2   = $SubTotalHpp_pYTD5104 + $SubTotalHpp_pYTD5105;
-								// $SubTotalHpp_cmonth2 = $total_cmonth_biaya52;
-								$SubTotalHpp_YTD2    = $SubTotalHpp_cmonth2 + $SubTotalHpp_pYTD2 ;   
+								$SubTotalHpp_pYTD2   = $SubTotalHpp_pYTD5104 + $total_pYTD_biaya52;
+								$SubTotalHpp_cmonth2 = $SubTotalHpp_cmonth5104 + $total_cmonth_biaya52;
+								$SubTotalHpp_YTD2    = $SubTotalHpp_YTD5104 + $total_YTD_biaya52;   
 								
 								$Saldo_pYTD2		 = ($Saldo_pYTD5104 + $Saldo_pYTD5105) - $total_pYTD_biaya52;
-								$Saldo_cmonth2		 = $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2;
-								$Saldo_YTD2			 = $total_YTD_biaya52;     
+								$Saldo_cmonth2		 = ($Saldo_cmonth5104 + $Saldo_cmonth5105) - $total_cmonth_biaya52;
+								$Saldo_YTD2			 = ($Saldo_YTD5104+$Saldo_YTD5105) - $total_YTD_biaya52;     
 								?>
-										
 										
 
 								<tr>
@@ -828,11 +814,10 @@
 								</tr>
 								<tr>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
-									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT --</b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_pYTD			= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104-$total_pYTD_hpp5105 - $total_pYTD_biaya52, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_cmonth			="Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_YTD			    ="Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2, 0, ',', '.'); ?></b></td>
-						         
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_pYTD			= "Rp. " . number_format($Saldo_pYTD2, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_cmonth			= "Rp. " . number_format($Saldo_cmonth2, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_YTD			= "Rp. " . number_format($Saldo_YTD2, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
@@ -972,14 +957,14 @@
 								}
 								
 								
-								$TotalBiaya_pYTD		= $total_pYTD_biaya61 + $SubTotalBiaya2_pYTD;
-								$TotalBiaya_cmonth68	= $total_cmonth_biaya61 + $SubTotalBiaya2_cmonth;
-								$TotalBiaya_YTD			= $total_YTD_biaya61 + $SubTotalBiaya2_YTD;
+								$TotalBiaya_pYTD		= $total_pYTD_biaya61 + $SubTotalBiaya2_pYTD + $total_pYTD_biaya52;
+								$TotalBiaya_cmonth68	= $total_cmonth_biaya61 + $SubTotalBiaya2_cmonth + $total_cmonth_biaya52;
+								$TotalBiaya_YTD			= $total_YTD_biaya61 + $SubTotalBiaya2_YTD + $total_YTD_biaya52;
 
 								// TOTAL LABA OPERASI
-								$laba_operasi_pYTD	= $Saldo_pYTD2 - $TotalBiaya_pYTD;
-								$laba_operasi_cmonth = $Saldo_cmonth2 - $TotalBiaya_cmonth68;
-								$laba_operasi_YTD	= $Saldo_YTD2 - $TotalBiaya_YTD;
+								$laba_operasi_pYTD	= $Saldo_pYTD - $TotalBiaya_pYTD;
+								$laba_operasi_cmonth = $Saldo_cmonth - $TotalBiaya_cmonth68;
+								$laba_operasi_YTD	= $Saldo_YTD - $TotalBiaya_YTD;
 
 								$rp_laba_operasi_pYTD	= $laba_operasi_pYTD;
 								$rp_laba_operasi_cmonth	= $laba_operasi_cmonth;
@@ -1097,7 +1082,77 @@
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
-								
+								<!-- FEE ORGANISASI -->
+								<!-- <tr>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>91</b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>FEE ORGANISASI</b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+								</tr> -->
+
+								<?php
+								$total_pYTD_FEE = 0;
+								$total_cmonth_FEE = 0;
+								$total_YTD_FEE = 0;
+
+								$SubTotalFEE_pYTD			= 0;
+								$SubTotalFEE_cmonth91			= 0;
+								$SubTotalFEE_YTD			= 0;
+
+								if ($data_nokir_fee > 0) {
+
+									foreach ($data_nokir_fee as $row_fee) {
+
+										$nokir_FEE			= $row_fee->no_perkiraan;
+										$nm_perkiraan_FEE	= $row_fee->nama;
+										$pYTD_FEE			= $row_fee->saldoawal * $row_fee->faktor; // * $v_faktor;
+										$cmonth_FEE			= ($row_fee->debet - $row_fee->kredit) * $row_fee->faktor;
+										$YTD_FEE			= $pYTD_FEE + $cmonth_FEE;
+
+										$SubTotalFEE_pYTD 	+=  $pYTD_FEE;
+										$SubTotalFEE_cmonth91 +=  $cmonth_FEE;
+										$SubTotalFEE_YTD 		+=  $YTD_FEE;
+
+
+										$total_pYTD_FEE 	+=  $pYTD_FEE;
+										$total_cmonth_FEE +=  $cmonth_FEE;
+										$total_YTD_FEE 		+=  $YTD_FEE;
+
+										$rp_pYTD_FEE			= "Rp. " . number_format($pYTD_FEE, 0, ',', '.');
+										$rp_cmonth_FEE		= "Rp. " . number_format($cmonth_FEE, 0, ',', '.');
+										$rp_YTD_FEE			= "Rp. " . number_format($YTD_FEE, 0, ',', '.');
+
+										$rp_total_pYTD_FEE			= "Rp. " . number_format($total_pYTD_FEE, 0, ',', '.');
+										$rp_total_cmonth_FEE		= "Rp. " . number_format($total_cmonth_FEE, 0, ',', '.');
+										$rp_total_YTD_FEE				= "Rp. " . number_format($total_YTD_FEE, 0, ',', '.');
+								?>
+										<tr>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_FEE ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_FEE ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_pYTD_FEE ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_cmonth_FEE ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_YTD_FEE ?></td>
+										</tr>
+								<?php
+									}
+								} else {
+									$SubTotalFEE_pYTD		= 0;
+									$SubTotalFEE_cmonth91	= 0;
+									$SubTotalFEE_YTD			= 0;
+
+									$rp_SubTotalFEE_pYTD		= 0;
+									$rp_SubTotalFEE_cmonth	= 0;
+									$rp_SubTotalFEE_YTD		= 0;
+								}
+								?>
+								<!-- <tr>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total FEE ORGANISASI</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalFEE_pYTD		= "Rp. " . number_format($SubTotalFEE_pYTD, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalFEE_cmonth		= "Rp. " . number_format($SubTotalFEE_cmonth91, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalFEE_YTD		= "Rp. " . number_format($SubTotalFEE_YTD, 0, ',', '.'); ?></b></td>
+								</tr> -->
 								<tr>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
@@ -1146,11 +1201,11 @@
 										//$TotalBiaya_cmonth72		= $SubTotalBiaya_cmonth + $SubTotalBiaya3_cmonth;
 										//$TotalBiaya_YTD			= $SubTotalBiaya_YTD + $SubTotalBiaya3_YTD;
 
-										$SaldoBersih_pYTD			= $Saldo_pYTD - $TotalBiaya_pYTD + $SubTotalPdptn2_pYTD - $SubTotalBiaya3_pYTD;
+										$SaldoBersih_pYTD			= $Saldo_pYTD - $TotalBiaya_pYTD + $SubTotalPdptn2_pYTD - $SubTotalBiaya3_pYTD - $SubTotalFEE_pYTD;
 
-										$SaldoBersih_cmonth			= $Saldo_cmonth - $TotalBiaya_cmonth68 + $SubTotalPdptn2_cmonth71 - $SubTotalBiaya3_cmonth;
+										$SaldoBersih_cmonth			= $Saldo_cmonth - $TotalBiaya_cmonth68 + $SubTotalPdptn2_cmonth71 - $SubTotalBiaya3_cmonth - $SubTotalFEE_cmonth91;
 
-										$SaldoBersih_YTD			= $Saldo_YTD - $TotalBiaya_YTD + $SubTotalPdptn2_YTD - $SubTotalBiaya3_YTD;
+										$SaldoBersih_YTD			= $Saldo_YTD - $TotalBiaya_YTD + $SubTotalPdptn2_YTD - $SubTotalBiaya3_YTD - $SubTotalFEE_YTD;
 
 										// echo $Saldo_cmonth."<br>";
 										// echo $TotalBiaya_cmonth."<br>";
@@ -1198,10 +1253,15 @@
 									$rp_SaldoBersih_cmonth		= 0;
 									$rp_SaldoBersih_YTD			= 0;
 
-									$SaldoBersih_pYTD			= $Saldo_pYTD2 - $TotalBiaya_pYTD + $SubTotalPdptn2_pYTD - $SubTotalBiaya3_pYTD - $SubTotalFEE_pYTD;
-									$SaldoBersih_cmonth_net		= $laba_operasi_cmonth+ $SubTotalPdptn2_cmonth71 -$SubTotalBiaya3_cmonth;
-									$SaldoBersih_YTD			= $Saldo_YTD2 - $TotalBiaya_YTD + $SubTotalPdptn2_YTD - $SubTotalBiaya3_YTD - $SubTotalFEE_YTD;
-									
+									$SaldoBersih_pYTD			= $Saldo_pYTD - $TotalBiaya_pYTD + $SubTotalPdptn2_pYTD - $SubTotalBiaya3_pYTD - $SubTotalFEE_pYTD;
+									$SaldoBersih_cmonth			= $Saldo_cmonth - $TotalBiaya_cmonth68 + $SubTotalPdptn2_cmonth71 - $SubTotalBiaya3_cmonth - $SubTotalFEE_cmonth91;
+									// echo $Saldo_cmonth."<br>";
+									// echo $TotalBiaya_cmonth."<br>";
+									// echo $SubTotalPdptn2_cmonth."<br>";
+									// echo $SubTotalBiaya3_cmonth."<br>";
+									// exit;
+
+									$SaldoBersih_YTD			= $Saldo_YTD - $TotalBiaya_YTD + $SubTotalPdptn2_YTD - $SubTotalBiaya3_YTD - $SubTotalFEE_YTD;
 								}
 								?>
 								<tr>
@@ -1216,8 +1276,8 @@
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>NET PROFIT</b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SaldoBersih_pYTD		= "Rp. " . number_format($SaldoBersih_pYTD, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SaldoBersih_cmonth		= "Rp. " . number_format($laba_operasi_cmonth+ $SubTotalPdptn2_cmonth71 -$SubTotalBiaya3_cmonth, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SaldoBersih_YTD			= "Rp. " . number_format($laba_operasi_cmonth+ $SubTotalPdptn2_cmonth71 -$SubTotalBiaya3_cmonth, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SaldoBersih_cmonth		= "Rp. " . number_format($SaldoBersih_cmonth, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SaldoBersih_YTD			= "Rp. " . number_format($SaldoBersih_YTD, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
