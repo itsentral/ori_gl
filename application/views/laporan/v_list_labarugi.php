@@ -814,7 +814,7 @@
 								
 								$Saldo_pYTD2		 = ($Saldo_pYTD5104 + $Saldo_pYTD5105) - $total_pYTD_biaya52;
 								$Saldo_cmonth2		 = $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2;
-								$Saldo_YTD2			 = $SubTotalHpp_YTD2+$total_YTD_hpp5104+$total_YTD_hpp5105;   
+								$Saldo_YTD2			 = $total_YTD_biaya52;     
 								?>
 										
 										
@@ -823,7 +823,7 @@
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Total COST OF GOODS SOLD</b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_pYTD		= "Rp. " . number_format($SubTotalHpp_pYTD2+$total_pYTD_hpp5104+$total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_cmonth	= "Rp. " . number_format($SubTotalHpp_cmonth2+$total_cmonth_hpp5105+$total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_cmonth	= "Rp. " . number_format($SubTotalHpp_cmonth2+$total_cmonth_hpp5105+$total_cmonth_hpp5104+$total_cmonth_hpp + $total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_YTD			= "Rp. " . number_format($SubTotalHpp_YTD2+$total_YTD_hpp5104+$total_YTD_hpp5105, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
