@@ -1257,7 +1257,7 @@ class Posting_new extends CI_Controller
 		$debetfoh =$selisih_foh*-1;
 		}
 		
-		$nilaitotaljurnal  = $aktual_consumable + $debetconsumable + $aktual_dl + $debetdl + $aktual_idl + $debetidl + $aktual_foh + $aktual_inst + $debetfoh;
+		$nilaitotaljurnal  = $aktual_consumable + $debetconsumable + $aktual_dl + $debetdl + $aktual_idl + $debetidl + $aktual_foh + $debetfoh;
 		
 		
 		// print($aktual_consumable);
@@ -1430,7 +1430,7 @@ class Posting_new extends CI_Controller
 					'keterangan'    => $Keterangan_INV1,
 					'no_reff'       => $nomordoc,
 					'debet'         => 0,
-					'kredit'        => $aktual_foh + $aktual_inst
+					'kredit'        => $aktual_foh
 					//'jenis_jurnal'  => 'invoicing'
 				);
 				
