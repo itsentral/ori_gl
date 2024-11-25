@@ -911,23 +911,15 @@
 									$rp_SaldoBersih_cmonth		= 0;
 									$rp_SaldoBersih_YTD			= 0;
 
-									$SaldoBersih_pYTD			= $Saldo_pYTD2 - $TotalBiaya_pYTD + $SubTotalPdptn2_pYTD - $SubTotalBiaya3_pYTD - $SubTotalFEE_pYTD;
-									$SaldoBersih_cmonth			= $Saldo_cmonth2 - $TotalBiaya_cmonth68 + $SubTotalPdptn2_cmonth71 - $SubTotalBiaya3_cmonth - $SubTotalFEE_cmonth91;
+									$SaldoBersih_pYTD			= $Saldo_pYTD - $TotalBiaya_pYTD + $SubTotalPdptn2_pYTD - $SubTotalBiaya3_pYTD - $SubTotalFEE_pYTD;
+									$SaldoBersih_cmonth			= $Saldo_cmonth - $TotalBiaya_cmonth68 + $SubTotalPdptn2_cmonth71 - $SubTotalBiaya3_cmonth - $SubTotalFEE_cmonth91;
 									// echo $Saldo_cmonth."<br>";
 									// echo $TotalBiaya_cmonth."<br>";
 									// echo $SubTotalPdptn2_cmonth."<br>";
 									// echo $SubTotalBiaya3_cmonth."<br>";
 									// exit;
 
-									$SaldoBersih_YTD			= $Saldo_YTD2 - $TotalBiaya_YTD + $SubTotalPdptn2_YTD - $SubTotalBiaya3_YTD - $SubTotalFEE_YTD;
-									
-									
-									
-									
-								
-								
-								
-								
+									$SaldoBersih_YTD			= $Saldo_YTD - $TotalBiaya_YTD + $SubTotalPdptn2_YTD - $SubTotalBiaya3_YTD - $SubTotalFEE_YTD;
 								}
 								?>
 								<tr>
