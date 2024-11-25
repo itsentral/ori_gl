@@ -1222,7 +1222,7 @@ class Posting_new extends CI_Controller
 		$selisih_consumable = $aktual_consumable - $standart_consumable;
 		$selisih_dl  = $aktual_dl - $standart_dl;
 		$selisih_idl = $aktual_idl - $standart_idl;
-		$selisih_foh = ($aktual_foh+$aktual_inst) - $standart_foh;
+		$selisih_foh = ($aktual_foh) - $standart_foh;
 		
 		
 		if($selisih_consumable > 0 ){
