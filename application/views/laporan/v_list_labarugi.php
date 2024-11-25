@@ -604,9 +604,9 @@
 								<tr>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT PC</b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_pYTD_pdptn - $total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($rp_total_YTD_pdptn + $total_YTD_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_YTD_pdptn + $total_YTD_hpp5104, 0, ',', '.'); ?></b></td>
 						        </tr>								
 								
 								<?php } ?>
@@ -736,7 +736,7 @@
 								
 								$coahpp52 = substr($rowhpp52->no_perkiraan,0,4);
 								
-								echo $coahpp52;
+								//echo $coahpp52;
 								
 								
 								$data_nokir_biaya52  = $this->Laporan_model->get_nokir_biaya52_lvl5($var_bulan, $var_tahun, 5, $coahpp52);
