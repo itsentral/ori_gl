@@ -251,8 +251,8 @@
 										// $cmonth_pdptn				= ($row->kredit) - ($row->debet);
 										$YTD_pdptn					= $pYTD_pdptn + $cmonth_pdptn;
 
-										$total_pYTD_pdptn 	+=  $pYTD_pdptn;
-										$total_cmonth_pdptn +=  $cmonth_pdptn;
+										$total_pYTD_pdptn 		+=  $pYTD_pdptn;
+										$total_cmonth_pdptn 	+=  $cmonth_pdptn;
 										$total_YTD_pdptn 		+=  $YTD_pdptn;
 
 										$rp_pYTD_pdptn			= "Rp. " . number_format($pYTD_pdptn, 0, ',', '.');
@@ -824,14 +824,14 @@
 									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Total COST OF GOODS SOLD</b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_pYTD		= "Rp. " . number_format($SubTotalHpp_pYTD2+$total_pYTD_hpp5104+$total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_cmonth	= "Rp. " . number_format($SubTotalHpp_cmonth2+$total_cmonth_hpp5105+$total_cmonth_hpp5104+$total_cmonth_hpp + $total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_YTD			= "Rp. " . number_format($SubTotalHpp_YTD2+$total_YTD_hpp5104+$total_YTD_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_YTD			= "Rp. " . number_format($SubTotalHpp_YTD2+$total_YTD_hpp5104+$total_YTD_hpp5105+$total_YTD_hpp + $total_YTD_hpp5103, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
 									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT --</b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_pYTD			= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104-$total_pYTD_hpp5105 - $total_pYTD_biaya52, 0, ',', '.'); ?></b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_cmonth			="Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2-$total_cmonth_hpp-$total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_YTD			    ="Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_YTD			    ="Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2-$total_YTD_hpp - $total_YTD_hpp5103, 0, ',', '.'); ?></b></td>
 						         
 								</tr>
 								<tr>
