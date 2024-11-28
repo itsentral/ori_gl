@@ -178,6 +178,10 @@ class Posting_new extends CI_Controller
 								$Level1		= substr($No_Coa, 0, 1);
 								$Level2		= substr($No_Coa, 0, 2);
 
+
+								print_r($Level1);
+								exit;
+
 								## CEK EXIST NO PERKIRAAN ##
 
 								$Saldo_Awal				= 0;
