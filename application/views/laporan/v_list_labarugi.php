@@ -974,7 +974,7 @@
 								
 								$TotalBiaya_pYTD		= $total_pYTD_biaya61 + $SubTotalBiaya2_pYTD;
 								$TotalBiaya_cmonth68	= $total_cmonth_biaya61 + $SubTotalBiaya2_cmonth;
-								$TotalBiaya_YTD			= $total_YTD_biaya61 + $SubTotalBiaya2_YTD;
+								$TotalBiaya_YTD			= $total_YTD_biaya61 + $total_cmonth_biaya61+$SubTotalBiaya2_YTD;
 
 								// TOTAL LABA OPERASI
 								$laba_operasi_pYTD	= $Saldo_pYTD2 - $TotalBiaya_pYTD;
