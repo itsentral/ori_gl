@@ -171,12 +171,17 @@ class Posting_new extends CI_Controller
 								$Tot_Kredit	= $valI->total_kredit;
 								$TotVal_Debet	= $valI->total_valas_debet;
 								$TotVal_Kredit	= $valI->total_valas_kredit;
+
+
 								
 								
 								$Level4		= substr($No_Coa, 0, 7) . '-00';
 								$Level3		= substr($No_Coa, 0, 4) . '-00-00';
 								$Level1		= substr($No_Coa, 0, 1);
 								$Level2		= substr($No_Coa, 0, 2);
+
+								$Coa5101    = substr($No_Coa, 0, 4);
+								$Coa5103    = substr($No_Coa, 0, 4);
 
 
 								
@@ -275,6 +280,46 @@ class Posting_new extends CI_Controller
 										$Totalval_coa71		+= $Saldo_Akhir_Valas;
 										$currentval_coa71   += ($TotVal_Debet - $TotVal_Kredit) * $Faktor_Kali;
 									}
+
+
+									if ($Coa5101 === '5101') {
+										$det_5101 = $this->db->query("SELECT no_perkiraan,
+										 SUM(debet) AS total_debet,
+										 SUM(kredit) AS total_kredit,
+										 SUM(nilai_valas_debet) AS total_valas_debet,
+										 SUM(nilai_valas_kredit) AS total_valas_kredit FROM
+										 jurnal WHERE tanggal LIKE $Periode_Proses% AND no_perkiraan LIKE $Coa5101%")->row();
+
+										$TotalD_5101		= $det_5101->total_debet;
+										$TotalK_5101		= $det_5101->total_kredit;
+										$current_5101      = ($TotalD_5101 - $TotalK_5101) * $Faktor_Kali;
+										
+									} else {
+										$TotalD_5101		=0;
+										$TotalK_5101		=0;
+										$current_5101       =0;
+									}
+
+									if ($Coa5103 === '5103') {
+
+										
+										$det_5103 = $this->db->query("SELECT no_perkiraan,
+										SUM(debet) AS total_debet,
+										SUM(kredit) AS total_kredit,
+										SUM(nilai_valas_debet) AS total_valas_debet,
+										SUM(nilai_valas_kredit) AS total_valas_kredit FROM
+										jurnal WHERE tanggal LIKE $Periode_Proses% AND no_perkiraan LIKE $Coa5103%")->row();
+
+										$TotalD_5103		= $det_5103->total_debet;
+										$TotalK_5103		= $det_5103->total_kredit;
+										$current_5103      = ($TotalD_5103 - $TotalK_5103) * $Faktor_Kali;
+									} else {
+										$TotalD_5103		= 0;
+										$TotalK_5103		= 0;
+										$current_5103       = 0;
+									}
+
+									$Cogm = $current_5101+$current_5103;
 									
 									
 									if($Tot_Debet==''){										
@@ -440,7 +485,8 @@ class Posting_new extends CI_Controller
 												} else {
 													$saldoawal_3903 = $valL->saldoawal * $valL->faktor;
 													$kredit_3903 = $valL->kredit;
-													$Laba_Tahun_Ini	+= ($valL->saldoawal + $valL->debet - $valL->kredit) * $valL->faktor; // 3903-01-01
+													$Laba_Tahun_Ini_1	+= ($valL->saldoawal + $valL->debet - $valL->kredit) * $valL->faktor;
+													$Laba_Tahun_Ini = $Laba_Tahun_Ini_1+$Cogm;// 3903-01-01
 												}
 											}
 										}
