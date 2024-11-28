@@ -289,9 +289,6 @@ class Posting_new extends CI_Controller
 										$Totkredit=$Tot_Kredit;
 									}
 									
-									print_r($current_coa5);
-								    exit;
-
 									$Upd_Saldo		= "UPDATE COA SET debet = debet + " . $Totdebet . ", kredit = kredit + " . $Totkredit . ", nilai_valas_debet = nilai_valas_debet + " . $TotVal_Debet . ", nilai_valas_kredit = nilai_valas_kredit + " . $TotVal_Kredit . " WHERE kdcab='" . $Nocab . '-' . $Subcab . "' AND bln='" . $Month_Pros . "' AND thn='" . $Tahun_Pros . "' AND no_perkiraan IN ('" . $No_Coa . "','" . $Level4 . "','" . $Level3 . "')";
 									$this->db->query($Upd_Saldo);
 								}
