@@ -131,37 +131,33 @@
 						<table class="table">
 							<thead>
 								<tr bgcolor='#0073B7'>
-									<td width="250px">
+									<td class="teksPutih" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 										<center><b>No. Perkiraan</b></center>
 									</td>
-									<td  >
+									<td class="teksPutih" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 										<center><b>Nama Perkiraan</b></center>
 									</td>
-									<td width="250px">
+									<td class="teksPutih" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 										<center><b>Previous (Year-To-Date)</b></center>
 									</td>
-									<td width="250px">
+									<td class="teksPutih" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 										<center><b>Current Month</b></center>
 									</td>
-									<td  width="250px">
+									<td class="teksPutih" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 										<center><b>Year-To-Date</b></center>
 									</td>
 								</tr>
 							</thead>
 
 							<tbody>
-								<?php foreach ($data_nokir_pdptn3 as $rowpend) { 
-								
-								
-								
-								?>
+								<?php foreach ($data_nokir_pdptn3 as $rowpend) { ?>
 								<!-- PENDAPATAN -->
 								<tr>
-									<td class="teksBiru" ><b><?= $rowpend->no_perkiraan ?></b></td>
-									<td class="teksBiru" ><b><?= $rowpend->nama ?></b></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowpend->no_perkiraan ?></b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowpend->nama ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -174,15 +170,10 @@
 								
 								$coapend = substr($rowpend->no_perkiraan,0,4);
 								$data_nokir_pdptn = $this->Laporan_model->get_nokir_pdptn($var_bulan, $var_tahun, $level, $coapend);
-								
-								// print_r($level);
-										// exit;
 
 								if ($data_nokir_pdptn > 0) {
 									foreach ($data_nokir_pdptn as $row) {
 										$nokir_pdptn				= $row->no_perkiraan;
-										
-										
 										$nm_perkiraan_pdptn			= $row->nama;
 										$v_faktor41					= $row->faktor;
 										$pYTD_pdptn					= ($row->saldoawal) * $v_faktor41;
@@ -190,8 +181,8 @@
 										// $cmonth_pdptn				= ($row->kredit) - ($row->debet);
 										$YTD_pdptn					= $pYTD_pdptn + $cmonth_pdptn;
 
-										$total_pYTD_pdptn 	+=  $pYTD_pdptn;
-										$total_cmonth_pdptn +=  $cmonth_pdptn;
+										$total_pYTD_pdptn 		+=  $pYTD_pdptn;
+										$total_cmonth_pdptn 	+=  $cmonth_pdptn;
 										$total_YTD_pdptn 		+=  $YTD_pdptn;
 
 										$rp_pYTD_pdptn			= "Rp. " . number_format($pYTD_pdptn, 0, ',', '.');
@@ -203,11 +194,11 @@
 										$rp_total_YTD_pdptn				= "Rp. " . number_format($total_YTD_pdptn, 0, ',', '.');
 								?>
 										<tr>
-											<td ><?= $nokir_pdptn ?></td>
-											<td ><?= $nm_perkiraan_pdptn ?></td>
-											<td align="right" ><?= $rp_pYTD_pdptn ?></td>
-											<td align="right" ><?= $rp_cmonth_pdptn ?></td>
-											<td align="right" ><?= $rp_YTD_pdptn ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_pdptn ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_pdptn ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_pYTD_pdptn ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_cmonth_pdptn ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_YTD_pdptn ?></td>
 										</tr>
 								<?php
 									}
@@ -218,18 +209,18 @@
 								}
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total <?= $rowpend->nama ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_total_pYTD_pdptn ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_total_cmonth_pdptn ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_total_YTD_pdptn ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total <?= $rowpend->nama ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_total_pYTD_pdptn ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_total_cmonth_pdptn ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_total_YTD_pdptn ?></b></td>
 								</tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								
 								<?php } ?>
@@ -237,18 +228,18 @@
 								
 								<!-- HPP -->
 								<tr>
-									<td class="teksBiru" ><b>50</b></td>
-									<td class="teksBiru" ><b>COST OF GOODS SOLD</b></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>50</b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>COST OF GOODS SOLD</b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								<?php foreach ($data_nokir_5101 as $rowhpp5101) { ?>
 								<tr>
-									<td class="teksBiru" ><b><?= $rowhpp5101->no_perkiraan ?></b></td>
-									<td class="teksBiru" ><b><?= $rowhpp5101->nama ?></b></td><td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp5101->no_perkiraan ?></b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp5101->nama ?></b></td><td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -295,11 +286,11 @@
 										$rp_total_YTD_hpp				= "Rp. " . number_format($total_YTD_hpp, 0, ',', '.');
 								?>
 										<tr>
-											<td ><?= $nokir_hpp ?></td>
-											<td ><?= $nm_perkiraan_hpp ?></td>
-											<td align="right" ><?= $rp_pYTD_hpp ?></td>
-											<td align="right" ><?= $rp_cmonth_hpp ?></td>
-											<td align="right" ><?= $rp_YTD_hpp ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_hpp ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_hpp ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_pYTD_hpp ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_cmonth_hpp ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_YTD_hpp ?></td>
 										</tr>
 								<?php
 									}
@@ -322,18 +313,18 @@
 								}
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total <?= $rowhpp5101->nama ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_pYTD		= "Rp. " . number_format($total_pYTD_hpp, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_cmonth		= "Rp. " . number_format($total_cmonth_hpp, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_YTD		= "Rp. " . number_format($total_YTD_hpp, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total <?= $rowhpp5101->nama ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_pYTD		= "Rp. " . number_format($total_pYTD_hpp, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_cmonth		= "Rp. " . number_format($total_cmonth_hpp, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_YTD		= "Rp. " . number_format($total_YTD_hpp, 0, ',', '.'); ?></b></td>
 						        </tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								
 								<?php } ?>
@@ -342,10 +333,10 @@
 								
 								<?php foreach ($data_nokir_5103 as $rowhpp5103) { ?>
 								<tr>
-									<td class="teksBiru" ><b><?= $rowhpp5103->no_perkiraan ?></b></td>
-									<td class="teksBiru" ><b><?= $rowhpp5103->nama ?></b></td><td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp5103->no_perkiraan ?></b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp5103->nama ?></b></td><td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -392,11 +383,11 @@
 										$rp_total_YTD_hpp5103				= "Rp. " . number_format($total_YTD_hpp5103, 0, ',', '.');
 								?>
 										<tr>
-											<td ><?= $nokir_hpp5103 ?></td>
-											<td ><?= $nm_perkiraan_hpp5103 ?></td>
-											<td align="right" ><?= $rp_pYTD_hpp5103 ?></td>
-											<td align="right" ><?= $rp_cmonth_hpp5103 ?></td>
-											<td align="right" ><?= $rp_YTD_hpp5103 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_hpp5103 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_hpp5103 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_pYTD_hpp5103 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_cmonth_hpp5103 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_YTD_hpp5103 ?></td>
 										</tr>
 								<?php
 									}
@@ -419,26 +410,26 @@
 								}
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total <?= $rowhpp5103->nama ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_pYTD5103		= "Rp. " . number_format($total_pYTD_hpp5103, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_cmonth5103		= "Rp. " . number_format($total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_YTD5103		= "Rp. " . number_format($total_YTD_hpp5103, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total <?= $rowhpp5103->nama ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_pYTD5103		= "Rp. " . number_format($total_pYTD_hpp5103, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_cmonth5103		= "Rp. " . number_format($total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_YTD5103		= "Rp. " . number_format($total_YTD_hpp5103, 0, ',', '.'); ?></b></td>
 						        </tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total COGM</b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_pYTD_hpp + $total_pYTD_hpp5103, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_cmonth_hpp + $total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_YTD_hpp + $total_YTD_hpp5103, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total COGM</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_hpp + $total_pYTD_hpp5103, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_cmonth_hpp + $total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_YTD_hpp + $total_YTD_hpp5103, 0, ',', '.'); ?></b></td>
 						        </tr>
 								
 								<?php } ?>
@@ -448,10 +439,10 @@
 								
 								<?php foreach ($data_nokir_5104 as $rowhpp5104) { ?>
 								<tr>
-									<td class="teksBiru" ><b><?= $rowhpp5104->no_perkiraan ?></b></td>
-									<td class="teksBiru" ><b><?= $rowhpp5104->nama ?></b></td><td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp5104->no_perkiraan ?></b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp5104->nama ?></b></td><td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -498,11 +489,11 @@
 										$rp_total_YTD_hpp5104				= "Rp. " . number_format($total_YTD_hpp5104, 0, ',', '.');
 								?>
 										<tr>
-											<td ><?= $nokir_hpp5104 ?></td>
-											<td ><?= $nm_perkiraan_hpp5104 ?></td>
-											<td align="right" ><?= $rp_pYTD_hpp5104 ?></td>
-											<td align="right" ><?= $rp_cmonth_hpp5104 ?></td>
-											<td align="right" ><?= $rp_YTD_hpp5104 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_hpp5104 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_hpp5104 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_pYTD_hpp5104 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_cmonth_hpp5104 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_YTD_hpp5104 ?></td>
 										</tr>
 								<?php
 									}
@@ -525,27 +516,27 @@
 								}
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total <?= $rowhpp5104->nama ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_pYTD5104		= "Rp. " . number_format($total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_cmonth5104		= "Rp. " . number_format($total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_YTD5104		= "Rp. " . number_format($total_YTD_hpp5104, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total <?= $rowhpp5104->nama ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_pYTD5104		= "Rp. " . number_format($total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_cmonth5104		= "Rp. " . number_format($total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_YTD5104		= "Rp. " . number_format($total_YTD_hpp5104, 0, ',', '.'); ?></b></td>
 						        </tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								
 								
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>GROSS PROFIT PC</b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT PC</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
 						        </tr>								
 								
 								<?php } ?>
@@ -553,10 +544,10 @@
 								
 								<?php foreach ($data_nokir_5105 as $rowhpp5105) { ?>
 								<tr>
-									<td class="teksBiru" ><b><?= $rowhpp5105->no_perkiraan ?></b></td>
-									<td class="teksBiru" ><b><?= $rowhpp5105->nama ?></b></td><td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp5105->no_perkiraan ?></b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp5105->nama ?></b></td><td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -603,11 +594,11 @@
 										$rp_total_YTD_hpp5105				= "Rp. " . number_format($total_YTD_hpp5105, 0, ',', '.');
 								?>
 										<tr>
-											<td ><?= $nokir_hpp5105 ?></td>
-											<td ><?= $nm_perkiraan_hpp5105 ?></td>
-											<td align="right" ><?= $rp_pYTD_hpp5105 ?></td>
-											<td align="right" ><?= $rp_cmonth_hpp5105 ?></td>
-											<td align="right" ><?= $rp_YTD_hpp5105 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_hpp5105 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_hpp5105 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_pYTD_hpp5105 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_cmonth_hpp5105 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_YTD_hpp5105 ?></td>
 										</tr>
 								<?php
 									}
@@ -630,27 +621,27 @@
 								}
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total <?= $rowhpp5105->nama ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_pYTD5105		= "Rp. " . number_format($total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_cmonth5105		= "Rp. " . number_format($total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya51_YTD5105		= "Rp. " . number_format($total_YTD_hpp5105, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total <?= $rowhpp5105->nama ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_pYTD5105		= "Rp. " . number_format($total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_cmonth5105		= "Rp. " . number_format($total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya51_YTD5105		= "Rp. " . number_format($total_YTD_hpp5105, 0, ',', '.'); ?></b></td>
 						        </tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								
 								
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>GROSS PROFIT - </b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104-$total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= "Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT - </b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104-$total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
 						          </tr>	
 								
 								
@@ -660,11 +651,11 @@
 								<?php foreach ($data_nokir_biaya523 as $rowhpp52) { ?>
 								<!-- HPP  52-->
 								<tr>
-									<td class="teksBiru" ><b><?= $rowhpp52->no_perkiraan ?></b></td>
-									<td class="teksBiru" ><b><?= $rowhpp52->nama ?></b></td><td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp52->no_perkiraan ?></b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rowhpp52->nama ?></b></td><td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
                                 <?php
@@ -703,17 +694,17 @@
 										
 								?>
 										<tr>
-											<td ><?= $nokir_biaya52 ?></td>
-											<td ><?= $nm_perkiraan_biaya52 ?></td>
-											<td align="right" >
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_biaya52 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_biaya52 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?= $rp_pYTD_biaya			= "Rp. " . number_format($pYTD_biaya52, 0, ',', '.'); ?>
 											</td>
-											<td align="right" >
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?=
 													$rp_cmonth_biaya		= "Rp. " . number_format($cmonth_biaya52, 0, ',', '.');
 												?>
 											</td>
-											<td align="right" >
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?=
 													$rp_YTD_biaya				= "Rp. " . number_format($YTD_biaya52, 0, ',', '.');
 												?>
@@ -724,18 +715,18 @@
 								}
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total <?= $rowhpp52->nama ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya52_pYTD		= "Rp. " . number_format($total_pYTD_biaya52, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya52_cmonth		= "Rp. " . number_format($total_cmonth_biaya52, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya52_YTD		= "Rp. " . number_format($total_YTD_biaya52, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total <?= $rowhpp52->nama ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya52_pYTD		= "Rp. " . number_format($total_pYTD_biaya52, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya52_cmonth		= "Rp. " . number_format($total_cmonth_biaya52, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya52_YTD		= "Rp. " . number_format($total_YTD_biaya52, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								
 								<!--END HPP 52 -->
@@ -749,45 +740,45 @@
 								
 								$SubTotalHpp_pYTD2   = $SubTotalHpp_pYTD5104 + $SubTotalHpp_pYTD5105;
 								// $SubTotalHpp_cmonth2 = $total_cmonth_biaya52;
-								$SubTotalHpp_YTD2    = $SubTotalHpp_cmonth2;   
+								$SubTotalHpp_YTD2    = $SubTotalHpp_cmonth2 + $SubTotalHpp_pYTD2 ;   
 								
 								$Saldo_pYTD2		 = ($Saldo_pYTD5104 + $Saldo_pYTD5105) - $total_pYTD_biaya52;
 								$Saldo_cmonth2		 = $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2;
-								$Saldo_YTD2			 = $total_YTD_biaya52;     
+								$Saldo_YTD2			 = $total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2-$total_YTD_hpp - $total_YTD_hpp5103;     
 								?>
 										
 										
 
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Total COST OF GOODS SOLD</b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalHpp_pYTD		= "Rp. " . number_format($SubTotalHpp_pYTD2, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalHpp_cmonth	= "Rp. " . number_format($SubTotalHpp_cmonth2, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalHpp_YTD			= "Rp. " . number_format($SubTotalHpp_YTD2, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Total COST OF GOODS SOLD</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_pYTD		= "Rp. " . number_format($SubTotalHpp_pYTD2+$total_pYTD_hpp5104+$total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_cmonth	= "Rp. " . number_format($SubTotalHpp_cmonth2+$total_cmonth_hpp5105+$total_cmonth_hpp5104+$total_cmonth_hpp + $total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalHpp_YTD			= "Rp. " . number_format($SubTotalHpp_YTD2+$total_YTD_hpp5104+$total_YTD_hpp5105+$total_YTD_hpp + $total_YTD_hpp5103, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>GROSS PROFIT --</b></td>
-									<td class="teksBiru" align="right" ><b><?= $RpSaldo_pYTD			= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104-$total_pYTD_hpp5105 - $total_pYTD_biaya52, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $RpSaldo_cmonth			="Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $RpSaldo_YTD			    ="Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105-$total_YTD_biaya52, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT --</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_pYTD			= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104-$total_pYTD_hpp5105 - $total_pYTD_biaya52, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_cmonth			="Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2-$total_cmonth_hpp-$total_cmonth_hpp5103, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $RpSaldo_YTD			    ="Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2-$total_YTD_hpp - $total_YTD_hpp5103, 0, ',', '.'); ?></b></td>
 						         
 								</tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<!-- BIAYA PENJUALAN 61-->
 								<tr>
-									<td class="teksBiru" ><b>61</b></td>
-									<td class="teksBiru" ><b>SALES DAN MARKETING EXPENSES</b></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>61</b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>SALES DAN MARKETING EXPENSES</b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -808,17 +799,17 @@
 										$total_YTD_biaya61 += $YTD_biaya61;
 								?>
 										<tr>
-											<td ><?= $nokir_biaya61 ?></td>
-											<td ><?= $nm_perkiraan_biaya61 ?></td>
-											<td align="right" >
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_biaya61 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_biaya61 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?= $rp_pYTD_biaya61			= "Rp. " . number_format($pYTD_biaya61, 0, ',', '.'); ?>
 											</td>
-											<td align="right" >
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?=
 													$rp_cmonth_biaya61		= "Rp. " . number_format($cmonth_biaya61, 0, ',', '.');
 												?>
 											</td>
-											<td align="right" >
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?=
 													$rp_YTD_biaya61				= "Rp. " . number_format($YTD_biaya61, 0, ',', '.');
 												?>
@@ -834,18 +825,18 @@
 								?>
 
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total SALES EXPENSE</b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya_pYTD		= "Rp. " . number_format($total_pYTD_biaya61, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya_cmonth		= "Rp. " . number_format($total_cmonth_biaya61, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya_YTD		= "Rp. " . number_format($total_YTD_biaya61, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total SALES EXPENSE</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya_pYTD		= "Rp. " . number_format($total_pYTD_biaya61, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya_cmonth		= "Rp. " . number_format($total_cmonth_biaya61, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya_YTD		= "Rp. " . number_format($total_YTD_biaya61, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								<?php
 
@@ -853,11 +844,11 @@
 
 								<!-- BIAYA KANTOR DAN UMUM-->
 								<tr>
-									<td class="teksBiru" ><b>62</b></td>
-									<td class="teksBiru" ><b>GENERAL DAN ADMIN EXPENSE</b></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>62</b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>GENERAL DAN ADMIN EXPENSE</b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -890,17 +881,17 @@
 										$SubTotalBiaya2_YTD 		+=  $YTD_biaya2;
 								?>
 										<tr>
-											<td ><?= $nokir_biaya2 ?></td>
-											<td ><?= $nm_perkiraan_biaya2 ?></td>
-											<td align="right" >
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_biaya2 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_biaya2 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?= $rp_pYTD_biaya2			= "Rp. " . number_format($pYTD_biaya2, 0, ',', '.'); ?>
 											</td>
-											<td align="right" >
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?=
 													$rp_cmonth_biaya2		= "Rp. " . number_format($cmonth_biaya2, 0, ',', '.');
 												?>
 											</td>
-											<td align="right" >
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?=
 													$rp_YTD_biaya2				= "Rp. " . number_format($YTD_biaya2, 0, ',', '.');
 												?>
@@ -917,41 +908,40 @@
 
 								// TOTAL LABA OPERASI
 								$laba_operasi_pYTD	= $Saldo_pYTD2 - $TotalBiaya_pYTD;
-								$laba_operasi_cmonth = $Saldo_cmonth2 - $TotalBiaya_cmonth68;
-								$laba_operasi_YTD	= $Saldo_YTD2 - $TotalBiaya_YTD;
-
+								$laba_operasi_cmonth = $Saldo_cmonth2 - $TotalBiaya_cmonth68 - ($total_cmonth_hpp + $total_cmonth_hpp5103);
+								$laba_operasi_YTD	= $Saldo_YTD2 - ($TotalBiaya_YTD + $total_YTD_hpp + $total_YTD_hpp5103) + ($total_cmonth_hpp + $total_cmonth_hpp5103);
 								$rp_laba_operasi_pYTD	= $laba_operasi_pYTD;
 								$rp_laba_operasi_cmonth	= $laba_operasi_cmonth;
 								$rp_laba_operasi_YTD	= $laba_operasi_YTD;
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total GENERAL DAN ADMIN EXPENSE</b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya2_pYTD		= "Rp. " . number_format($SubTotalBiaya2_pYTD, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya2_cmonth		= "Rp. " . number_format($SubTotalBiaya2_cmonth, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya2_YTD		= "Rp. " . number_format($SubTotalBiaya2_YTD, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total GENERAL DAN ADMIN EXPENSE</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya2_pYTD		= "Rp. " . number_format($SubTotalBiaya2_pYTD, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya2_cmonth		= "Rp. " . number_format($SubTotalBiaya2_cmonth, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya2_YTD		= "Rp. " . number_format($SubTotalBiaya2_YTD, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Total EXPENSES</b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_TotalBiaya_pYTD		= "Rp. " . number_format($TotalBiaya_pYTD, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_TotalBiaya_cmonth		= "Rp. " . number_format($TotalBiaya_cmonth68, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_TotalBiaya_YTD		= "Rp. " . number_format($TotalBiaya_YTD, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Total EXPENSES</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_TotalBiaya_pYTD		= "Rp. " . number_format($TotalBiaya_pYTD, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_TotalBiaya_cmonth		= "Rp. " . number_format($TotalBiaya_cmonth68, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_TotalBiaya_YTD		= "Rp. " . number_format($TotalBiaya_YTD, 0, ',', '.'); ?></b></td>
 								</tr>
 
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>OPERATING PROFIT</b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_laba_operasi_pYTD		= "Rp. " . number_format($laba_operasi_pYTD, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_laba_operasi_cmonth		= "Rp. " . number_format($laba_operasi_cmonth, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_laba_operasi_YTD		= "Rp. " . number_format($laba_operasi_YTD, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>OPERATING PROFIT</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_laba_operasi_pYTD		= "Rp. " . number_format($laba_operasi_pYTD, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_laba_operasi_cmonth		= "Rp. " . number_format($laba_operasi_cmonth, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_laba_operasi_YTD		= "Rp. " . number_format($laba_operasi_YTD, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 								<?php
 
@@ -959,11 +949,11 @@
 
 								<!-- PENDAPATAN LAIN-LAIN -->
 								<tr>
-									<td class="teksBiru" ><b>71</b></td>
-									<td class="teksBiru" ><b>OTHER INCOME</b></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>71</b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>OTHER INCOME</b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -1003,11 +993,11 @@
 										$rp_total_YTD_pdptn2				= "Rp. " . number_format($total_YTD_pdptn2, 0, ',', '.');
 								?>
 										<tr>
-											<td ><?= $nokir_pdptn2 ?></td>
-											<td ><?= $nm_perkiraan_pdptn2 ?></td>
-											<td align="right" ><?= $rp_pYTD_pdptn2 ?></td>
-											<td align="right" ><?= $rp_cmonth_pdptn2 ?></td>
-											<td align="right" ><?= $rp_YTD_pdptn2 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_pdptn2 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_pdptn2 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_pYTD_pdptn2 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_cmonth_pdptn2 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $rp_YTD_pdptn2 ?></td>
 										</tr>
 								<?php
 									}
@@ -1022,37 +1012,37 @@
 								}
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total OTHER INCOME</b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalPdptn2_pYTD		= "Rp. " . number_format($SubTotalPdptn2_pYTD, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalPdptn2_cmonth		= "Rp. " . number_format($SubTotalPdptn2_cmonth71, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalPdptn2_YTD		= "Rp. " . number_format($SubTotalPdptn2_YTD, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total OTHER INCOME</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalPdptn2_pYTD		= "Rp. " . number_format($SubTotalPdptn2_pYTD, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalPdptn2_cmonth		= "Rp. " . number_format($SubTotalPdptn2_cmonth71, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalPdptn2_YTD		= "Rp. " . number_format($SubTotalPdptn2_YTD, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 
 								<!-- BIAYA LAIN-LAIN-->
 								<tr>
-									<td class="teksBiru" ><b>72</b></td>
-									<td class="teksBiru" ><b>OTHER EXPENSE</b></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>72</b></td>
+									<td class="teksBiru" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><b>OTHER EXPENSE</b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -1102,17 +1092,17 @@
 										$total_YTD_biaya3 		+=  $YTD_biaya3;
 								?>
 										<tr>
-											<td ><?= $nokir_biaya3 ?></td>
-											<td ><?= $nm_perkiraan_biaya3 ?></td>
-											<td align="right" >
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nokir_biaya3 ?></td>
+											<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"><?= $nm_perkiraan_biaya3 ?></td>
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?= $rp_pYTD_biaya3			= "Rp. " . number_format($pYTD_biaya3, 0, ',', '.'); ?>
 											</td>
-											<td align="right" >
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?=
 													$rp_cmonth_biaya3		= "Rp. " . number_format($cmonth_biaya3, 0, ',', '.');
 												?>
 											</td>
-											<td align="right" >
+											<td align="right" style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;">
 												<?=
 													$rp_YTD_biaya3				= "Rp. " . number_format($YTD_biaya3, 0, ',', '.');
 												?>
@@ -1144,26 +1134,26 @@
 								}
 								?>
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>Sub Total OTHER EXPENSE</b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya3_pYTD		= "Rp. " . number_format($SubTotalBiaya3_pYTD, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya3_cmonth	= "Rp. " . number_format($SubTotalBiaya3_cmonth, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SubTotalBiaya3_YTD		= "Rp. " . number_format($SubTotalBiaya3_YTD, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>Sub Total OTHER EXPENSE</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya3_pYTD		= "Rp. " . number_format($SubTotalBiaya3_pYTD, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya3_cmonth	= "Rp. " . number_format($SubTotalBiaya3_cmonth, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SubTotalBiaya3_YTD		= "Rp. " . number_format($SubTotalBiaya3_YTD, 0, ',', '.'); ?></b></td>
 								</tr>
 
 								<tr>
-									<td ></td>
-									<td class="teksBiru" align="center" ><b>NET PROFIT</b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SaldoBersih_pYTD		= "Rp. " . number_format($SaldoBersih_pYTD, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SaldoBersih_cmonth		= "Rp. " . number_format($laba_operasi_cmonth+ $SubTotalPdptn2_cmonth71 -$SubTotalBiaya3_cmonth, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" ><b><?= $rp_SaldoBersih_YTD			= "Rp. " . number_format($laba_operasi_cmonth+ $SubTotalPdptn2_cmonth71 -$SubTotalBiaya3_cmonth, 0, ',', '.'); ?></b></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>NET PROFIT</b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SaldoBersih_pYTD		= "Rp. " . number_format($SaldoBersih_pYTD, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SaldoBersih_cmonth		= "Rp. " . number_format($laba_operasi_cmonth+ $SubTotalPdptn2_cmonth71 -$SubTotalBiaya3_cmonth, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= $rp_SaldoBersih_YTD			= "Rp. " . number_format($laba_operasi_cmonth+ $SubTotalPdptn2_cmonth71 -$SubTotalBiaya3_cmonth, 0, ',', '.'); ?></b></td>
 								</tr>
 								<tr>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
-									<td ></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
+									<td style="border-top-style:none; border-right:none; border-bottom-style:none; border-left-style:none;"></td>
 								</tr>
 
 								<?php
@@ -1171,8 +1161,6 @@
 								?>
 							</tbody>
 						</table>
-						
-						
 					</div>
 						
 				</body>
