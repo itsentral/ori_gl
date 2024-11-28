@@ -456,6 +456,7 @@ class Posting_new extends CI_Controller
 
 								$Laba_Ditahan		= 0;
 								$Laba_Tahun_Ini		= 0;
+								$Laba_Tahun_Ini_1   = 0;
 
 								## NEED KONFIRMASI ##
 
