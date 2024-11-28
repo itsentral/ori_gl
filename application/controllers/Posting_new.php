@@ -288,7 +288,7 @@ class Posting_new extends CI_Controller
 										 SUM(kredit) AS total_kredit,
 										 SUM(nilai_valas_debet) AS total_valas_debet,
 										 SUM(nilai_valas_kredit) AS total_valas_kredit FROM
-										 jurnal WHERE tanggal LIKE $Periode_Proses% AND no_perkiraan LIKE $Coa5101%")->row();
+										 jurnal WHERE tanggal LIKE '$Periode_Proses%' AND no_perkiraan LIKE '$Coa5101%'")->row();
 
 										$TotalD_5101		= $det_5101->total_debet;
 										$TotalK_5101		= $det_5101->total_kredit;
@@ -308,7 +308,7 @@ class Posting_new extends CI_Controller
 										SUM(kredit) AS total_kredit,
 										SUM(nilai_valas_debet) AS total_valas_debet,
 										SUM(nilai_valas_kredit) AS total_valas_kredit FROM
-										jurnal WHERE tanggal LIKE $Periode_Proses% AND no_perkiraan LIKE $Coa5103%")->row();
+										jurnal WHERE tanggal LIKE '$Periode_Proses%' AND no_perkiraan LIKE '$Coa5103%'")->row();
 
 										$TotalD_5103		= $det_5103->total_debet;
 										$TotalK_5103		= $det_5103->total_kredit;
