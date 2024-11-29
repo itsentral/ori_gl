@@ -606,7 +606,7 @@
 									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT PC</b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104, 0, ',', '.'); ?></b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_YTD_pdptn - $total_YTD_hpp5104, 0, ',', '.'); ?></b></td>
 						        </tr>								
 								
 								<?php } ?>
@@ -979,7 +979,7 @@
 								// TOTAL LABA OPERASI
 								$laba_operasi_pYTD	= $Saldo_pYTD2 - $TotalBiaya_pYTD - ($total_pYTD_hpp+$total_pYTD_hpp5103);
 								$laba_operasi_cmonth = $Saldo_cmonth2 - $TotalBiaya_cmonth68 - ($total_cmonth_hpp + $total_cmonth_hpp5103);
-								$laba_operasi_YTD	= $Saldo_YTD2;
+								$laba_operasi_YTD	= $Saldo_YTD2 - $TotalBiaya_YTD - ($total_YTD_hpp + $total_YTD_hpp5103);
 								$rp_laba_operasi_pYTD	= $laba_operasi_pYTD;
 								$rp_laba_operasi_cmonth	= $laba_operasi_cmonth;
 								$rp_laba_operasi_YTD	= $laba_operasi_YTD;
