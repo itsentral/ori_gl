@@ -810,7 +810,7 @@
 								
 								$SubTotalHpp_pYTD2   = $SubTotalHpp_pYTD5104 + $SubTotalHpp_pYTD5105;
 								// $SubTotalHpp_cmonth2 = $total_cmonth_biaya52;
-								$SubTotalHpp_YTD2    = $SubTotalHpp_YTD5104 + $SubTotalHpp_YTD5105+$SubTotalHpp_cmonth2 ;   
+								$SubTotalHpp_YTD2    =$total_pYTD_biaya52+ $SubTotalHpp_YTD5104 + $SubTotalHpp_YTD5105+$SubTotalHpp_cmonth2 ;   
 								
 								$Saldo_pYTD2		 = $total_pYTD_pdptn -$total_pYTD_hpp5104 -$total_pYTD_hpp5105 - $total_pYTD_biaya52;
 								$Saldo_cmonth2		 = $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2;
