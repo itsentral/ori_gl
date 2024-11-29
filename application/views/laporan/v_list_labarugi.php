@@ -979,7 +979,7 @@
 								// TOTAL LABA OPERASI
 								$laba_operasi_pYTD	= $Saldo_pYTD2 - $TotalBiaya_pYTD - ($total_pYTD_hpp+$total_pYTD_hpp5103);
 								$laba_operasi_cmonth = $Saldo_cmonth2 - $TotalBiaya_cmonth68 - ($total_cmonth_hpp + $total_cmonth_hpp5103);
-								$laba_operasi_YTD	= $Saldo_YTD2 - $TotalBiaya_YTD - ($total_YTD_hpp + $total_YTD_hpp5103);
+								$laba_operasi_YTD	= $Saldo_YTD2 - $TotalBiaya_YTD;
 								$rp_laba_operasi_pYTD	= $laba_operasi_pYTD;
 								$rp_laba_operasi_cmonth	= $laba_operasi_cmonth;
 								$rp_laba_operasi_YTD	= $laba_operasi_YTD;
