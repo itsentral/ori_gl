@@ -711,7 +711,7 @@
 									<td class="teksBiru" align="center" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b>GROSS PROFIT - </b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn - $total_pYTD_hpp5104-$total_pYTD_hpp5105, 0, ',', '.'); ?></b></td>
 									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
-									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105, 0, ',', '.'); ?></b></td>
+									<td class="teksBiru" align="right" style="border-right:none; border-bottom-style:none; border-left-style:none;"><b><?= "Rp. " . number_format($total_YTD_pdptn - $total_YTD_hpp5104 -$total_YTD_hpp5105, 0, ',', '.'); ?></b></td>
 						          </tr>	
 								
 								
