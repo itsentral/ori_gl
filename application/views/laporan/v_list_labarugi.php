@@ -814,7 +814,7 @@
 								
 								$Saldo_pYTD2		 = $total_pYTD_pdptn -$total_pYTD_hpp5104 -$total_pYTD_hpp5105 - $total_pYTD_biaya52;
 								$Saldo_cmonth2		 = $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2;
-								$Saldo_YTD2			 = $total_pYTD_pdptn + $total_cmonth_pdptn - $total_cmonth_hpp5104-$total_cmonth_hpp5105 -$SubTotalHpp_cmonth2-$total_YTD_hpp - $total_YTD_hpp5103;     
+								$Saldo_YTD2			 = $total_YTD_pdptn + $total_YTD_hpp5104 - $total_YTD_hpp5105-$total_YTD_biaya52;     
 								?>
 										
 										
