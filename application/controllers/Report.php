@@ -927,7 +927,7 @@ class Report extends CI_Controller
 	function tampilkan_ledger()
 	{
 		$data['judul']			= "Laporan Ledger";
-		
+
 		if ($this->input->post('tampilkan') == "View Excel") {
 			$var_bln					= $this->input->post('bulan_ledger');
 			$var_thn					= $this->input->post('tahun_ledger');
@@ -974,7 +974,7 @@ class Report extends CI_Controller
 			$filter_nokir2 = substr($var_filter_nokir2, 0, 10);
 
 			$awal = 1;
-			$akhir = date("t",strtotime($var_tahun . "-" . $var_bulan ."-01"));
+			$akhir = 31;
 			$enol = 0;
 			if ($var_bulan > 9) {
 				$var_tgl_awal = $var_tahun . "-" . $var_bulan . "-0" . $awal;
@@ -990,8 +990,7 @@ class Report extends CI_Controller
 
 			$data['coa_sa']				= $this->Report_model->get_coa_sa($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun);
 			// $data['detail_jurnal']		= $this->Report_model->get_detail_jurnal($filter_nokir,$filter_nokir2,$var_tgl_awal,$var_tgl_akhir);
-			
-			$data['cutoff_stock']		= $this->cutoff_stock;
+
 			$this->load->view("report/v_list_ledger", $data);
 		}
 	}
@@ -1037,8 +1036,6 @@ class Report extends CI_Controller
 		$data['thn_ledger']			= $var_tahun;
 		$filter_nokir			= $this->uri->segment(5);
 		$filter_nokir2			= $this->uri->segment(6);
-		$data['coa_filter1']			= $filter_nokir;
-		$data['coa_filter2']			= $filter_nokir2;
 
 		$awal = 1;
 		$akhir = 31;
@@ -1053,7 +1050,7 @@ class Report extends CI_Controller
 
 		$data['coa_sa']				= $this->Report_model->get_coa_sa($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun);
 //		$data['detail_jurnal']		= $this->Report_model->get_detail_jurnal($filter_nokir, $filter_nokir2, $var_tgl_awal, $var_tgl_akhir);
-		//echo"<pre>";print_r($data);exit;
+
 		$this->load->view("report/v_ledger_detail", $data);
 		//redirect('report/print_labarugi');		
 	}
