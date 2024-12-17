@@ -807,7 +807,7 @@ class Posting_new extends CI_Controller
             
 							  foreach ($carinokir as $cs => $val) {
 									$no_perkiraan	= $val->no_perkiraan;					
-									$carisaldo = $this->db->query("SELECT * FROM COAx WHERE bln='$bln' AND thn='$thn_aktif' AND no_perkiraan='$no_perkiraan'")->row();
+									$carisaldo = $this->db->query("SELECT * FROM COA WHERE bln='$bln' AND thn='$thn_aktif' AND no_perkiraan='$no_perkiraan'")->row();
 										
 								
 								$Saldo_Awal = $carisaldo->saldoawal;
