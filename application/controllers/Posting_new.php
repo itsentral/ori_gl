@@ -783,10 +783,11 @@ class Posting_new extends CI_Controller
 			 $this->db->insert('periode_end_proses',$datadetail);	
 
 
-			 if(substr($bln_aktif,-1) < 10) {
-				$bln = substr($bln_aktif,-1); 
-			 } else {
+			 if($bln_aktif => 10) {
 				$bln = $bln_aktif; 
+				
+			 } else {
+				$bln = substr($bln_aktif,-1); 
 			 }
 			 
 			 			 
