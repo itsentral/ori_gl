@@ -797,9 +797,7 @@ class Posting_new extends CI_Controller
 							$carinokir = $this->db->query("SELECT * FROM coa_master WHERE mata_uang='$matauang'")->result();
 
 
-							print_r($carinokir);
-							echo"<br>";
-							exit;
+							
 							  
             
 							  foreach ($carinokir as $cs => $val) {
@@ -807,7 +805,8 @@ class Posting_new extends CI_Controller
 									$carisaldo = $this->db->query("SELECT * FROM COA WHERE bln='$bln' AND thn='$thn_aktif' AND no_perkiraan='$no_perkiraan'")->row();
 								
 								
-									
+									print_r($carisaldo);
+									echo"<br>";	
 								
 								$Saldo_Awal = $carisaldo->saldoawal;
 								$Tot_Debet  = $carisaldo->debet;
