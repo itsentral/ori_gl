@@ -795,6 +795,10 @@ class Posting_new extends CI_Controller
 						
 									 
 							$carinokir = $this->db->query("SELECT * FROM coa_master WHERE mata_uang='$matauang'")->result();
+
+
+							print_r($carinokir);
+							exit;
 							  
             
 							  foreach ($carinokir as $cs => $val) {
