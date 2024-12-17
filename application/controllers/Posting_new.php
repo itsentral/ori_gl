@@ -786,7 +786,7 @@ class Posting_new extends CI_Controller
 			 if(substr($bln_aktif,-1) < 10) {
 				$bln = substr($bln_aktif,-1); 
 			 } else {
-				$bln = substr($bln_aktif); 
+				$bln = $bln_aktif; 
 			 }
 			 
 			 			 
