@@ -798,6 +798,7 @@ class Posting_new extends CI_Controller
 
 
 							print_r($carinokir);
+							echo"<br>";
 							exit;
 							  
             
