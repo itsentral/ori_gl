@@ -783,8 +783,12 @@ class Posting_new extends CI_Controller
 			 $this->db->insert('periode_end_proses',$datadetail);	
 
 
+			 if($bln_aktif < 10) {
+				$bln = substr($bln_aktif,-1); 
+			 } else {
+				$bln = substr($bln_aktif); 
+			 }
 			 
-			 $bln = substr($bln_aktif,-1); 
 			 			 
 			 $matauang =  $this->input->post('matauang')[$i];
 			 $kurs     =  str_replace(",","",$this->input->post('kurs_periode')[$i]);
@@ -802,7 +806,7 @@ class Posting_new extends CI_Controller
             
 							  foreach ($carinokir as $cs => $val) {
 									$no_perkiraan	= $val->no_perkiraan;					
-									$carisaldo = $this->db->query("SELECT * FROM COAx WHERE bln='$bln' AND thn='$thn_aktif' AND no_perkiraan='$no_perkiraan'")->row();
+									$carisaldo = $this->db->query("SELECT * FROM COA WHERE bln='$bln' AND thn='$thn_aktif' AND no_perkiraan='$no_perkiraan'")->row();
 										
 								
 								$Saldo_Awal = $carisaldo->saldoawal;
