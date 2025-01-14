@@ -18,7 +18,7 @@ class Kartu_hutang extends CI_Controller
 		$this->load->helper('url');
         $this->load->model('Report_model');
 		$this->load->model('Kartuhutang_model');
-		$this->combo_coa=array(''=>'ALL','A/P IDR'=>'2101-01-01','A/P USD'=>'2101-01-04','UNBILL'=>'2101-01-03');
+		$this->combo_coa=array(''=>'ALL','A/P IDR'=>'2101-01-01','A/P USD'=>'2101-01-04','UNBILL IDR'=>'2101-01-03' ,'UNBILL USD'=>'2101-01-05');
 	}
 
 
