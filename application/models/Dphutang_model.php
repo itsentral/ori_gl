@@ -8,7 +8,7 @@ class Dphutang_model extends CI_Model
 	}
 
 	function GetData($awal,$vendor,$tipe=''){
-		$query 	= "SELECT sum(kredit - debet) as saldo
+		$query 	= "SELECT sum(debet-kredit) as saldo
 		FROM kartu_hutang WHERE tanggal < '$awal' AND id_supplier='$vendor' and no_perkiraan like '%".$tipe."%' ";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
@@ -19,7 +19,7 @@ class Dphutang_model extends CI_Model
 	}
 	
 	function GetDataAll($awal,$vendor,$tipe=''){
-		$query 	= "SELECT sum(kredit - debet) as saldo
+		$query 	= "SELECT sum(debet-kredit) as saldo
 		FROM kartu_hutang WHERE tanggal < '$awal' AND no_perkiraan like '%".$tipe."%' ";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
@@ -30,7 +30,7 @@ class Dphutang_model extends CI_Model
 	}
 	
 	function GetSaldoRekap($awal,$vendor){
-		$query 	= "SELECT sum(kredit - debet) as saldo
+		$query 	= "SELECT sum(debet-kredit) as saldo
 		FROM kartu_hutang WHERE tanggal < '$awal' AND id_supplier='$vendor' ";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
@@ -84,9 +84,9 @@ class Dphutang_model extends CI_Model
 	
 	public function get_rekap_kartu_um($awal,$akhir,$vendor,$tipe)
 	{
-		$query 	= "SELECT (SELECT sum(kredit)-sum(debet) as saldo
+		$query 	= "SELECT (SELECT sum(debet)-sum(kredit) as saldo
 		FROM kartu_hutang WHERE tanggal < '$awal' AND id_supplier='$vendor' and no_perkiraan like '%".$tipe."%') AS saldo_awal,
-		sum(debet) as debet, sum(kredit) as kredit, sum(kredit)-sum(debet) as saldo_akhir 
+		sum(debet) as debet, sum(kredit) as kredit, sum(debet)-sum(kredit) as saldo_akhir 
 		from kartu_hutang WHERE id_supplier='$vendor' AND tanggal BETWEEN '$awal' AND '$akhir' and no_perkiraan like '%".$tipe."%' ";
 
 		$query	= $this->db->query($query);
@@ -117,11 +117,11 @@ class Dphutang_model extends CI_Model
 	public function get_detail_umur_kartu_um($awal,$akhir,$vendor,$bukti )		
 	{
 		$query 	= "SELECT 
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND datediff('$akhir', tanggal)  BETWEEN 0  AND 30 GROUP BY no_reff ORDER BY tanggal DESC) AS saldo30,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 31  AND 60) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo31,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 61  AND 90) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo60,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 91  AND 120) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo90,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) > 120) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo120,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND datediff('$akhir', tanggal)  BETWEEN 0  AND 30 GROUP BY no_reff ORDER BY tanggal DESC) AS saldo30,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 31  AND 60) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo31,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 61  AND 90) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo60,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 91  AND 120) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo90,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) > 120) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo120,
 		
 		tanggal,keterangan,no_request from kartu_hutang WHERE no_reff = '$bukti' AND id_supplier='$vendor' GROUP BY no_reff  ORDER BY tanggal DESC";
 
@@ -136,11 +136,11 @@ class Dphutang_model extends CI_Model
 	public function get_rekap_umur_kartu_um($vendor)		
 	{
 		$query 	= "SELECT 
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND datediff(current_date(), tanggal) < 31 GROUP BY id_supplier) AS saldo30,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND (datediff(current_date(), tanggal) BETWEEN 31  AND 60) GROUP BY id_supplier) AS saldo31,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND (datediff(current_date(), tanggal) BETWEEN 61  AND 90) GROUP BY id_supplier) AS saldo60,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND (datediff(current_date(), tanggal) BETWEEN 91  AND 120) GROUP BY id_supplier) AS saldo90,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND datediff(current_date(), tanggal) > 120 GROUP BY id_supplier) AS saldo120,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND datediff(current_date(), tanggal) < 31 GROUP BY id_supplier) AS saldo30,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND (datediff(current_date(), tanggal) BETWEEN 31  AND 60) GROUP BY id_supplier) AS saldo31,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND (datediff(current_date(), tanggal) BETWEEN 61  AND 90) GROUP BY id_supplier) AS saldo60,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND (datediff(current_date(), tanggal) BETWEEN 91  AND 120) GROUP BY id_supplier) AS saldo90,
+		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND datediff(current_date(), tanggal) > 120 GROUP BY id_supplier) AS saldo120,
 		tanggal,keterangan,id_supplier,nama_supplier FROM kartu_hutang WHERE  id_supplier='$vendor' GROUP BY id_supplier ";
 
 		$query	= $this->db->query($query);
