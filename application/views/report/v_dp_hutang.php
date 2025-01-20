@@ -216,7 +216,7 @@ if ($data_perkiraan) {
 													//}
 
 													//$current_saldo[$count3]	= $saldo_awal[$count];
-													$current_saldo[$count3]		= $saldo_awal[$count] - $nilai_debet[$count2] + $nilai_kredit[$count2];
+													$current_saldo[$count3]		= $saldo_awal[$count] + $nilai_debet[$count2] - $nilai_kredit[$count2];
 													//$current_saldo[$count2]	+= $current_saldo[$count2] + $nilai_debet[$count2] - $nilai_kredit[$count2];
 													// $saldo_akhir				= $sum_debet + $saldo_awal[$count] - $sum_kredit;	
 													$saldo_akhir				= $current_saldo[$count3];
