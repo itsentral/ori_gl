@@ -8,7 +8,7 @@ class Dphutang_model extends CI_Model
 	}
 
 	function GetData($awal,$vendor,$tipe=''){
-		$query 	= "SELECT sum(kredit - debet) as saldo
+		$query 	= "SELECT sum(debet-kredit) as saldo
 		FROM kartu_hutang WHERE tanggal < '$awal' AND id_supplier='$vendor' and no_perkiraan like '%".$tipe."%' ";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
@@ -19,7 +19,7 @@ class Dphutang_model extends CI_Model
 	}
 	
 	function GetDataAll($awal,$vendor,$tipe=''){
-		$query 	= "SELECT sum(kredit - debet) as saldo
+		$query 	= "SELECT sum(debet-kredit) as saldo
 		FROM kartu_hutang WHERE tanggal < '$awal' AND no_perkiraan like '%".$tipe."%' ";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
@@ -30,7 +30,7 @@ class Dphutang_model extends CI_Model
 	}
 	
 	function GetSaldoRekap($awal,$vendor){
-		$query 	= "SELECT sum(kredit - debet) as saldo
+		$query 	= "SELECT sum(debet-kredit) as saldo
 		FROM kartu_hutang WHERE tanggal < '$awal' AND id_supplier='$vendor' ";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {

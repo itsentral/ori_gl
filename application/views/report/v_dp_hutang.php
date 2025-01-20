@@ -163,7 +163,7 @@ if ($data_perkiraan) {
 										$count = 0;
 										foreach ($coa_sa as $row_sa) {
 											$count++;
-     										$saldo_awal[$count]	= $row_sa->saldo;
+     										$saldo_awal[$count]	= $row_sa->saldo*(-1);
 									?>
 									
 									<tr>
