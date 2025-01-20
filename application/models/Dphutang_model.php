@@ -20,7 +20,7 @@ class Dphutang_model extends CI_Model
 	
 	function GetDataAll($awal,$vendor,$tipe=''){
 		$query 	= "SELECT sum(kredit - debet) as saldo
-		FROM kartu_hutang WHERE tanggal < '$awal' AND no_perkiraan like '%".$tipe."%' ";
+		FROM kartu_hutang WHERE tanggal < '$awal' AND no_perkiraanx like '%".$tipe."%' ";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
 			return $query->result();
