@@ -48,7 +48,7 @@ class Dphutang_model extends CI_Model
 	
 	public function get_detail_kartu_um($awal,$akhir,$vendor,$tipe='')
 	{
-		$query 	= "SELECT * from kartu_hutang WHERE id_supplier='$vendor' AND tanggal BETWEEN '$awal' AND '$akhir' and no_perkiraan like '%".$tipe."%'";
+		$query 	= "SELECT * from kartu_hutang WHERE id_supplier='$vendor' AND tanggal BETWEEN '$awal' AND '$akhir' and no_perkiraan like '%".$tipe."%' ORDER BY tanggal ASC";
 
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
@@ -59,7 +59,7 @@ class Dphutang_model extends CI_Model
 	}
 	public function get_detail_kartu_um_all($awal,$akhir,$vendor,$tipe='')
 	{
-		$query 	= "SELECT * from kartu_hutang WHERE tanggal BETWEEN '$awal' AND '$akhir' and no_perkiraan like '%".$tipe."%'";
+		$query 	= "SELECT * from kartu_hutang WHERE tanggal BETWEEN '$awal' AND '$akhir' and no_perkiraan like '%".$tipe."%' ORDER BY tanggal ASC";
 
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
