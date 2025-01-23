@@ -186,7 +186,7 @@
 		<?php
 		if(!empty($rows_material) || !empty($rows_nonmaterial)){
 			echo"
-			&nbsp;&nbsp;<button class='btn btn-md btn-primary' type='button' onClick='DownloadStock(\"".$rows_coa->no_perkiraan."\",\"".$tgl_stock."\");'> DOWNLOAD EXCEL </button>
+			&nbsp;&nbsp;<button class='btn btn-md btn-primary' type='button' onClick='DownloadStock(\"".$rows_coa->no_perkiraan."\",\"".$tgl_stock."\",\"".$type_find."\");'> DOWNLOAD EXCEL </button>
 			";
 		}
 		?>

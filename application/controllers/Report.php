@@ -2004,7 +2004,7 @@ class Report extends CI_Controller
 		$Title_Jurnal	= 'REPORT DETAIL STOCK';
 		$Tgl_Stock		= $Type_Find = '';
 		if($this->input->get()){
-			echo"<pre>";print_r($this->input->get());exit;
+			//echo"<pre>";print_r($this->input->get());exit;
 			$Nomor_COA	= urldecode($this->input->get('coa'));
 			$Tgl_Stock	= urldecode($this->input->get('tgl'));
 			$Type_Find	= urldecode($this->input->get('kategori'));
@@ -2069,7 +2069,7 @@ class Report extends CI_Controller
 							
 						}
 						
-						echo"<pre>";print_r($Query_NonMaterial);exit;
+						//echo"<pre>";print_r($Query_NonMaterial);exit;
 					}
 					
 					
