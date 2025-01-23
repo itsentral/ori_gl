@@ -96,7 +96,7 @@
 										$Qty_Proses		= $Qty_Out;
 									}
 									
-									$Qry_Material	= "SELECT * FROM con_nonmat_new WHERE code_group = '".$Code_Material."' AND (deleted_date IS NULL OR deleted_date = '' OR deleted_date ='-')";
+									$Qry_Material	= "SELECT * FROM con_nonmat_new WHERE code_group = '".$Code_Material."' AND (deleted_date IS NULL OR TRIM(deleted_date) = '' OR TRIM(deleted_date) ='-')";
 									$rows_Material	= $this->ori_operasional->query($Qry_Material)->row();
 									if($rows_Material){
 										$Name_Material	= $rows_Material->material_name.' '.$rows_Material->spec.' '.$rows_Material->brand;
