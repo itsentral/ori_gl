@@ -65,23 +65,54 @@
 							$Total_Qty = $Total_Price  = 0;
 							foreach($rows_detail as $row){
 								$no++;
-								$Code_Material 	= $row['id_material'];
-								$Code_MateERP 	= $row['idmaterial'];
-								$Name_Material	= $row['nm_material'];
-								$Qty_Awal 		= $row['qty_stock_awal'];
-								$Qty_In			= $row['qty_in'];
-								$Qty_Out 		= $row['qty_out'];
-								$Qty_Akhir 		= $row['qty_stock_akhir'];
-								$Harga_HPP 		= $row['harga'];
-								$Total_Awal		= $row['nilai_awal_rp'];
-								$Total_HPP 		= $row['nilai_trans_rp'];
-								$Total_Akhir	= $row['nilai_akhir_rp'];
-								$Nomor_Jurnal	= $row['no_jurnal'];
-								
-								$Qty_Proses		= $Qty_In;
-								if($Qty_Out > 0){
-									$Qty_Proses		= $Qty_Out;
+								if(strtolower($type_find) == 'material'){
+									$Code_Material 	= $row['id_material'];
+									$Code_MateERP 	= $row['idmaterial'];
+									$Name_Material	= $row['nm_material'];
+									$Qty_Awal 		= $row['qty_stock_awal'];
+									$Qty_In			= $row['qty_in'];
+									$Qty_Out 		= $row['qty_out'];
+									$Qty_Akhir 		= $row['qty_stock_akhir'];
+									$Harga_HPP 		= $row['harga'];
+									$Total_Awal		= $row['nilai_awal_rp'];
+									$Total_HPP 		= $row['nilai_trans_rp'];
+									$Total_Akhir	= $row['nilai_akhir_rp'];
+									$Nomor_Jurnal	= $row['no_jurnal'];
+									
+									$Qty_Proses		= $Qty_In;
+									if($Qty_Out > 0){
+										$Qty_Proses		= $Qty_Out;
+									}
+								}else if($type_find) == 'consumable'){
+									$Code_Material 	= $row['id_material'];
+									$Name_Material	= $row['nm_material'];
+									$Qty_Awal 		= $row['qty_order'];
+									$Qty_In			= $row['qty_ok'];
+									$Qty_Out 		= $row['check_qty_ok'];
+									$Harga_HPP 		= $row['harga'];
+									
+									$Qty_Proses		= $Qty_Awal;
+									if($Qty_Out > 0 && $rows_header->checked == 'Y'){
+										$Qty_Proses		= $Qty_Out;
+									}
+									
+									$Qry_Material	= "SELECT * FROM con_nonmat_new WHERE code_group = '".$Code_Material."' AND (deleted_date IS NULL OR deleted_date = '' OR deleted_date ='-')";
+									$rows_Material	= $this->ori_operasional->query($Qry_Material)->row();
+									if($rows_Material){
+										$Name_Material	= $rows_Material->material_name.' '.$rows_Material->spec.' '.$rows_Material->brand;
+									}
+									$Query_Price		= "SELECT * FROM price_book WHERE id_material = '".$Code_Material."' AND DATE(updated_date) <= '".$rows_header->tanggal."' ORDER BY id DESC LIMIT 1";
+									$rows_Price			= $this->ori_operasional->query($Query_Price)->row();
+									if($rows_Price){
+										if(empty($rows_Price->price_book) || floatval($rows_Price->price_book) > 0){
+											$Harga_HPP		= $rows_Price->price_book;
+										}
+										
+									}
+									
+									$Total_HPP		= round($Harga_HPP * $Qty_Proses);
 								}
+								
 								
 								
 								echo '<tr>

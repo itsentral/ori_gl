@@ -150,7 +150,8 @@ if ($data_perkiraan) {
 											}
 										}
 										
-										$COA_Warehouse	= $this->Report_model->GetWarehouseCOa();
+										//$COA_Warehouse	= $this->Report_model->GetWarehouseCOa();
+										$COA_Warehouse	= $this->Report_model->GetCategoryCoaLedger();
 										
 										
 										?>
@@ -203,8 +204,10 @@ if ($data_perkiraan) {
 											$saldo_awal_kurs[$count]	= $row_sa->saldo_valas;
 											
 											$OK_Warehouse		= 'N';
+											$Categori_Sub		= '';
 											if(!empty($COA_Warehouse[$nokir_induk])){
 												$OK_Warehouse	= 'Y';
+												$Categori_Sub	= $COA_Warehouse[$nokir_induk];
 											}
 											
 											$Temp_SaldoAwal	= number_format($saldo_awal[$count], 0, ',', '.');
@@ -280,12 +283,12 @@ if ($data_perkiraan) {
 													//$current_saldo[$count2]	+= $current_saldo[$count2] + $nilai_debet[$count2] - $nilai_kredit[$count2];
 													// $saldo_akhir				= $sum_debet + $saldo_awal[$count] - $sum_kredit;	
 													$Code_Unik				= $row_dj->nomor.'^'.$row_dj->tipe;
-													$Template_Preview		= '<a href="#" class="text-red" onClick="PreviewDetail({code:\''.$Code_Unik.'\',action:\'preview_detail_jurnal_new\',title:\'PREVIEW DETAIL JURNAL\'});"> '.$row_dj->nomor.' </a>';
+													$Template_Preview		= '<a href="#" class="text-red" onClick="PreviewDetail({code:\''.$Code_Unik.'\',kategori:\'\',action:\'preview_detail_jurnal_new\',title:\'PREVIEW DETAIL JURNAL\'});"> '.$row_dj->nomor.' </a>';
 													
 													$Template_Reff			= $row_dj->no_reff;
 													if($OK_Warehouse == 'Y'){
 														$Code_Reff			= $row_dj->no_reff.'^'.$row_dj->nomor.'^'.$nokir_induk;
-														$Template_Reff		= '<a href="#" class="text-orange" onClick="PreviewDetail({code:\''.$Code_Reff.'\',action:\'preview_detail_jurnal_reff\',title:\'PREVIEW DETAIL JURNAL REFERENSI\'});"> '.$row_dj->no_reff.' </a>';													
+														$Template_Reff		= '<a href="#" class="text-orange" onClick="PreviewDetail({code:\''.$Code_Reff.'\',kategori:\''.$Categori_Sub.'\',action:\'preview_detail_jurnal_reff\',title:\'PREVIEW DETAIL JURNAL REFERENSI\'});"> '.$row_dj->no_reff.' </a>';													
 													}
 													?>
 													<tr>
@@ -315,7 +318,7 @@ if ($data_perkiraan) {
 											
 											if($OK_Warehouse == 'Y' && $Periode_Akhir >= $cutoff_stock && floatval($saldo_akhir) !== 0 && !empty($saldo_akhir)){
 												$Code_SaldoAkhir	= $row_sa->no_perkiraan.'^'.$Periode_Akhir;
-												$Temp_SaldoAkhir	= '<a href="#" class="text-red" onClick="PreviewDetail({code:\''.$Code_SaldoAkhir.'\',action:\'preview_detail_material_stock\',title:\'PREVIEW DETAIL SALDO AKHIR\'});"> '.number_format($saldo_akhir, 0, ',', '.').' </a>';
+												$Temp_SaldoAkhir	= '<a href="#" class="text-red" onClick="PreviewDetail({code:\''.$Code_SaldoAkhir.'\',kategori:\''.$Categori_Sub.'\',action:\'preview_detail_material_stock\',title:\'PREVIEW DETAIL SALDO AKHIR\'});"> '.number_format($saldo_akhir, 0, ',', '.').' </a>';
 													
 											}
 											?>
@@ -406,20 +409,21 @@ if ($data_perkiraan) {
     var active_controller_pros   		= '<?php echo($this->uri->segment(1)); ?>';
 	
 	const PreviewDetail = (ObjectParam)=>{
-		let CodeAction	= ObjectParam.code;
-		let LinkAction 	= ObjectParam.action;
+		let CodeAction		= ObjectParam.code;
+		let CategoryAction	= ObjectParam.kategori;
+		let LinkAction 		= ObjectParam.action;
 		
 		$("#v_modal_preview").modal('hide');	
 		loading_spinner();				
-        $.post(site_url_pros +'/'+ active_controller_pros+'/'+LinkAction,{'code':CodeAction}, function(response) {
+        $.post(site_url_pros +'/'+ active_controller_pros+'/'+LinkAction,{'code':CodeAction,'kategori':CategoryAction}, function(response) {
 			close_spinner(); 
             $("#body_modal_preview").html(response);
 			$("#v_modal_preview").modal('show');		
         });
 	}
 	
-	const DownloadStock = (no_coa,tgl_stok)=>{
-		let Link_Download	= site_url_pros +'/'+ active_controller_pros+'/download_stok_material?coa='+encodeURIComponent(no_coa)+'&tgl='+encodeURIComponent(tgl_stok);
+	const DownloadStock = (no_coa,tgl_stok,kategori)=>{
+		let Link_Download	= site_url_pros +'/'+ active_controller_pros+'/download_stok_material?coa='+encodeURIComponent(no_coa)+'&tgl='+encodeURIComponent(tgl_stok)+'&kategori='+encodeURIComponent(kategori);
 		window.open(Link_Download,'_blank');
 	}
 	

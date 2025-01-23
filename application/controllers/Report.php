@@ -1832,26 +1832,33 @@ class Report extends CI_Controller
 		$rows_Header	= $rows_Detail	= array();
 		$Name_View		= 'v_jurnal_detail_reff';
 		$Title_Jurnal	= 'PREVIEW DETAIL JURNAL REF';
+		$Type_Find		= '';
 		if($this->input->post()){
 			$Code_Find	= $this->input->post('code');
+			$Type_Find	= $this->input->post('kategori');
 			$Split_Find	= explode('^',$Code_Find);
 			
 			$Nomor_Trans	= $Split_Find[0];
 			$Nomor_Jurnal	= $Split_Find[1];
 			$Nomor_COA		= $Split_Find[2];
 			
-			//$rows_Detail	= $this->ori_operasional->get_where('warehouse_adjustment_detail',array('kode_trans'=>$Nomor_Trans))->result_array();
-			$rows_Header	= $this->ori_operasional->get_where('warehouse_adjustment',array('kode_trans'=>$Nomor_Trans))->row();
+			if(strtolower($Type_Find) == 'material'){
+				$rows_Header	= $this->ori_operasional->get_where('warehouse_adjustment',array('kode_trans'=>$Nomor_Trans))->row();			
+				$Query_Detail	= "SELECT * FROM tran_warehouse_jurnal_detail WHERE kode_trans = '".$Nomor_Trans."' AND coa_gudang = '".$Nomor_COA."' AND no_jurnal = '".$Nomor_Jurnal."'";
+				$rows_Detail	= $this->ori_operasional->query($Query_Detail)->result_array();
+			}else if(strtolower($Type_Find) == 'consumable'){
+				$rows_Header	= $this->ori_operasional->get_where('warehouse_adjustment',array('kode_trans'=>$Nomor_Trans))->row();
+				$rows_Detail	= $this->ori_operasional->get_where('warehouse_adjustment_detail',array('kode_trans'=>$Nomor_Trans))->result_array();
+			}
 			
-			$Query_Detail	= "SELECT * FROM tran_warehouse_jurnal_detail WHERE kode_trans = '".$Nomor_Trans."' AND coa_gudang = '".$Nomor_COA."' AND no_jurnal = '".$Nomor_Jurnal."'";
-			$rows_Detail	= $this->ori_operasional->query($Query_Detail)->result_array();
 		}
 		
 		$data		= array(
 			'title'			=> $Title_Jurnal,
 			'rows_header'	=> $rows_Header,
 			'rows_detail'	=> $rows_Detail,
-			'arr_month'		=> $this->arr_bulan
+			'arr_month'		=> $this->arr_bulan,
+			'type_find'		=> $Type_Find
 		);
 		
 		$this->load->view('report/'.$Name_View, $data);
@@ -1901,8 +1908,10 @@ class Report extends CI_Controller
 		$Name_View		= 'v_jurnal_detail_stock';
 		$Title_Jurnal	= 'PREVIEW DETAIL STOCK';
 		$Tgl_Stock		= '';
+		$Type_Find		= '';
 		if($this->input->post()){
 			$Code_Find	= $this->input->post('code');
+			$Type_Find	= $this->input->post('kategori');
 			$Split_Find	= explode('^',$Code_Find);
 			
 			$Nomor_COA		= $Split_Find[0];
@@ -1914,45 +1923,65 @@ class Report extends CI_Controller
 			$Query_COA		= "SELECT * FROM COA WHERE no_perkiraan = '".$Nomor_COA."' ORDER BY id DESC LIMIT 1";
 			$rows_COA		= $this->db->query($Query_COA)->row();
 			
-			$Query_WHR		= "SELECT GROUP_CONCAT(id) AS kode_wh FROM warehouse WHERE coa_1 = '".$Nomor_COA."'";
-			$rows_WHR		= $this->ori_operasional->query($Query_WHR)->row();
-			if($rows_WHR){
-				$Code_WHR	= $rows_WHR->kode_wh;
-				 $Sub_Find		= "tras_stock.id_gudang IN('".str_replace(",","','",$Code_WHR)."')";	
-				 $WHERE			= "1=1";
-				 
-				if($Tgl_Stock){
-					if(!empty($Sub_Find))$Sub_Find	.=" AND ";
-					$Sub_Find	.="DATE(tras_stock.tgl_trans ) <= '".$Tgl_Stock."'";
+			if(strtolower($Type_Find) == 'material' || strtolower($Type_Find) == 'consumable'){
+				$Query_WHR		= "SELECT GROUP_CONCAT(id) AS kode_wh FROM warehouse WHERE coa_1 = '".$Nomor_COA."'";
+				$rows_WHR		= $this->ori_operasional->query($Query_WHR)->row();
+				if($rows_WHR){
+					$Code_WHR		= $rows_WHR->kode_wh;
+					if(strtolower($Type_Find) == 'material'){
+						$Title_Jurnal	= 'PREVIEW DETAIL STOCK MATERIAL';
+						$Sub_Find		= "tras_stock.id_gudang IN('".str_replace(",","','",$Code_WHR)."')";	
+						$WHERE			= "1=1";
+						 
+						if($Tgl_Stock){
+							if(!empty($Sub_Find))$Sub_Find	.=" AND ";
+							$Sub_Find	.="DATE(tras_stock.tgl_trans ) <= '".$Tgl_Stock."'";
+						}
+						
+						$Query_Sub_Find		= $this->SubQueryStock($Sub_Find);
+						$Query_Material		= "SELECT
+													head_mstr.idmaterial,
+													head_mstr.id_material,
+													head_mstr.nm_material,
+													head_mstr.nm_category,
+													head_stock.qty_stock_awal,
+													head_stock.qty_in,
+													head_stock.qty_out,
+													head_stock.qty_stock_akhir,
+													head_stock.harga,
+													head_stock.harga_bm,
+													head_stock.nilai_akhir_rp,
+													head_stock.nilai_awal_rp,
+													head_stock.nilai_trans_rp,
+													det_stock.id_gudang,
+													det_stock.nm_gudang
+												FROM
+													tran_warehouse_jurnal_detail head_stock
+												INNER JOIN (
+													".$Query_Sub_Find."
+												)det_stock ON head_stock.id=det_stock.last_kode
+												LEFT JOIN raw_materials head_mstr ON head_stock.id_material = head_mstr.id_material
+												WHERE ".$WHERE;
+						$rows_Material		= $this->ori_operasional->query($Query_Material)->result_array();
+					}else if(strtolower($Type_Find) == 'consumable'){
+						$Title_Jurnal	= 'PREVIEW DETAIL STOCK CONSUMABLE';
+						if($Tgl_Stock < date('Y-m-d')){
+							
+							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock_per_day WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 AND hist_date LIKE '".$Tgl_Stock."%' ORDER BY material_name ASC";
+							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
+							
+						}else{							
+							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 ORDER BY material_name ASC";
+							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
+							
+						}
+					}
+					
+					
 				}
-				
-				$Query_Sub_Find		= $this->SubQueryStock($Sub_Find);
-				$Query_Material		= "SELECT
-											head_mstr.idmaterial,
-											head_mstr.id_material,
-											head_mstr.nm_material,
-											head_mstr.nm_category,
-											head_stock.qty_stock_awal,
-											head_stock.qty_in,
-											head_stock.qty_out,
-											head_stock.qty_stock_akhir,
-											head_stock.harga,
-											head_stock.harga_bm,
-											head_stock.nilai_akhir_rp,
-											head_stock.nilai_awal_rp,
-											head_stock.nilai_trans_rp,
-											det_stock.id_gudang,
-											det_stock.nm_gudang
-										FROM
-											tran_warehouse_jurnal_detail head_stock
-										INNER JOIN (
-											".$Query_Sub_Find."
-										)det_stock ON head_stock.id=det_stock.last_kode
-										LEFT JOIN raw_materials head_mstr ON head_stock.id_material = head_mstr.id_material
-										WHERE ".$WHERE;
-				$rows_Material		= $this->ori_operasional->query($Query_Material)->result_array();
-				
 			}
+			
+			
 			
 			
 		}
@@ -1962,7 +1991,8 @@ class Report extends CI_Controller
 			'rows_coa'			=> $rows_COA,
 			'rows_material'		=> $rows_Material,
 			'rows_nonmaterial'	=> $rows_NonMaterial,
-			'tgl_stock'			=> $Tgl_Stock
+			'tgl_stock'			=> $Tgl_Stock,
+			'type_find'			=> $Type_Find
 		);
 		
 		$this->load->view('report/'.$Name_View, $data);
@@ -1972,10 +2002,11 @@ class Report extends CI_Controller
 		$rows_COA	= $rows_Material = $rows_NonMaterial = array();
 		$Name_View		= 'v_detail_excel_stok';
 		$Title_Jurnal	= 'REPORT DETAIL STOCK';
-		$Tgl_Stock		= '';
+		$Tgl_Stock		= $Type_Find = '';
 		if($this->input->get()){
 			$Nomor_COA	= urldecode($this->input->get('coa'));
 			$Tgl_Stock	= urldecode($this->input->get('tgl'));
+			$Type_Find	= urldecode($this->input->get('kategori'));
 			
 			//$Tgl_Stock		= date('Y-m-d');
 			$Title_Jurnal	.=' '.date('d-m-Y',strtotime($Tgl_Stock));
@@ -1983,44 +2014,65 @@ class Report extends CI_Controller
 			$Query_COA		= "SELECT * FROM COA WHERE no_perkiraan = '".$Nomor_COA."' ORDER BY id DESC LIMIT 1";
 			$rows_COA		= $this->db->query($Query_COA)->row();
 			
-			$Query_WHR		= "SELECT GROUP_CONCAT(id) AS kode_wh FROM warehouse WHERE coa_1 = '".$Nomor_COA."'";
-			$rows_WHR		= $this->ori_operasional->query($Query_WHR)->row();
-			if($rows_WHR){
-				$Code_WHR	= $rows_WHR->kode_wh;
-				 $Sub_Find		= "tras_stock.id_gudang IN('".str_replace(",","','",$Code_WHR)."')";	
-				 $WHERE			= "1=1";
-				 
-				if($Tgl_Stock){
-					if(!empty($Sub_Find))$Sub_Find	.=" AND ";
-					$Sub_Find	.="DATE(tras_stock.tgl_trans ) <= '".$Tgl_Stock."'";
+			if(strtolower($Type_Find) == 'material' || strtolower($Type_Find) == 'consumable'){
+				$Query_WHR		= "SELECT GROUP_CONCAT(id) AS kode_wh FROM warehouse WHERE coa_1 = '".$Nomor_COA."'";
+				$rows_WHR		= $this->ori_operasional->query($Query_WHR)->row();
+				if($rows_WHR){
+					$Code_WHR		= $rows_WHR->kode_wh;
+					if(strtolower($Type_Find) == 'material'){
+						$Title_Jurnal	= 'PREVIEW DETAIL STOCK MATERIAL';
+						$Sub_Find		= "tras_stock.id_gudang IN('".str_replace(",","','",$Code_WHR)."')";	
+						$WHERE			= "1=1";
+						 
+						if($Tgl_Stock){
+							if(!empty($Sub_Find))$Sub_Find	.=" AND ";
+							$Sub_Find	.="DATE(tras_stock.tgl_trans ) <= '".$Tgl_Stock."'";
+						}
+						
+						$Query_Sub_Find		= $this->SubQueryStock($Sub_Find);
+						$Query_Material		= "SELECT
+													head_mstr.idmaterial,
+													head_mstr.id_material,
+													head_mstr.nm_material,
+													head_mstr.nm_category,
+													head_stock.qty_stock_awal,
+													head_stock.qty_in,
+													head_stock.qty_out,
+													head_stock.qty_stock_akhir,
+													head_stock.harga,
+													head_stock.harga_bm,
+													head_stock.nilai_akhir_rp,
+													head_stock.nilai_awal_rp,
+													head_stock.nilai_trans_rp,
+													det_stock.id_gudang,
+													det_stock.nm_gudang
+												FROM
+													tran_warehouse_jurnal_detail head_stock
+												INNER JOIN (
+													".$Query_Sub_Find."
+												)det_stock ON head_stock.id=det_stock.last_kode
+												LEFT JOIN raw_materials head_mstr ON head_stock.id_material = head_mstr.id_material
+												WHERE ".$WHERE;
+						$rows_Material		= $this->ori_operasional->query($Query_Material)->result_array();
+					}else if(strtolower($Type_Find) == 'consumable'){
+						$Title_Jurnal	= 'PREVIEW DETAIL STOCK CONSUMABLE';
+						if($Tgl_Stock < date('Y-m-d')){
+							
+							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock_per_day WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 AND hist_date LIKE '".$Tgl_Stock."%' ORDER BY material_name ASC";
+							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
+							
+						}else{							
+							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 ORDER BY material_name ASC";
+							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
+							
+						}
+					}
+					
+					
 				}
-				
-				$Query_Sub_Find		= $this->SubQueryStock($Sub_Find);
-				$Query_Material		= "SELECT
-											head_mstr.idmaterial,
-											head_mstr.id_material,
-											head_mstr.nm_material,
-											head_mstr.nm_category,
-											head_stock.qty_stock_awal,
-											head_stock.qty_in,
-											head_stock.qty_out,
-											head_stock.qty_stock_akhir,
-											head_stock.harga,
-											head_stock.harga_bm,
-											head_stock.nilai_akhir_rp,
-											head_stock.nilai_awal_rp,
-											head_stock.nilai_trans_rp,
-											det_stock.id_gudang,
-											det_stock.nm_gudang
-										FROM
-											tran_warehouse_jurnal_detail head_stock
-										INNER JOIN (
-											".$Query_Sub_Find."
-										)det_stock ON head_stock.id=det_stock.last_kode
-										LEFT JOIN raw_materials head_mstr ON head_stock.id_material = head_mstr.id_material
-										WHERE ".$WHERE;
-				$rows_Material		= $this->ori_operasional->query($Query_Material)->result_array();
 			}
+			
+			
 			
 			
 		}
@@ -2030,7 +2082,8 @@ class Report extends CI_Controller
 			'rows_coa'			=> $rows_COA,
 			'rows_material'		=> $rows_Material,
 			'rows_nonmaterial'	=> $rows_NonMaterial,
-			'tgl_stock'			=> $Tgl_Stock
+			'tgl_stock'			=> $Tgl_Stock,
+			'type_find'			=> $Type_Find
 		);
 		
 		$this->load->view('report/'.$Name_View, $data);

@@ -2004,4 +2004,19 @@ class Report_model extends CI_Model
 		
 		return $Temp_COA;
 	}
+	
+	public function GetCategoryCoaLedger(){
+		$Temp_COA		= array(
+			'1103-01-01'	=> 'material',
+			'1103-01-02'	=> 'material',
+			'1103-01-03'	=> 'material',
+			'1103-01-05'	=> 'material',
+			'1103-02-01'	=> 'consumable',
+			'1103-04-01'	=> 'finish_good',
+			'1103-04-06'	=> 'intransit',
+			'1103-04-07'	=> 'incustomer'
+		);
+		
+		return $Temp_COA;
+	}
 }
