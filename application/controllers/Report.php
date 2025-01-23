@@ -2067,6 +2067,8 @@ class Report extends CI_Controller
 							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
 							
 						}
+						
+						echo"<pre>";print_r($Query_NonMaterial);exit;
 					}
 					
 					
