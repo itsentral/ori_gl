@@ -215,7 +215,7 @@ if ($data_perkiraan) {
 											$DateFR			= date('Y-m-d', strtotime($Periode_Awal. ' - 1 days'));
 											if($OK_Warehouse == 'Y' && $DateFR >= $cutoff_stock && floatval($row_sa->saldoawal) !== 0 && !empty($row_sa->saldoawal)){
 												$Code_SaldoAwal	= $row_sa->no_perkiraan.'^'.$DateFR;
-												$Temp_SaldoAwal	= '<a href="#" class="text-red" onClick="PreviewDetail({code:\''.$Code_SaldoAwal.'\',action:\'preview_detail_material_stock\',title:\'PREVIEW DETAIL SALDO AWAL\'});"> '.number_format($saldo_awal[$count], 0, ',', '.').' </a>';
+												$Temp_SaldoAwal	= '<a href="#" class="text-red" onClick="PreviewDetail({code:\''.$Code_SaldoAwal.'\',kategori:\''.$Categori_Sub.'\',action:\'preview_detail_material_stock\',title:\'PREVIEW DETAIL SALDO AWAL\'});"> '.number_format($saldo_awal[$count], 0, ',', '.').' </a>';
 													
 											}
 									?>
