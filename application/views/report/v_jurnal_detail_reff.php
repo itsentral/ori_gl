@@ -87,8 +87,8 @@
 									$Code_Material 	= $row['id_material'];
 									$Name_Material	= $row['nm_material'];
 									$Qty_Awal 		= $row['qty_order'];
-									$Qty_In			= $row['qty_ok'];
-									$Qty_Out 		= $row['check_qty_ok'];
+									$Qty_In			= $row['qty_oke'];
+									$Qty_Out 		= $row['check_qty_oke'];
 									$Harga_HPP 		= $row['harga'];
 									
 									$Qty_Proses		= $Qty_Awal;
