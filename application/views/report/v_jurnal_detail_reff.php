@@ -117,7 +117,7 @@
 								
 								echo '<tr>
 										<td class="text-center">'.$no.'</td>
-										<td class="text-center">'.$Code_MateERP.'</td>
+										<td class="text-center">'.$Code_Material.'</td>
 										<td class="text-left">'.$Name_Material.'</td>
 										<td class="text-right">'.number_format($Harga_HPP,2).'</td>										
 										<td class="text-center">'.$Qty_Proses.'</td>
