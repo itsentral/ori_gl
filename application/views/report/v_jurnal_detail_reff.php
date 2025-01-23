@@ -83,7 +83,7 @@
 									if($Qty_Out > 0){
 										$Qty_Proses		= $Qty_Out;
 									}
-								}else if($type_find) == 'consumable'){
+								}else if(strtolower($type_find) == 'consumable'){
 									$Code_Material 	= $row['id_material'];
 									$Name_Material	= $row['nm_material'];
 									$Qty_Awal 		= $row['qty_order'];
