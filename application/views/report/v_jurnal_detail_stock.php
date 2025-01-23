@@ -99,7 +99,7 @@
 						}
 					}
 					
-					if($rows_nonmaterial){
+					if(!empty($rows_nonmaterial) && (strtolower($type_find) == 'material' || strtolower($type_find) == 'consumable')){
 						
 						foreach($rows_nonmaterial as $row){
 							$no++;
