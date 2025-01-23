@@ -2009,7 +2009,7 @@ class Report extends CI_Controller
 			$Type_Find	= urldecode($this->input->get('kategori'));
 			
 			//$Tgl_Stock		= date('Y-m-d');
-			$Title_Jurnal	.=' '.date('d-m-Y',strtotime($Tgl_Stock));
+			
 			
 			$Query_COA		= "SELECT * FROM COA WHERE no_perkiraan = '".$Nomor_COA."' ORDER BY id DESC LIMIT 1";
 			$rows_COA		= $this->db->query($Query_COA)->row();
@@ -2059,6 +2059,7 @@ class Report extends CI_Controller
 						if($Tgl_Stock < date('Y-m-d')){
 							
 							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock_per_day WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 AND hist_date LIKE '".$Tgl_Stock."%' ORDER BY material_name ASC";
+							
 							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
 							
 						}else{							
@@ -2072,7 +2073,7 @@ class Report extends CI_Controller
 				}
 			}
 			
-			
+			$Title_Jurnal	.=' '.date('d-m-Y',strtotime($Tgl_Stock));
 			
 			
 		}
