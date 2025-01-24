@@ -218,7 +218,7 @@
 				</div>
 				';
 				
-				$rows_Finish	= $this->ori_operasional->get_where('data_erp_fg',array('id_trans'=>$Nomor_Trans,'LOWER(jenis)'=>'in'))->result();
+				$rows_Finish	= $this->ori_operasional->get_where('data_erp_fg',array('id_trans'=>$rows_header->id_trans,'LOWER(jenis)'=>'in'))->result();
 				if($rows_Finish){
 					echo'
 					<div class="table-responsive">
