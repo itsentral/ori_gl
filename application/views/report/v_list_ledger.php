@@ -293,7 +293,7 @@ if ($data_perkiraan) {
 													?>
 													<tr>
 														<td><?= $nama_perkiraan2[$count2] ?></td>
-														<td><?= $reff[$count2] ?></td>
+														<td><?= $row_dj->no_perkiraan ?></td>
 														<td align="center"><?= date_format(new DateTime($tgl_bukti[$count2]), "d-m-Y")  ?></td>
 														<td align="center"><?= $Template_Preview; ?></td>
 														<td align="center"><?= $Template_Reff ?></td>

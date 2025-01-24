@@ -2014,7 +2014,12 @@ class Report_model extends CI_Model
 			'1103-02-01'	=> 'consumable',
 			'1103-04-01'	=> 'finish_good',
 			'1103-04-06'	=> 'intransit',
-			'1103-04-07'	=> 'incustomer'
+			'1103-04-07'	=> 'incustomer',
+			'1103-03-01'	=> 'wip_butt',
+			'1103-03-02'	=> 'wip_pipa',
+			'1103-03-03'	=> 'wip_fitting',
+			'1103-03-04'	=> 'wip_tank',
+			'1103-03-05'	=> 'wip_spool',
 		);
 		
 		return $Temp_COA;

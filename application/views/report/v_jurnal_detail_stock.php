@@ -36,22 +36,22 @@
 		</table>
 		<br>
 		<div class="table-responsive">
-			<table id="grid_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
-				<thead>
-					<tr class="bg-navy-active text-white">
-						<th class="text-center">No.</th>
-						<th class="text-center">Kode Material</th>
-						<th class="text-center">Nama Material</th>
-						<th class="text-center">Harga</th>
-						<th class="text-center">Qty</th>
-						<th class="text-center">Total</th>
-						<th class="text-center">Gudang</th>
-					</tr>
-				</thead>
-				
-				<?php
+			<?php
+			if(strtolower($type_find) == 'material' || strtolower($type_find) == 'consumable'){
 				echo'
-				<tbody>
+				<table id="grid_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+					<thead>
+						<tr class="bg-navy-active text-white">
+							<th class="text-center">No.</th>
+							<th class="text-center">Kode Material</th>
+							<th class="text-center">Nama Material</th>
+							<th class="text-center">Harga</th>
+							<th class="text-center">Qty</th>
+							<th class="text-center">Total</th>
+							<th class="text-center">Gudang</th>
+						</tr>
+					</thead>
+					<tbody>
 				';
 					$Total_Qty 	= $Total_Price  = 0;
 					$no			= 0;
@@ -169,11 +169,72 @@
 							<td class="text-center">&nbsp;</td>
 						</tr>
 					</tfoot>
+				</table>
 					';
-					
-					?>
+			}else if(strtolower($type_find) == 'wip_butt' || strtolower($type_find) == 'wip_pipa' || strtolower($type_find) == 'wip_fitting' || strtolower($type_find) == 'wip_spool' || strtolower($type_find) == 'wip_tank'){
+				echo'
+				<table id="grid_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+					<thead>
+						<tr class="bg-navy-active text-white">
+							<th class="text-center">No.</th>
+							<th class="text-center">No SPK</th>
+							<th class="text-center">No SO</th>
+							<th class="text-center">Produk</th>
+							<th class="text-center">Qty Order</th>
+							<th class="text-center">Total Order</th>
+							<th class="text-center">Qty WIP</th>
+							<th class="text-center">Total WIP</th>
+						</tr>
+					</thead>
+					<tbody>
+				';
 				
-			</table>
+				$Total_Qty	= $Total_Price	= 0;
+				if($rows_nonmaterial){
+						$no = 0;
+					foreach($rows_nonmaterial as $row){
+						$no++;
+						
+						
+						$Total_Qty			+=$row->qty_open;
+						$Total_Price		+=$row->nil_open;
+						
+						echo '<tr>
+								<td class="text-center">'.$no.'</td>
+								<td class="text-center">'.$row->no_spk.'</td>
+								<td class="text-center">'.$row->no_so.'</td>
+								<td class="text-left">'.$row->product.'</td>
+								<td class="text-center">'.$row->qty.'</td>
+								<td class="text-right">'.number_format($row->nilai_wip).'</td>										
+								<td class="text-center">'.$row->qty_open.'</td>
+								<td class="text-right">'.number_format($row->nil_open).'</td>
+							</tr>';
+						
+						
+					}
+				}else{
+					echo'
+					<tr>
+						<th class="text-center text-red" colspan="8">DATA TIDAK DITEMUKAN</th>
+					</tr>
+					';
+				}
+				
+				echo'
+					</tbody>
+					<tfoot>
+						<tr class="text-bold bg-gray">
+							<td class="text-center" colspan="6"> TOTAL</td>
+							<td class="text-center">'.$Total_Qty.'</td>
+							<td class="text-right">'.number_format($Total_Price).'</td>
+						</tr>
+					</tfoot>
+				</table>
+					';
+			}
+			?>
+				
+			
 		</div>
 	</div>
 	<?php

@@ -1849,6 +1849,9 @@ class Report extends CI_Controller
 			}else if(strtolower($Type_Find) == 'consumable'){
 				$rows_Header	= $this->ori_operasional->get_where('warehouse_adjustment',array('kode_trans'=>$Nomor_Trans))->row();
 				$rows_Detail	= $this->ori_operasional->get_where('warehouse_adjustment_detail',array('kode_trans'=>$Nomor_Trans))->result_array();
+			}else if(strtolower($Type_Find) == 'wip_butt' || strtolower($Type_Find) == 'wip_pipa' || strtolower($Type_Find) == 'wip_fitting' || strtolower($Type_Find) == 'wip_spool' || strtolower($Type_Find) == 'wip_tank'){
+				$rows_Header	= $this->ori_operasional->get_where('data_erp_wip_group',array('id_trans'=>$Nomor_Trans))->row();
+				$rows_Detail	= $this->ori_operasional->get_where('data_erp_wip',array('id_trans'=>$Nomor_Trans))->result_array();
 			}
 			
 		}
@@ -1979,7 +1982,58 @@ class Report extends CI_Controller
 					
 					
 				}
-			}
+			}else if(strtolower($Type_Find) == 'wip_butt' || strtolower($Type_Find) == 'wip_pipa' || strtolower($Type_Find) == 'wip_fitting' || strtolower($Type_Find) == 'wip_spool'){
+				$Query_Sub	= "
+							SELECT
+								head_trans.*,
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+								x_detail.nil_close,
+								x_detail.qty_close,
+								x_detail.nil_open,
+								x_detail.qty_open,
+								head_prod.coa AS no_perkiraan 
+							FROM
+								data_erp_wip_group head_trans
+								LEFT JOIN product_parent head_prod ON LOWER( head_trans.product ) = LOWER( head_prod.product_parent )
+								LEFT JOIN (
+								SELECT
+									id_trans,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_open,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_open 
+								FROM
+									data_erp_fg 
+								WHERE
+									LOWER( jenis ) = 'in' 
+									AND NOT ( id_trans IS NULL OR TRIM( id_trans ) = '' OR id_trans = '0' OR TRIM( id_trans ) = '-' ) 
+								GROUP BY
+									id_trans 
+								ORDER BY
+									id_trans ASC 
+								) x_detail ON x_detail.id_trans = head_trans.id_trans 
+							WHERE
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+								AND LOWER( head_trans.jenis ) = 'in' 
+								AND NOT (
+									head_trans.id_trans IS NULL 
+									OR TRIM( head_trans.id_trans ) = '' 
+									OR head_trans.id_trans = '0' 
+									OR TRIM( head_trans.id_trans ) = '-' 
+								) 
+								AND head_prod.coa = '".$Nomor_COA."'
+							GROUP BY
+								head_trans.id_trans 
+							ORDER BY
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+		}
 			
 			
 			
