@@ -30,6 +30,9 @@ header("Expires: 0");
 	</tr>
 </table>
 <br>
+<?php
+if(strtolower($type_find) == 'material' || strtolower($type_find) == 'consumable'){
+?>
 <table width='50%' border="1" cellpadding="5" cellspacing="0">
 	<tr>
 		<th align="center">No.</th>
@@ -168,6 +171,68 @@ header("Expires: 0");
 	
 	}
 	
+	echo'
+	</table>
+	';
+}else if(strtolower($type_find) == 'wip_butt' || strtolower($type_find) == 'wip_pipa' || strtolower($type_find) == 'wip_fitting' || strtolower($type_find) == 'wip_spool' || strtolower($type_find) == 'wip_tank'){
+	echo'
+	<table width="50%" border="1" cellpadding="5" cellspacing="0">
+		<tr>
+			<th align="center">No.</th>
+			<th align="center">No SPK</th>
+			<th align="center">No SO</th>
+			<th align="center">Produk</th>
+			<th align="center">Qty Order</th>
+			<th align="center">Total Order</th>
+			<th align="center">Qty WIP</th>
+			<th align="center">Total WIP</th>
+		</tr>
+		
+	';
+	
+	$Total_Qty	= $Total_Price	= 0;
+	if($rows_nonmaterial){
+			$no = 0;
+		foreach($rows_nonmaterial as $row){
+			$no++;
+			
+			
+			$Total_Qty			+=$row->qty_open;
+			$Total_Price		+=$row->nil_open;
+			
+			echo '<tr>
+					<td align="center">'.$no.'</td>
+					<td align="center">'.$row->no_spk.'</td>
+					<td align="center">'.$row->no_so.'</td>
+					<td align="left">'.$row->product.'</td>
+					<td align="center">'.$row->qty.'</td>
+					<td align="right">'.number_format($row->nilai_wip).'</td>										
+					<td align="center">'.$row->qty_open.'</td>
+					<td align="right">'.number_format($row->nil_open).'</td>
+				</tr>';
+			
+			
+		}
+		echo'
+		<tr>
+			<td align="center" colspan="6"> TOTAL</td>
+			<td align="center">'.$Total_Qty.'</td>
+			<td align="right">'.number_format($Total_Price).'</td>
+		</tr>
+		';
+	}else{
+		echo'
+		<tr>
+			<th align="center" colspan="8">DATA TIDAK DITEMUKAN</th>
+		</tr>
+		';
+	}
+	
+	echo'		
+	</table>
+		';
+}
+	
 	?>
-</table>
+
 	
