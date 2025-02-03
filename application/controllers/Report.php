@@ -1852,6 +1852,8 @@ class Report extends CI_Controller
 			}else if(strtolower($Type_Find) == 'wip_butt' || strtolower($Type_Find) == 'wip_pipa' || strtolower($Type_Find) == 'wip_fitting' || strtolower($Type_Find) == 'wip_spool' || strtolower($Type_Find) == 'wip_tank'){
 				$rows_Header	= $this->ori_operasional->get_where('data_erp_wip_group',array('id_trans'=>$Nomor_Trans))->row();
 				$rows_Detail	= $this->ori_operasional->get_where('data_erp_wip',array('id_trans'=>$Nomor_Trans))->result_array();
+			}else if(strtolower($Type_Find) == 'finish_good'){
+			
 			}
 			
 		}
@@ -1920,7 +1922,7 @@ class Report extends CI_Controller
 			$Nomor_COA		= $Split_Find[0];
 			$Tgl_Stock		= $Split_Find[1];
 			
-			$Tgl_Stock		= date('Y-m-d');
+			//$Tgl_Stock		= date('Y-m-d');
 			$Title_Jurnal	.=' '.date('d-m-Y',strtotime($Tgl_Stock));
 			
 			$Query_COA		= "SELECT * FROM COA WHERE no_perkiraan = '".$Nomor_COA."' ORDER BY id DESC LIMIT 1";
