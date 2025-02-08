@@ -2237,7 +2237,7 @@ class Report extends CI_Controller
 			}else if(strtolower($Type_Find) == 'finish_good'){
 				$Title_Jurnal	= 'PREVIEW DETAIL STOCK FINISH GOOD';
 				$Query_Sub	= "
-								SELECT * FROM (
+								
 									SELECT
 									head_trans.*,
 									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
@@ -2272,10 +2272,10 @@ class Report extends CI_Controller
 									head_trans.id_pro 
 								ORDER BY
 									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
-								)x_summary WHERE (x_summary.date_out IS NULL OR x_summary.date_out = '' OR x_summary.date_out ='-')
+								
 							";
 							
-				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE (x_summary.date_out IS NULL OR x_summary.date_out = '' OR x_summary.date_out ='-')";
 				
 				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
 			}else if(strtolower($Type_Find) == 'intransit'){
@@ -2595,7 +2595,7 @@ class Report extends CI_Controller
 			}else if(strtolower($Type_Find) == 'finish_good'){
 				$Title_Jurnal	= 'PREVIEW DETAIL STOCK FINISH GOOD';
 				$Query_Sub	= "
-								SELECT * FROM (
+								
 									SELECT
 									head_trans.*,
 									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
@@ -2630,10 +2630,10 @@ class Report extends CI_Controller
 									head_trans.id_pro 
 								ORDER BY
 									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
-								)x_summary WHERE (x_summary.date_out IS NULL OR x_summary.date_out = '' OR x_summary.date_out ='-')
+								
 							";
 							
-				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE (x_summary.date_out IS NULL OR x_summary.date_out = '' OR x_summary.date_out ='-')";
 				
 				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
 			}else if(strtolower($Type_Find) == 'intransit'){
