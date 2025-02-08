@@ -2340,9 +2340,8 @@ class Report extends CI_Controller
 										FROM
 											(".$Sub_Query.")x_summary
 										WHERE
-											x_summary.tgl_invoice IS NULL OR TRIM(x_summary.tgl_invoice) ='' OR TRIM(x_summary.tgl_invoice) ='-' OR x_summary.tgl_invoice > '".$Tgl_Stock."'
-											
-											ORDER x_summary.tgl_confrim ASC";
+											(x_summary.tgl_invoice IS NULL OR TRIM(x_summary.tgl_invoice) ='' OR TRIM(x_summary.tgl_invoice) ='-' OR x_summary.tgl_invoice > '".$Tgl_Stock."')											
+											ORDER BY x_summary.tgl_confrim ASC";
 				
 				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
 			}
@@ -2698,9 +2697,8 @@ class Report extends CI_Controller
 										FROM
 											(".$Sub_Query.")x_summary
 										WHERE
-											x_summary.tgl_invoice IS NULL OR TRIM(x_summary.tgl_invoice) ='' OR TRIM(x_summary.tgl_invoice) ='-' OR x_summary.tgl_invoice > '".$Tgl_Stock."'
-											
-											ORDER x_summary.tgl_confrim ASC";
+											(x_summary.tgl_invoice IS NULL OR TRIM(x_summary.tgl_invoice) ='' OR TRIM(x_summary.tgl_invoice) ='-' OR x_summary.tgl_invoice > '".$Tgl_Stock."')											
+											ORDER BY x_summary.tgl_confrim ASC";
 				
 				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
 			}
