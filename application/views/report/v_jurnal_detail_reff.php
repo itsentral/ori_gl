@@ -201,7 +201,7 @@
 									<td class="text-center">'.$row['no_ipp'].'</td>
 									<td class="text-left">'.$Nama_Material.'</td>
 									<td class="text-right">'.number_format($row['costbook'],2).'</td>										
-									<td class="text-center">'.$row['no_ipp'].'</td>
+									<td class="text-center">'.$row['berat'].'</td>
 									<td class="text-right">'.number_format($row['total_price'],2).'</td>
 								</tr>';
 							
@@ -257,6 +257,331 @@
 					</div>
 					';
 				}
+			}else if(strtolower($type_find) == 'finish_good'){
+				if(strtolower($tipe_trans) == 'd'){
+					echo'
+					<table class="table table-striped table-bordered table-sm mb-4">
+						<tr>
+							<td width="15%" class="text-left">Nomor Transaksi</td>
+							<td width="35%" class="text-left text-bold">'.$rows_header->id_trans.'</td>
+							<td width="15%" class="text-left">Tanggal</td>
+							<td width="35%" class="text-left">'.date('d-m-Y',strtotime($rows_header->tanggal)).'</td>
+						</tr>
+						<tr>
+							<td width="15%" class="text-left">Nomor SPK</td>
+							<td width="35%" class="text-left text-bold">'.$rows_header->no_spk.'</td>
+							<td width="15%" class="text-left">Nomor SO</td>
+							<td width="35%" class="text-left">'.$rows_header->no_so.'</td>
+						</tr>
+						
+					</table>
+					<div class="table-responsive">
+						<table id="example_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+							<thead>
+								<tr class="bg-navy-active text-white">
+									<th class="text-center">No.</th>
+									<th class="text-center">No Produk</th>
+									<th class="text-center">Produk</th>						
+									<th class="text-center">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+					';
+						if($rows_detail){
+							$no	= 0;
+							$Total_Qty = $Total_Price  = 0;
+							foreach($rows_detail as $row){
+								$no++;
+								$Nama_Material	= (!empty($row['product']) && $row['product'] !=='-')?$row['product']:$row['nm_material'];
+								$Harga_Material	= ($row['nilai_unit'] > 0)?$row['nilai_unit']:$row['cost_book'];
+								
+								
+								echo '<tr>
+										<td class="text-center">'.$no.'</td>
+										<td class="text-center">'.$row['id_pro'].'</td>
+										<td class="text-left">'.$Nama_Material.'</td>
+										<td class="text-right">'.number_format($Harga_Material,2).'</td>	
+									</tr>';
+								
+								$Total_Price  	+=$Harga_Material;
+							}
+							echo '<tr class="text-bold bg-gray">
+									<td class="text-center" colspan="3"> TOTAL</td>
+									<td class="text-right">'.number_format($Total_Price,2).'</td>
+								</tr>';
+						}
+					echo'
+							</tbody>
+						</table>
+					</div>
+					';
+				}else{
+					echo'
+					<table class="table table-striped table-bordered table-sm mb-4">
+						<tr>
+							<td width="15%" class="text-left">Nomor Delivery</td>
+							<td width="35%" class="text-left text-bold">'.$rows_header->kode_delivery.'</td>
+							<td width="15%" class="text-left">Tanggal</td>
+							<td width="35%" class="text-left">'.date('d-m-Y',strtotime($rows_header->lock_delivery_date)).'</td>
+						</tr>
+						<tr>
+							<td width="15%" class="text-left">Nomor SJ</td>
+							<td width="35%" class="text-left text-bold">'.$rows_header->nomor_sj.'</td>
+							<td width="15%" class="text-left">Ekspedisi</td>
+							<td width="35%" class="text-left">'.$rows_header->ekspedisi.'</td>
+						</tr>
+						
+					</table>
+					<div class="table-responsive">
+						<table id="example_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+							<thead>
+								<tr class="bg-navy-active text-white">
+									<th class="text-center">No.</th>
+									<th class="text-center">Kode</th>
+									<th class="text-center">No SPK</th>
+									<th class="text-center">No Produk</th>
+									<th class="text-center">Produk</th>						
+									<th class="text-center">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+					';
+						if($rows_detail){
+							$no	= 0;
+							$Total_Qty = $Total_Price  = 0;
+							foreach($rows_detail as $row){
+								$no++;
+								$Nama_Material	= $row['product'];
+								
+								
+								
+								echo '<tr>
+										<td class="text-center">'.$no.'</td>
+										<td class="text-center">'.$row['id_produksi'].'</td>
+										<td class="text-center">'.$row['no_spk'].'</td>
+										<td class="text-center">'.$row['id_pro'].'</td>
+										<td class="text-left">'.$Nama_Material.'</td>
+										<td class="text-right">'.number_format($row['nilai_cogs'],2).'</td>	
+									</tr>';
+								
+								$Total_Price  	+=$row['nilai_cogs'];
+							}
+							echo '<tr class="text-bold bg-gray">
+									<td class="text-center" colspan="5"> TOTAL</td>
+									<td class="text-right">'.number_format($Total_Price,2).'</td>
+								</tr>';
+						}
+					echo'
+							</tbody>
+						</table>
+					</div>
+					';
+				}
+				
+				
+			}else if(strtolower($type_find) == 'intransit'){
+				
+				echo'
+				<table class="table table-striped table-bordered table-sm mb-4">
+					<tr>
+						<td width="15%" class="text-left">Nomor Delivery</td>
+						<td width="35%" class="text-left text-bold">'.$rows_header->kode_delivery.'</td>
+						<td width="15%" class="text-left">Tanggal</td>
+						<td width="35%" class="text-left">'.date('d-m-Y',strtotime($rows_header->tgl_proses)).'</td>
+					</tr>
+					<tr>
+						<td width="15%" class="text-left">Nomor SJ</td>
+						<td width="35%" class="text-left text-bold">'.$rows_header->nomor_sj.'</td>
+						<td width="15%" class="text-left">Ekspedisi</td>
+						<td width="35%" class="text-left">'.$rows_header->ekspedisi.'</td>
+					</tr>
+					
+				</table>
+				<div class="table-responsive">
+					<table id="example_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+						<thead>
+							<tr class="bg-navy-active text-white">
+								<th class="text-center">No.</th>
+								<th class="text-center">Kode</th>
+								<th class="text-center">No SPK</th>
+								<th class="text-center">No Produk</th>
+								<th class="text-center">Produk</th>						
+								<th class="text-center">Total</th>
+							</tr>
+						</thead>
+						<tbody>
+				';
+					if($rows_detail){
+						$no	= 0;
+						$Total_Qty = $Total_Price  = 0;
+						foreach($rows_detail as $row){
+							$no++;
+							$Nama_Material	= $row['product'];
+							
+							
+							
+							echo '<tr>
+									<td class="text-center">'.$no.'</td>
+									<td class="text-center">'.$row['id_produksi'].'</td>
+									<td class="text-center">'.$row['no_spk'].'</td>
+									<td class="text-center">'.$row['id_pro'].'</td>
+									<td class="text-left">'.$Nama_Material.'</td>
+									<td class="text-right">'.number_format($row['nilai_cogs'],2).'</td>	
+								</tr>';
+							
+							$Total_Price  	+=$row['nilai_cogs'];
+						}
+						echo '<tr class="text-bold bg-gray">
+								<td class="text-center" colspan="5"> TOTAL</td>
+								<td class="text-right">'.number_format($Total_Price,2).'</td>
+							</tr>';
+					}
+				echo'
+						</tbody>
+					</table>
+				</div>
+				';
+			
+				
+				
+			}else if(strtolower($type_find) == 'incustomer'){
+				if(strtolower($tipe_trans) == 'd'){
+					echo'
+					<table class="table table-striped table-bordered table-sm mb-4">
+						<tr>
+							<td width="15%" class="text-left">Nomor Delivery</td>
+							<td width="35%" class="text-left text-bold">'.$rows_header->kode_delivery.'</td>
+							<td width="15%" class="text-left">Tanggal</td>
+							<td width="35%" class="text-left">'.date('d-m-Y',strtotime($rows_header->tgl_proses)).'</td>
+						</tr>
+						<tr>
+							<td width="15%" class="text-left">Nomor SJ</td>
+							<td width="35%" class="text-left text-bold">'.$rows_header->nomor_sj.'</td>
+							<td width="15%" class="text-left">Ekspedisi</td>
+							<td width="35%" class="text-left">'.$rows_header->ekspedisi.'</td>
+						</tr>
+						
+					</table>
+					<div class="table-responsive">
+						<table id="example_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+							<thead>
+								<tr class="bg-navy-active text-white">
+									<th class="text-center">No.</th>
+									<th class="text-center">Kode</th>
+									<th class="text-center">No SPK</th>
+									<th class="text-center">No Produk</th>
+									<th class="text-center">Produk</th>						
+									<th class="text-center">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+					';
+						if($rows_detail){
+							$no	= 0;
+							$Total_Qty = $Total_Price  = 0;
+							foreach($rows_detail as $row){
+								$no++;
+								$Nama_Material	= $row['product'];
+								
+								
+								
+								echo '<tr>
+										<td class="text-center">'.$no.'</td>
+										<td class="text-center">'.$row['id_produksi'].'</td>
+										<td class="text-center">'.$row['no_spk'].'</td>
+										<td class="text-center">'.$row['id_pro'].'</td>
+										<td class="text-left">'.$Nama_Material.'</td>
+										<td class="text-right">'.number_format($row['nilai_cogs'],2).'</td>	
+									</tr>';
+								
+								$Total_Price  	+=$row['nilai_cogs'];
+							}
+							echo '<tr class="text-bold bg-gray">
+									<td class="text-center" colspan="5"> TOTAL</td>
+									<td class="text-right">'.number_format($Total_Price,2).'</td>
+								</tr>';
+						}
+					echo'
+							</tbody>
+						</table>
+					</div>
+					';
+				}else{
+					
+					echo'
+					<table class="table table-striped table-bordered table-sm mb-4">
+						<tr>
+							<td width="15%" class="text-left">Nomor Invoice</td>
+							<td width="35%" class="text-left text-bold">'.$rows_header->no_invoice.'</td>
+							<td width="15%" class="text-left">Tanggal Invoice</td>
+							<td width="35%" class="text-left">'.date('d-m-Y',strtotime($rows_header->tgl_invoice)).'</td>
+						</tr>
+						<tr>
+							<td width="15%" class="text-left">Customer</td>
+							<td width="35%" class="text-left text-bold">'.$rows_header->nm_customer.'</td>
+							<td width="15%" class="text-left">Jenis Invoice</td>
+							<td width="35%" class="text-left">'.$rows_header->jenis_invoice.'</td>
+						</tr>
+						<tr>
+							<td width="15%" class="text-left">DPP</td>
+							<td width="35%" class="text-left text-bold">'.number_format($rows_header->total_dpp_rp,2).'</td>
+							<td width="15%" class="text-left">PPN</td>
+							<td width="35%" class="text-left text-bold">'.number_format($rows_header->total_ppn_idr,2).'</td>
+						</tr>
+						<tr>
+							<td width="15%" class="text-left">Total Invoice</td>
+							<td width="35%" class="text-left text-bold">'.number_format($rows_header->total_invoice_idr,2).'</td>
+							<td width="15%" class="text-left">&nbsp;</td>
+							<td width="35%" class="text-left text-bold">&nbsp;</td>
+						</tr>
+					</table>
+					<div class="table-responsive">
+						<table id="example_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+							<thead>
+								<tr class="bg-navy-active text-white">
+									<th class="text-center">No.</th>
+									<th class="text-center">Material</th>
+									<th class="text-center">Tipe</th>
+									<th class="text-center">Harga Satuan</th>
+									<th class="text-center">Qty</th>						
+									<th class="text-center">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+					';
+						if($rows_detail){
+							$no	= 0;
+							$Total_Qty = $Total_Price  = 0;
+							foreach($rows_detail as $row){
+								$no++;
+								$Nama_Material	= $row['nm_material'];
+								
+								
+								
+								echo '<tr>
+										<td class="text-center">'.$no.'</td>
+										<td class="text-center">'.$Nama_Material.'</td>
+										<td class="text-center">'.$row['kategori_detail'].'</td>
+										<td class="text-right">'.number_format($row['harga_satuan_idr'],2).'</td>
+										<td class="text-center">'.$row['qty'].'</td>
+										<td class="text-right">'.number_format($row['harga_total_idr'],2).'</td>	
+									</tr>';
+								
+								$Total_Price  	+=$row['harga_total_idr'];
+							}
+							echo '<tr class="text-bold bg-gray">
+									<td class="text-center" colspan="5"> TOTAL</td>
+									<td class="text-right">'.number_format($Total_Price,2).'</td>
+								</tr>';
+						}
+					echo'
+							</tbody>
+						</table>
+					</div>
+					';
+				}
+				
+				
 			}
 			?>
 		</div>

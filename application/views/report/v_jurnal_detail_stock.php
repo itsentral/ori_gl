@@ -231,6 +231,184 @@
 					</tfoot>
 				</table>
 					';
+			}else if(strtolower($type_find) == 'finish_good'){
+				echo'
+				<table id="grid_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+					<thead>
+						<tr class="bg-navy-active text-white">
+							<th class="text-center">No.</th>
+							<th class="text-center">No SPK</th>
+							<th class="text-center">No SO</th>
+							<th class="text-center">ID Trans</th>
+							<th class="text-center">ID Produk</th>
+							<th class="text-center">Produk</th>
+							<th class="text-center">Qty Ke</th>
+							<th class="text-center">Nilai Produk</th>
+							<th class="text-center">Tgl In</th>
+						</tr>
+					</thead>
+					<tbody>
+				';
+				
+				$Total_Qty	= $Total_Price	= 0;
+				if($rows_nonmaterial){
+						$no = 0;
+					foreach($rows_nonmaterial as $row){
+						$no++;
+						
+						$Nama_Material	= (!empty($row->product) && $row->product !=='-')?$row->product:$row->nm_material;
+						$Harga_Material	= ($row->nilai_unit > 0)?$row->nilai_unit:$row->cost_book;
+								
+						$Total_Price		+=$Harga_Material;
+						
+						echo '<tr>
+								<td class="text-center">'.$no.'</td>
+								<td class="text-center">'.$row->no_spk.'</td>
+								<td class="text-center">'.$row->no_so.'</td>
+								<td class="text-center">'.$row->id_trans.'</td>
+								<td class="text-center">'.$row->id_pro.'</td>
+								<td class="text-left">'.$Nama_Material.'</td>
+								<td class="text-center">'.$row->qty_ke.'</td>
+								<td class="text-right">'.number_format($Harga_Material).'</td>	
+								<td class="text-center">'.$row->date_in.'</td>
+							</tr>';
+						
+						
+					}
+				}else{
+					echo'
+					<tr>
+						<th class="text-center text-red" colspan="9">DATA TIDAK DITEMUKAN</th>
+					</tr>
+					';
+				}
+				
+				echo'
+					</tbody>
+					<tfoot>
+						<tr class="text-bold bg-gray">
+							<td class="text-center" colspan="7"> TOTAL</td>
+							<td class="text-right" colspan="2">'.number_format($Total_Price).'</td>
+						</tr>
+					</tfoot>
+				</table>
+					';
+			}else if(strtolower($type_find) == 'intransit'){
+				echo'
+				<table id="grid_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+					<thead>
+						<tr class="bg-navy-active text-white">
+							<th class="text-center">No.</th>
+							<th class="text-center">No Delivery</th>
+							<th class="text-center">No SJ</th>
+							<th class="text-center">Tgl Lock</th>
+							<th class="text-center">ID Produksi</th>
+							<th class="text-center">Kode Produk</th>
+							<th class="text-center">Produk</th>
+							<th class="text-center">Nilai Produk</th>
+						</tr>
+					</thead>
+					<tbody>
+				';
+				
+				$Total_Qty	= $Total_Price	= 0;
+				if($rows_nonmaterial){
+						$no = 0;
+					foreach($rows_nonmaterial as $row){
+						$no++;
+						
+						$Nama_Material	= (!empty($row->product) && $row->product !=='-')?$row->product:$row->nm_material;
+						$Nilai_Produk 	= ($row->nilai_cogs > 0)?$row->nilai_cogs:$row->unit_value;
+						$Total_Price	+=$Nilai_Produk;
+						echo '<tr>
+								<td class="text-center">'.$no.'</td>
+								<td class="text-center">'.$row->kode_delivery.'</td>
+								<td class="text-center">'.$row->nomor_sj.'</td>
+								<td class="text-center">'.$row->tgl_lock.'</td>
+								<td class="text-center">'.$row->id_produksi.'</td>								
+								<td class="text-center">'.$row->product_code.'</td>
+								<td class="text-left">'.$Nama_Material.'</td>
+								<td class="text-right">'.number_format($Nilai_Produk).'</td>
+							</tr>';
+						
+						
+					}
+				}else{
+					echo'
+					<tr>
+						<th class="text-center text-red" colspan="8">DATA TIDAK DITEMUKAN</th>
+					</tr>
+					';
+				}
+				
+				echo'
+					</tbody>
+					<tfoot>
+						<tr class="text-bold bg-gray">
+							<td class="text-center" colspan="7"> TOTAL</td>
+							<td class="text-right">'.number_format($Total_Price).'</td>
+						</tr>
+					</tfoot>
+				</table>
+					';
+			}else if(strtolower($type_find) == 'incustomer'){
+				echo'
+				<table id="grid_tb" class="table table-striped table-bordered table-sm font_table" width="100%" >
+					<thead>
+						<tr class="bg-navy-active text-white">
+							<th class="text-center">No.</th>
+							<th class="text-center">No Delivery</th>
+							<th class="text-center">No SJ</th>
+							<th class="text-center">Tgl Confirm</th>
+							<th class="text-center">ID Produksi</th>
+							<th class="text-center">Kode Produk</th>
+							<th class="text-center">Produk</th>
+							<th class="text-center">Nilai Produk</th>
+						</tr>
+					</thead>
+					<tbody>
+				';
+				
+				$Total_Qty	= $Total_Price	= 0;
+				if($rows_nonmaterial){
+						$no = 0;
+					foreach($rows_nonmaterial as $row){
+						$no++;
+						
+						$Nama_Material	= (!empty($row->product) && $row->product !=='-')?$row->product:$row->nm_material;
+						$Nilai_Produk 	= ($row->nilai_cogs > 0)?$row->nilai_cogs:$row->unit_value;
+						$Total_Price	+=$Nilai_Produk;
+						echo '<tr>
+								<td class="text-center">'.$no.'</td>
+								<td class="text-center">'.$row->kode_delivery.'</td>
+								<td class="text-center">'.$row->nomor_sj.'</td>
+								<td class="text-center">'.$row->tgl_confrim.'</td>
+								<td class="text-center">'.$row->id_produksi.'</td>								
+								<td class="text-center">'.$row->product_code.'</td>
+								<td class="text-left">'.$Nama_Material.'</td>
+								<td class="text-right">'.number_format($Nilai_Produk).'</td>
+							</tr>';
+						
+						
+					}
+				}else{
+					echo'
+					<tr>
+						<th class="text-center text-red" colspan="8">DATA TIDAK DITEMUKAN</th>
+					</tr>
+					';
+				}
+				
+				echo'
+					</tbody>
+					<tfoot>
+						<tr class="text-bold bg-gray">
+							<td class="text-center" colspan="7"> TOTAL</td>
+							<td class="text-right">'.number_format($Total_Price).'</td>
+						</tr>
+					</tfoot>
+				</table>
+					';
 			}
 			?>
 				

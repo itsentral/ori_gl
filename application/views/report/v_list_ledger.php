@@ -286,8 +286,14 @@ if ($data_perkiraan) {
 													$Template_Preview		= '<a href="#" class="text-red" onClick="PreviewDetail({code:\''.$Code_Unik.'\',kategori:\'\',action:\'preview_detail_jurnal_new\',title:\'PREVIEW DETAIL JURNAL\'});"> '.$row_dj->nomor.' </a>';
 													
 													$Template_Reff			= $row_dj->no_reff;
+													$Jenis_Trans			= 'D';
+													if($row_dj->kredit > 0){
+														$Jenis_Trans		= 'K';
+													}
+													
+													$Tgl_Trans				= $row_dj->tanggal;
 													if($OK_Warehouse == 'Y'){
-														$Code_Reff			= $row_dj->no_reff.'^'.$row_dj->nomor.'^'.$nokir_induk;
+														$Code_Reff			= $row_dj->no_reff.'^'.$row_dj->nomor.'^'.$nokir_induk.'^'.$Jenis_Trans.'^'.$Tgl_Trans;
 														$Template_Reff		= '<a href="#" class="text-orange" onClick="PreviewDetail({code:\''.$Code_Reff.'\',kategori:\''.$Categori_Sub.'\',action:\'preview_detail_jurnal_reff\',title:\'PREVIEW DETAIL JURNAL REFERENSI\'});"> '.$row_dj->no_reff.' </a>';													
 													}
 													?>
