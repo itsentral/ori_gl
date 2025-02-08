@@ -330,7 +330,7 @@ if(strtolower($type_find) == 'material' || strtolower($type_find) == 'consumable
 		}
 		echo'
 		<tr>
-			<td align="center" colspan="6"> TOTAL</td>
+			<td align="center" colspan="7"> TOTAL</td>
 			<td align="right">'.number_format($Total_Price).'</td>
 		</tr>
 		';
@@ -387,7 +387,7 @@ if(strtolower($type_find) == 'material' || strtolower($type_find) == 'consumable
 		}
 		echo'
 		<tr>
-			<td align="center" colspan="6"> TOTAL</td>
+			<td align="center" colspan="7"> TOTAL</td>
 			<td align="right">'.number_format($Total_Price).'</td>
 		</tr>
 		';
