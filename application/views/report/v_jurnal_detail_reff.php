@@ -263,7 +263,7 @@
 					<table class="table table-striped table-bordered table-sm mb-4">
 						<tr>
 							<td width="15%" class="text-left">Nomor Transaksi</td>
-							<td width="35%" class="text-left text-bold">'.$rows_header->id_trans.'</td>
+							<td width="35%" class="text-left text-bold">'.(!empty($rows_header->id_trans)?$rows_header->id_trans:$rows_header->kode_trans).'</td>
 							<td width="15%" class="text-left">Tanggal</td>
 							<td width="35%" class="text-left">'.date('d-m-Y',strtotime($rows_header->tanggal)).'</td>
 						</tr>

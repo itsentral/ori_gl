@@ -265,7 +265,7 @@
 								<td class="text-center">'.$no.'</td>
 								<td class="text-center">'.$row->no_spk.'</td>
 								<td class="text-center">'.$row->no_so.'</td>
-								<td class="text-center">'.$row->id_trans.'</td>
+								<td class="text-center">'.(!empty($row->id_trans)?$row->id_trans:$row->kode_trans).'</td>
 								<td class="text-center">'.$row->id_pro.'</td>
 								<td class="text-left">'.$Nama_Material.'</td>
 								<td class="text-center">'.$row->qty_ke.'</td>

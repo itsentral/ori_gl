@@ -263,7 +263,7 @@ if(strtolower($type_find) == 'material' || strtolower($type_find) == 'consumable
 					<td align="center">'.$row->date_in.'</td>
 					<td align="center">'.$row->no_spk.'</td>
 					<td align="center">'.$row->no_so.'</td>
-					<td align="center">'.$row->id_trans.'</td>
+					<td align="center">'.(!empty($row->id_trans)?$row->id_trans:$row->kode_trans).'</td>
 					<td align="center">'.$row->id_pro.'</td>
 					<td align="left">'.$row->product.'</td>
 					<td align="center">'.$row->qty_ke.'</td>
