@@ -1258,6 +1258,7 @@ class Model_latihan extends CI_Model
 		$kdcab		    = $this->input->post('kdcab');
 		$bln	        = $this->input->post('bln');
 		$thn		    = $this->input->post('thn');
+		$a              ='-A'
 
 		$Lv_2 = substr($no_perkiraan, 0, 2); // 11
 		$id_1 = substr($no_perkiraan, 0, 4); // 1101
@@ -1282,7 +1283,7 @@ class Model_latihan extends CI_Model
 		$data	= array(
 			'no_perkiraan'	=> $no_perkiraan,
 			'nama'			=> $nama,
-			'kdcab'			=> $kdcab,
+			'kdcab'			=> $kdcab.$a,
 			'bln'			=> $bln,
 			'thn'			=> $thn,
 			'tmp' 			=> "O",
