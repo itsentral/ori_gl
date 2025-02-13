@@ -1832,26 +1832,125 @@ class Report extends CI_Controller
 		$rows_Header	= $rows_Detail	= array();
 		$Name_View		= 'v_jurnal_detail_reff';
 		$Title_Jurnal	= 'PREVIEW DETAIL JURNAL REF';
+		$Type_Find		= '';
 		if($this->input->post()){
 			$Code_Find	= $this->input->post('code');
+			$Type_Find	= $this->input->post('kategori');
 			$Split_Find	= explode('^',$Code_Find);
 			
 			$Nomor_Trans	= $Split_Find[0];
 			$Nomor_Jurnal	= $Split_Find[1];
 			$Nomor_COA		= $Split_Find[2];
+			$Jenis_Trans	= $Split_Find[3];
+			$Tgl_Trans		= $Split_Find[4];
 			
-			//$rows_Detail	= $this->ori_operasional->get_where('warehouse_adjustment_detail',array('kode_trans'=>$Nomor_Trans))->result_array();
-			$rows_Header	= $this->ori_operasional->get_where('warehouse_adjustment',array('kode_trans'=>$Nomor_Trans))->row();
+			if(strtolower($Type_Find) == 'material'){
+				$rows_Header	= $this->ori_operasional->get_where('warehouse_adjustment',array('kode_trans'=>$Nomor_Trans))->row();			
+				$Query_Detail	= "SELECT * FROM tran_warehouse_jurnal_detail WHERE kode_trans = '".$Nomor_Trans."' AND coa_gudang = '".$Nomor_COA."' AND no_jurnal = '".$Nomor_Jurnal."'";
+				$rows_Detail	= $this->ori_operasional->query($Query_Detail)->result_array();
+			}else if(strtolower($Type_Find) == 'consumable'){
+				$rows_Header	= $this->ori_operasional->get_where('warehouse_adjustment',array('kode_trans'=>$Nomor_Trans))->row();
+				$rows_Detail	= $this->ori_operasional->get_where('warehouse_adjustment_detail',array('kode_trans'=>$Nomor_Trans))->result_array();
+			}else if(strtolower($Type_Find) == 'wip_butt' || strtolower($Type_Find) == 'wip_pipa' || strtolower($Type_Find) == 'wip_fitting' || strtolower($Type_Find) == 'wip_tank'){
+				$rows_Header	= $this->ori_operasional->get_where('data_erp_wip_group',array('id_trans'=>$Nomor_Trans,'LOWER(jenis)'=>'in'))->row();
+				$rows_Detail	= $this->ori_operasional->get_where('data_erp_wip',array('id_trans'=>$Nomor_Trans))->result_array();
+			}else if(strtolower($Type_Find) == 'wip_spool'){
+				$rows_Header	= $this->ori_operasional->get_where('data_erp_wip_group',array('id_trans'=>$Nomor_Trans,'LOWER(jenis)'=>'in spool'))->row();
+				$rows_Detail	= $this->ori_operasional->get_where('data_erp_wip',array('id_trans'=>$Nomor_Trans))->result_array();
+			}else if(strtolower($Type_Find) == 'finish_good'){
+				if(strtolower($Jenis_Trans) == 'd'){
+					$Query_Trans	= "SELECT * FROM data_erp_fg WHERE (id_trans = '".$Nomor_Trans."' OR kode_trans = '".$Nomor_Trans."') AND LOWER(jenis) IN('in','in spool') AND created_date LIKE '".$Tgl_Trans."%'";
+					$rows_Header	= $this->ori_operasional->query($Query_Trans)->row();
+					$rows_Detail	= $this->ori_operasional->query($Query_Trans)->result_array();
+				}else{
+					$Query_Head		= "SELECT
+											head_prod.*
+										FROM
+											delivery_product head_prod
+											INNER JOIN jurnal_product head_jur ON head_prod.kode_delivery = head_jur.no_surat_jalan 
+										WHERE
+											head_jur.id = '".$Nomor_Trans."' 
+											AND head_prod.lock_delivery_date LIKE '".$Tgl_Trans."%' 
+										GROUP BY
+											head_prod.kode_delivery";
+					$pros_Header	= $this->ori_operasional->query($Query_Head);
+					if($pros_Header->num_rows() > 0){
+						$rows_Header	= $pros_Header->row();
+						$rows_Detail	= $this->ori_operasional->get_where('delivery_product_detail',array('kode_delivery'=>$rows_Header->kode_delivery))->result_array();
+					}
+				}
+				
+			}else if(strtolower($Type_Find) == 'intransit'){
+				$WHERE_Fix		= "head_jur.id = '".$Nomor_Trans."'";
+				if(strtolower($Jenis_Trans) == 'd'){
+					if(!empty($WHERE_Fix))$WHERE_Fix .=" AND ";
+					$WHERE_Fix	.="head_prod.lock_delivery_date LIKE '".$Tgl_Trans."%' ";
+					$Field_Fix	= "DATE_FORMAT(head_prod.lock_delivery_date,'%Y-%m-%d') AS tgl_proses";
+				}else{
+					if(!empty($WHERE_Fix))$WHERE_Fix .=" AND ";
+					$WHERE_Fix	.="head_prod.confirm_date LIKE '".$Tgl_Trans."%' ";
+					$Field_Fix	= "DATE_FORMAT(head_prod.confirm_date,'%Y-%m-%d') AS tgl_proses";
+					
+					
+				}
+				
+				$Query_Head		= "SELECT
+										head_prod.*,
+										".$Field_Fix."
+									FROM
+										delivery_product head_prod
+										INNER JOIN jurnal_product head_jur ON head_prod.kode_delivery = head_jur.no_surat_jalan 
+									WHERE
+										".$WHERE_Fix."
+									GROUP BY
+										head_prod.kode_delivery";
+				$pros_Header	= $this->ori_operasional->query($Query_Head);
+				if($pros_Header->num_rows() > 0){
+					$rows_Header	= $pros_Header->row();
+					$rows_Detail	= $this->ori_operasional->get_where('delivery_product_detail',array('kode_delivery'=>$rows_Header->kode_delivery))->result_array();
+				}
+				
+			}else if(strtolower($Type_Find) == 'incustomer'){
+				
+				if(strtolower($Jenis_Trans) == 'd'){
+					$WHERE_Fix		= "head_jur.id = '".$Nomor_Trans."'";
+					if(!empty($WHERE_Fix))$WHERE_Fix .=" AND ";
+					$WHERE_Fix	.="head_prod.confirm_date LIKE '".$Tgl_Trans."%' ";
+					$Field_Fix	= "DATE_FORMAT(head_prod.confirm_date,'%Y-%m-%d') AS tgl_proses";
+					
+					$Query_Head		= "SELECT
+											head_prod.*,
+											".$Field_Fix."
+										FROM
+											delivery_product head_prod
+											INNER JOIN jurnal_product head_jur ON head_prod.kode_delivery = head_jur.no_surat_jalan 
+										WHERE
+											".$WHERE_Fix."
+										GROUP BY
+											head_prod.kode_delivery";
+					$pros_Header	= $this->ori_operasional->query($Query_Head);
+					if($pros_Header->num_rows() > 0){
+						$rows_Header	= $pros_Header->row();
+						$rows_Detail	= $this->ori_operasional->get_where('delivery_product_detail',array('kode_delivery'=>$rows_Header->kode_delivery))->result_array();
+					}
+				}else{
+					$rows_Header	= $this->ori_operasional->get_where('tr_invoice_header',array('no_invoice'=>$Nomor_Trans))->row();
+					$rows_Detail	= $this->ori_operasional->get_where('tr_invoice_detail',array('no_invoice'=>$Nomor_Trans))->result_array();
+				}
+				
+				
+				
+			}
 			
-			$Query_Detail	= "SELECT * FROM tran_warehouse_jurnal_detail WHERE kode_trans = '".$Nomor_Trans."' AND coa_gudang = '".$Nomor_COA."' AND no_jurnal = '".$Nomor_Jurnal."'";
-			$rows_Detail	= $this->ori_operasional->query($Query_Detail)->result_array();
 		}
 		
 		$data		= array(
 			'title'			=> $Title_Jurnal,
 			'rows_header'	=> $rows_Header,
 			'rows_detail'	=> $rows_Detail,
-			'arr_month'		=> $this->arr_bulan
+			'arr_month'		=> $this->arr_bulan,
+			'type_find'		=> $Type_Find,
+			'tipe_trans'	=> $Jenis_Trans
 		);
 		
 		$this->load->view('report/'.$Name_View, $data);
@@ -1901,60 +2000,351 @@ class Report extends CI_Controller
 		$Name_View		= 'v_jurnal_detail_stock';
 		$Title_Jurnal	= 'PREVIEW DETAIL STOCK';
 		$Tgl_Stock		= '';
+		$Type_Find		= '';
 		if($this->input->post()){
 			$Code_Find	= $this->input->post('code');
+			$Type_Find	= $this->input->post('kategori');
 			$Split_Find	= explode('^',$Code_Find);
 			
 			$Nomor_COA		= $Split_Find[0];
 			$Tgl_Stock		= $Split_Find[1];
 			
-			$Tgl_Stock		= date('Y-m-d');
+			//$Tgl_Stock		= date('Y-m-d');
 			$Title_Jurnal	.=' '.date('d-m-Y',strtotime($Tgl_Stock));
 			
 			$Query_COA		= "SELECT * FROM COA WHERE no_perkiraan = '".$Nomor_COA."' ORDER BY id DESC LIMIT 1";
 			$rows_COA		= $this->db->query($Query_COA)->row();
 			
-			$Query_WHR		= "SELECT GROUP_CONCAT(id) AS kode_wh FROM warehouse WHERE coa_1 = '".$Nomor_COA."'";
-			$rows_WHR		= $this->ori_operasional->query($Query_WHR)->row();
-			if($rows_WHR){
-				$Code_WHR	= $rows_WHR->kode_wh;
-				 $Sub_Find		= "tras_stock.id_gudang IN('".str_replace(",","','",$Code_WHR)."')";	
-				 $WHERE			= "1=1";
-				 
-				if($Tgl_Stock){
-					if(!empty($Sub_Find))$Sub_Find	.=" AND ";
-					$Sub_Find	.="DATE(tras_stock.tgl_trans ) <= '".$Tgl_Stock."'";
+			if(strtolower($Type_Find) == 'material' || strtolower($Type_Find) == 'consumable'){
+				$Query_WHR		= "SELECT GROUP_CONCAT(id) AS kode_wh FROM warehouse WHERE coa_1 = '".$Nomor_COA."'";
+				$rows_WHR		= $this->ori_operasional->query($Query_WHR)->row();
+				if($rows_WHR){
+					$Code_WHR		= $rows_WHR->kode_wh;
+					if(strtolower($Type_Find) == 'material'){
+						$Title_Jurnal	= 'PREVIEW DETAIL STOCK MATERIAL';
+						$Sub_Find		= "tras_stock.id_gudang IN('".str_replace(",","','",$Code_WHR)."')";	
+						$WHERE			= "1=1";
+						 
+						if($Tgl_Stock){
+							if(!empty($Sub_Find))$Sub_Find	.=" AND ";
+							$Sub_Find	.="DATE(tras_stock.tgl_trans ) <= '".$Tgl_Stock."'";
+						}
+						
+						$Query_Sub_Find		= $this->SubQueryStock($Sub_Find);
+						$Query_Material		= "SELECT
+													head_mstr.idmaterial,
+													head_mstr.id_material,
+													head_mstr.nm_material,
+													head_mstr.nm_category,
+													head_stock.qty_stock_awal,
+													head_stock.qty_in,
+													head_stock.qty_out,
+													head_stock.qty_stock_akhir,
+													head_stock.harga,
+													head_stock.harga_bm,
+													head_stock.nilai_akhir_rp,
+													head_stock.nilai_awal_rp,
+													head_stock.nilai_trans_rp,
+													det_stock.id_gudang,
+													det_stock.nm_gudang
+												FROM
+													tran_warehouse_jurnal_detail head_stock
+												INNER JOIN (
+													".$Query_Sub_Find."
+												)det_stock ON head_stock.id=det_stock.last_kode
+												LEFT JOIN raw_materials head_mstr ON head_stock.id_material = head_mstr.id_material
+												WHERE ".$WHERE;
+						$rows_Material		= $this->ori_operasional->query($Query_Material)->result_array();
+					}else if(strtolower($Type_Find) == 'consumable'){
+						$Title_Jurnal	= 'PREVIEW DETAIL STOCK CONSUMABLE';
+						if($Tgl_Stock < date('Y-m-d')){
+							
+							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock_per_day WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 AND hist_date LIKE '".$Tgl_Stock."%' ORDER BY material_name ASC";
+							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
+							
+						}else{							
+							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 ORDER BY material_name ASC";
+							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
+							
+						}
+					}
+					
+					
+				}
+			}else if(strtolower($Type_Find) == 'wip_butt' || strtolower($Type_Find) == 'wip_pipa' || strtolower($Type_Find) == 'wip_fitting'){
+				$Query_Sub	= "
+							SELECT
+								head_trans.*,
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+								x_detail.nil_close,
+								x_detail.qty_close,
+								x_detail.nil_open,
+								x_detail.qty_open,
+								head_prod.coa AS no_perkiraan 
+							FROM
+								data_erp_wip_group head_trans
+								LEFT JOIN product_parent head_prod ON LOWER( head_trans.product ) = LOWER( head_prod.product_parent )
+								LEFT JOIN (
+								SELECT
+									id_trans,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_open,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_open 
+								FROM
+									data_erp_fg 
+								WHERE
+									LOWER( jenis ) = 'in' 
+									AND NOT ( id_trans IS NULL OR TRIM( id_trans ) = '' OR id_trans = '0' OR TRIM( id_trans ) = '-' ) 
+								GROUP BY
+									id_trans 
+								ORDER BY
+									id_trans ASC 
+								) x_detail ON x_detail.id_trans = head_trans.id_trans 
+							WHERE
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+								AND LOWER( head_trans.jenis ) = 'in' 
+								AND NOT (
+									head_trans.id_trans IS NULL 
+									OR TRIM( head_trans.id_trans ) = '' 
+									OR head_trans.id_trans = '0' 
+									OR TRIM( head_trans.id_trans ) = '-' 
+								) 
+								AND head_prod.coa = '".$Nomor_COA."'
+							GROUP BY
+								head_trans.id_trans 
+							ORDER BY
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+				
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK WIP PIPA';
+				if(strtolower($Type_Find) == 'wip_butt'){
+					$Title_Jurnal	= 'PREVIEW DETAIL STOCK WIP BUTT';
+				}else if(strtolower($Type_Find) == 'wip_fitting'){
+					$Title_Jurnal	= 'PREVIEW DETAIL STOCK WIP FITTING';
 				}
 				
-				$Query_Sub_Find		= $this->SubQueryStock($Sub_Find);
-				$Query_Material		= "SELECT
-											head_mstr.idmaterial,
-											head_mstr.id_material,
-											head_mstr.nm_material,
-											head_mstr.nm_category,
-											head_stock.qty_stock_awal,
-											head_stock.qty_in,
-											head_stock.qty_out,
-											head_stock.qty_stock_akhir,
-											head_stock.harga,
-											head_stock.harga_bm,
-											head_stock.nilai_akhir_rp,
-											head_stock.nilai_awal_rp,
-											head_stock.nilai_trans_rp,
-											det_stock.id_gudang,
-											det_stock.nm_gudang
-										FROM
-											tran_warehouse_jurnal_detail head_stock
-										INNER JOIN (
-											".$Query_Sub_Find."
-										)det_stock ON head_stock.id=det_stock.last_kode
-										LEFT JOIN raw_materials head_mstr ON head_stock.id_material = head_mstr.id_material
-										WHERE ".$WHERE;
-				$rows_Material		= $this->ori_operasional->query($Query_Material)->result_array();
+			}else if(strtolower($Type_Find) == 'wip_spool'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK WIP SPOOL';
+				$Query_Sub	= "
+							SELECT
+								head_trans.*,
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+								x_detail.nil_close,
+								x_detail.qty_close,
+								x_detail.nil_open,
+								x_detail.qty_open,
+								head_prod.coa AS no_perkiraan 
+							FROM
+								data_erp_wip_group head_trans
+								LEFT JOIN product_parent head_prod ON LOWER( head_trans.product ) = LOWER( head_prod.product_parent )
+								LEFT JOIN (
+								SELECT
+									id_trans,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_open,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_open 
+								FROM
+									data_erp_fg 
+								WHERE
+									LOWER( jenis ) = 'in spool' 
+									AND NOT ( id_trans IS NULL OR TRIM( id_trans ) = '' OR id_trans = '0' OR TRIM( id_trans ) = '-' ) 
+								GROUP BY
+									id_trans 
+								ORDER BY
+									id_trans ASC 
+								) x_detail ON x_detail.id_trans = head_trans.id_trans 
+							WHERE
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+								AND LOWER( head_trans.jenis ) = 'in spool' 
+								AND NOT (
+									head_trans.id_trans IS NULL 
+									OR TRIM( head_trans.id_trans ) = '' 
+									OR head_trans.id_trans = '0' 
+									OR TRIM( head_trans.id_trans ) = '-' 
+								) 
+								AND head_prod.coa = '".$Nomor_COA."'
+							GROUP BY
+								head_trans.id_trans 
+							ORDER BY
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
 				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'wip_tank'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK WIP TANKI';
+				$Query_Sub	= "
+							SELECT
+								head_trans.*,
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+								x_detail.nil_close,
+								x_detail.qty_close,
+								x_detail.nil_open,
+								x_detail.qty_open,
+								head_prod.coa AS no_perkiraan 
+							FROM
+								data_erp_wip_group head_trans
+								LEFT JOIN tanki.ms_category_part head_prod ON LOWER(head_trans.product) = LOWER(head_prod.nm_part)
+								LEFT JOIN (
+								SELECT
+									id_trans,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_open,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_open 
+								FROM
+									data_erp_fg 
+								WHERE
+									LOWER( jenis ) = 'in' 
+									AND NOT ( id_trans IS NULL OR TRIM( id_trans ) = '' OR id_trans = '0' OR TRIM( id_trans ) = '-' ) 
+								GROUP BY
+									id_trans 
+								ORDER BY
+									id_trans ASC 
+								) x_detail ON x_detail.id_trans = head_trans.id_trans 
+							WHERE
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+								AND LOWER( head_trans.jenis ) = 'in' 
+								AND NOT (
+									head_trans.id_trans IS NULL 
+									OR TRIM( head_trans.id_trans ) = '' 
+									OR head_trans.id_trans = '0' 
+									OR TRIM( head_trans.id_trans ) = '-' 
+								) 
+								AND head_prod.coa = '".$Nomor_COA."'
+							GROUP BY
+								head_trans.id_trans 
+							ORDER BY
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'finish_good'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK FINISH GOOD';
+				$Query_Sub	= "
+								
+									SELECT
+									head_trans.*,
+									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+									IF(x_detout.nilai_cogs > 0,x_detout.nilai_cogs,0) AS total_out,
+									IF(NOT(x_detout.tgl_out IS NULL OR x_detout.tgl_out = '' OR x_detout.tgl_out ='-'),x_detout.tgl_out,NULL) AS date_out
+								FROM
+									data_erp_fg head_trans 
+									LEFT JOIN(
+										SELECT
+											det_prod.id_pro,
+											DATE_FORMAT( head_prod.lock_delivery_date, '%Y-%m-%d' ) AS tgl_out,
+											det_prod.nilai_cogs 
+										FROM
+											delivery_product_detail det_prod
+											INNER JOIN delivery_product head_prod ON head_prod.kode_delivery = det_prod.kode_delivery 
+										WHERE
+											DATE_FORMAT( head_prod.lock_delivery_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+											AND NOT ( det_prod.id_pro IS NULL OR det_prod.id_pro = '' OR det_prod.id_pro = '-' ) 
+										GROUP BY
+											det_prod.id_pro
+									)x_detout ON head_trans.id_pro=x_detout.id_pro
+								WHERE
+									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+									AND LOWER( head_trans.jenis ) IN ( 'in spool', 'in' ) 
+									AND NOT (
+										head_trans.id_pro IS NULL 
+										OR TRIM( head_trans.id_pro ) = '' 
+										OR head_trans.id_pro = '0' 
+										OR TRIM( head_trans.id_pro ) = '-' 
+									) 
+								GROUP BY
+									head_trans.id_pro 
+								ORDER BY
+									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE (x_summary.date_out IS NULL OR x_summary.date_out = '' OR x_summary.date_out ='-')";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'intransit'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK INTRANSIT';
+							
+				$Query_WIP			= "SELECT
+											det_delv.*,
+											head_delv.ekspedisi,
+											head_delv.diterima_oleh,
+											head_delv.nomor_sj,
+											DATE_FORMAT( head_delv.lock_delivery_date, '%Y-%m-%d' ) AS tgl_lock,
+										IF
+											( det_trans.nilai_unit > 0, det_trans.nilai_unit, det_trans.cost_book ) AS unit_value,
+											det_trans.id_material,
+											det_trans.nm_material
+										FROM
+											delivery_product_detail det_delv
+											INNER JOIN delivery_product head_delv ON det_delv.kode_delivery = head_delv.kode_delivery
+											LEFT JOIN data_erp_in_transit det_trans ON det_delv.id_pro = det_trans.id_pro 
+											AND LOWER( det_trans.jenis ) IN ( 'in', 'in spool' ) 
+										WHERE
+											NOT ( head_delv.lock_delivery_date IS NULL OR TRIM(head_delv.lock_delivery_date) = '' OR TRIM(head_delv.lock_delivery_date) = '-' ) 
+											AND DATE_FORMAT( head_delv.lock_delivery_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+											
+											AND (
+												head_delv.confirm_date IS NULL 
+												OR TRIM(head_delv.confirm_date) = '' 
+											OR TRIM(head_delv.confirm_date) = '-' 
+											OR DATE_FORMAT( head_delv.confirm_date, '%Y-%m-%d' ) > '".$Tgl_Stock."')
+											
+											ORDER BY DATE_FORMAT( head_delv.lock_delivery_date, '%Y-%m-%d' ) ASC";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'incustomer'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK IN CUSTOMER';
+				
+				$Sub_Query		= "SELECT
+										det_delv.*,
+										head_delv.ekspedisi,
+										head_delv.diterima_oleh,
+										head_delv.nomor_sj,
+										DATE_FORMAT( head_delv.confirm_date, '%Y-%m-%d' ) AS tgl_confrim,
+									IF
+										( det_trans.nilai_unit > 0, det_trans.nilai_unit, det_trans.cost_book ) AS unit_value,
+										det_trans.id_material,
+										det_trans.nm_material,
+										head_inv.tgl_invoice,
+										head_inv.id AS id_penagihan 
+									FROM
+										delivery_product_detail det_delv
+										INNER JOIN delivery_product head_delv ON det_delv.kode_delivery = head_delv.kode_delivery
+										LEFT JOIN data_erp_in_customer det_trans ON det_delv.id_pro = det_trans.id_pro 
+										AND LOWER( det_trans.jenis ) IN ( 'in', 'in spool' )
+										LEFT JOIN penagihan head_inv ON FIND_IN_SET( head_delv.kode_delivery, head_inv.delivery_no ) > 0 
+									WHERE
+										NOT ( head_delv.confirm_date IS NULL OR TRIM( head_delv.confirm_date ) = '' OR TRIM( head_delv.confirm_date ) = '-' ) 
+										AND DATE_FORMAT( head_delv.confirm_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+									ORDER BY
+										DATE_FORMAT( head_delv.confirm_date, '%Y-%m-%d' ) ASC";
+				$Query_WIP			= "SELECT
+											x_summary.*
+										FROM
+											(".$Sub_Query.")x_summary
+										WHERE
+											(x_summary.tgl_invoice IS NULL OR TRIM(x_summary.tgl_invoice) ='' OR TRIM(x_summary.tgl_invoice) ='-' OR x_summary.tgl_invoice > '".$Tgl_Stock."')											
+											ORDER BY x_summary.tgl_confrim ASC";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
 			}
-			
-			
 		}
 		
 		$data		= array(
@@ -1962,7 +2352,8 @@ class Report extends CI_Controller
 			'rows_coa'			=> $rows_COA,
 			'rows_material'		=> $rows_Material,
 			'rows_nonmaterial'	=> $rows_NonMaterial,
-			'tgl_stock'			=> $Tgl_Stock
+			'tgl_stock'			=> $Tgl_Stock,
+			'type_find'			=> $Type_Find
 		);
 		
 		$this->load->view('report/'.$Name_View, $data);
@@ -1972,55 +2363,347 @@ class Report extends CI_Controller
 		$rows_COA	= $rows_Material = $rows_NonMaterial = array();
 		$Name_View		= 'v_detail_excel_stok';
 		$Title_Jurnal	= 'REPORT DETAIL STOCK';
-		$Tgl_Stock		= '';
+		$Tgl_Stock		= $Type_Find = '';
 		if($this->input->get()){
+			//echo"<pre>";print_r($this->input->get());exit;
 			$Nomor_COA	= urldecode($this->input->get('coa'));
 			$Tgl_Stock	= urldecode($this->input->get('tgl'));
+			$Type_Find	= urldecode($this->input->get('kategori'));
 			
 			//$Tgl_Stock		= date('Y-m-d');
-			$Title_Jurnal	.=' '.date('d-m-Y',strtotime($Tgl_Stock));
+			
 			
 			$Query_COA		= "SELECT * FROM COA WHERE no_perkiraan = '".$Nomor_COA."' ORDER BY id DESC LIMIT 1";
 			$rows_COA		= $this->db->query($Query_COA)->row();
 			
-			$Query_WHR		= "SELECT GROUP_CONCAT(id) AS kode_wh FROM warehouse WHERE coa_1 = '".$Nomor_COA."'";
-			$rows_WHR		= $this->ori_operasional->query($Query_WHR)->row();
-			if($rows_WHR){
-				$Code_WHR	= $rows_WHR->kode_wh;
-				 $Sub_Find		= "tras_stock.id_gudang IN('".str_replace(",","','",$Code_WHR)."')";	
-				 $WHERE			= "1=1";
-				 
-				if($Tgl_Stock){
-					if(!empty($Sub_Find))$Sub_Find	.=" AND ";
-					$Sub_Find	.="DATE(tras_stock.tgl_trans ) <= '".$Tgl_Stock."'";
+			if(strtolower($Type_Find) == 'material' || strtolower($Type_Find) == 'consumable'){
+				$Query_WHR		= "SELECT GROUP_CONCAT(id) AS kode_wh FROM warehouse WHERE coa_1 = '".$Nomor_COA."'";
+				$rows_WHR		= $this->ori_operasional->query($Query_WHR)->row();
+				if($rows_WHR){
+					$Code_WHR		= $rows_WHR->kode_wh;
+					if(strtolower($Type_Find) == 'material'){
+						$Title_Jurnal	= 'PREVIEW DETAIL STOCK MATERIAL';
+						$Sub_Find		= "tras_stock.id_gudang IN('".str_replace(",","','",$Code_WHR)."')";	
+						$WHERE			= "1=1";
+						 
+						if($Tgl_Stock){
+							if(!empty($Sub_Find))$Sub_Find	.=" AND ";
+							$Sub_Find	.="DATE(tras_stock.tgl_trans ) <= '".$Tgl_Stock."'";
+						}
+						
+						$Query_Sub_Find		= $this->SubQueryStock($Sub_Find);
+						$Query_Material		= "SELECT
+													head_mstr.idmaterial,
+													head_mstr.id_material,
+													head_mstr.nm_material,
+													head_mstr.nm_category,
+													head_stock.qty_stock_awal,
+													head_stock.qty_in,
+													head_stock.qty_out,
+													head_stock.qty_stock_akhir,
+													head_stock.harga,
+													head_stock.harga_bm,
+													head_stock.nilai_akhir_rp,
+													head_stock.nilai_awal_rp,
+													head_stock.nilai_trans_rp,
+													det_stock.id_gudang,
+													det_stock.nm_gudang
+												FROM
+													tran_warehouse_jurnal_detail head_stock
+												INNER JOIN (
+													".$Query_Sub_Find."
+												)det_stock ON head_stock.id=det_stock.last_kode
+												LEFT JOIN raw_materials head_mstr ON head_stock.id_material = head_mstr.id_material
+												WHERE ".$WHERE;
+						$rows_Material		= $this->ori_operasional->query($Query_Material)->result_array();
+					}else if(strtolower($Type_Find) == 'consumable'){
+						$Title_Jurnal	= 'PREVIEW DETAIL STOCK CONSUMABLE';
+						if($Tgl_Stock < date('Y-m-d')){
+							
+							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock_per_day WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 AND hist_date LIKE '".$Tgl_Stock."%' ORDER BY material_name ASC";
+							
+							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
+							
+						}else{							
+							$Query_NonMaterial	= "SELECT * FROM warehouse_rutin_stock WHERE gudang IN('".str_replace(",","','",$Code_WHR)."') AND stock <> 0 ORDER BY material_name ASC";
+							$rows_NonMaterial	= $this->ori_operasional->query($Query_NonMaterial)->result();
+							
+						}
+						
+						//echo"<pre>";print_r($Query_NonMaterial);exit;
+					}
+					
+					
 				}
+			}else if(strtolower($Type_Find) == 'wip_butt' || strtolower($Type_Find) == 'wip_pipa' || strtolower($Type_Find) == 'wip_fitting'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK WIP';
+				$Query_Sub	= "
+							SELECT
+								head_trans.*,
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+								x_detail.nil_close,
+								x_detail.qty_close,
+								x_detail.nil_open,
+								x_detail.qty_open,
+								head_prod.coa AS no_perkiraan 
+							FROM
+								data_erp_wip_group head_trans
+								LEFT JOIN product_parent head_prod ON LOWER( head_trans.product ) = LOWER( head_prod.product_parent )
+								LEFT JOIN (
+								SELECT
+									id_trans,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_open,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_open 
+								FROM
+									data_erp_fg 
+								WHERE
+									LOWER( jenis ) = 'in' 
+									AND NOT ( id_trans IS NULL OR TRIM( id_trans ) = '' OR id_trans = '0' OR TRIM( id_trans ) = '-' ) 
+								GROUP BY
+									id_trans 
+								ORDER BY
+									id_trans ASC 
+								) x_detail ON x_detail.id_trans = head_trans.id_trans 
+							WHERE
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+								AND LOWER( head_trans.jenis ) = 'in' 
+								AND NOT (
+									head_trans.id_trans IS NULL 
+									OR TRIM( head_trans.id_trans ) = '' 
+									OR head_trans.id_trans = '0' 
+									OR TRIM( head_trans.id_trans ) = '-' 
+								) 
+								AND head_prod.coa = '".$Nomor_COA."'
+							GROUP BY
+								head_trans.id_trans 
+							ORDER BY
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
 				
-				$Query_Sub_Find		= $this->SubQueryStock($Sub_Find);
-				$Query_Material		= "SELECT
-											head_mstr.idmaterial,
-											head_mstr.id_material,
-											head_mstr.nm_material,
-											head_mstr.nm_category,
-											head_stock.qty_stock_awal,
-											head_stock.qty_in,
-											head_stock.qty_out,
-											head_stock.qty_stock_akhir,
-											head_stock.harga,
-											head_stock.harga_bm,
-											head_stock.nilai_akhir_rp,
-											head_stock.nilai_awal_rp,
-											head_stock.nilai_trans_rp,
-											det_stock.id_gudang,
-											det_stock.nm_gudang
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'wip_spool'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK WIP SPOOL';
+				$Query_Sub	= "
+							SELECT
+								head_trans.*,
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+								x_detail.nil_close,
+								x_detail.qty_close,
+								x_detail.nil_open,
+								x_detail.qty_open,
+								head_prod.coa AS no_perkiraan 
+							FROM
+								data_erp_wip_group head_trans
+								LEFT JOIN product_parent head_prod ON LOWER( head_trans.product ) = LOWER( head_prod.product_parent )
+								LEFT JOIN (
+								SELECT
+									id_trans,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_open,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_open 
+								FROM
+									data_erp_fg 
+								WHERE
+									LOWER( jenis ) = 'in spool' 
+									AND NOT ( id_trans IS NULL OR TRIM( id_trans ) = '' OR id_trans = '0' OR TRIM( id_trans ) = '-' ) 
+								GROUP BY
+									id_trans 
+								ORDER BY
+									id_trans ASC 
+								) x_detail ON x_detail.id_trans = head_trans.id_trans 
+							WHERE
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+								AND LOWER( head_trans.jenis ) = 'in spool' 
+								AND NOT (
+									head_trans.id_trans IS NULL 
+									OR TRIM( head_trans.id_trans ) = '' 
+									OR head_trans.id_trans = '0' 
+									OR TRIM( head_trans.id_trans ) = '-' 
+								) 
+								AND head_prod.coa = '".$Nomor_COA."'
+							GROUP BY
+								head_trans.id_trans 
+							ORDER BY
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'wip_tank'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK WIP - TANKI';
+				$Query_Sub	= "
+							SELECT
+								head_trans.*,
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+								x_detail.nil_close,
+								x_detail.qty_close,
+								x_detail.nil_open,
+								x_detail.qty_open,
+								head_prod.coa AS no_perkiraan 
+							FROM
+								data_erp_wip_group head_trans
+								LEFT JOIN tanki.ms_category_part head_prod ON LOWER(head_trans.product) = LOWER(head_prod.nm_part)
+								LEFT JOIN (
+								SELECT
+									id_trans,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_close,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN nilai_unit ELSE 0 END ) AS nil_open,
+									SUM( CASE WHEN DATE_FORMAT( created_date, '%Y-%m-%d' ) > '".$Tgl_Stock."' THEN 1 ELSE 0 END ) AS qty_open 
+								FROM
+									data_erp_fg 
+								WHERE
+									LOWER( jenis ) = 'in' 
+									AND NOT ( id_trans IS NULL OR TRIM( id_trans ) = '' OR id_trans = '0' OR TRIM( id_trans ) = '-' ) 
+								GROUP BY
+									id_trans 
+								ORDER BY
+									id_trans ASC 
+								) x_detail ON x_detail.id_trans = head_trans.id_trans 
+							WHERE
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+								AND LOWER( head_trans.jenis ) = 'in' 
+								AND NOT (
+									head_trans.id_trans IS NULL 
+									OR TRIM( head_trans.id_trans ) = '' 
+									OR head_trans.id_trans = '0' 
+									OR TRIM( head_trans.id_trans ) = '-' 
+								) 
+								AND head_prod.coa = '".$Nomor_COA."'
+							GROUP BY
+								head_trans.id_trans 
+							ORDER BY
+								DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE x_summary.qty_open > 0";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'finish_good'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK FINISH GOOD';
+				$Query_Sub	= "
+								
+									SELECT
+									head_trans.*,
+									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) AS date_in,
+									IF(x_detout.nilai_cogs > 0,x_detout.nilai_cogs,0) AS total_out,
+									IF(NOT(x_detout.tgl_out IS NULL OR x_detout.tgl_out = '' OR x_detout.tgl_out ='-'),x_detout.tgl_out,NULL) AS date_out
+								FROM
+									data_erp_fg head_trans 
+									LEFT JOIN(
+										SELECT
+											det_prod.id_pro,
+											DATE_FORMAT( head_prod.lock_delivery_date, '%Y-%m-%d' ) AS tgl_out,
+											det_prod.nilai_cogs 
 										FROM
-											tran_warehouse_jurnal_detail head_stock
-										INNER JOIN (
-											".$Query_Sub_Find."
-										)det_stock ON head_stock.id=det_stock.last_kode
-										LEFT JOIN raw_materials head_mstr ON head_stock.id_material = head_mstr.id_material
-										WHERE ".$WHERE;
-				$rows_Material		= $this->ori_operasional->query($Query_Material)->result_array();
+											delivery_product_detail det_prod
+											INNER JOIN delivery_product head_prod ON head_prod.kode_delivery = det_prod.kode_delivery 
+										WHERE
+											DATE_FORMAT( head_prod.lock_delivery_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+											AND NOT ( det_prod.id_pro IS NULL OR det_prod.id_pro = '' OR det_prod.id_pro = '-' ) 
+										GROUP BY
+											det_prod.id_pro
+									)x_detout ON head_trans.id_pro=x_detout.id_pro
+								WHERE
+									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+									AND LOWER( head_trans.jenis ) IN ( 'in spool', 'in' ) 
+									AND NOT (
+										head_trans.id_pro IS NULL 
+										OR TRIM( head_trans.id_pro ) = '' 
+										OR head_trans.id_pro = '0' 
+										OR TRIM( head_trans.id_pro ) = '-' 
+									) 
+								GROUP BY
+									head_trans.id_pro 
+								ORDER BY
+									DATE_FORMAT( head_trans.created_date, '%Y-%m-%d' ) DESC
+								
+							";
+							
+				$Query_WIP			= "SELECT x_summary.* FROM (".$Query_Sub.")x_summary WHERE (x_summary.date_out IS NULL OR x_summary.date_out = '' OR x_summary.date_out ='-')";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'intransit'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK INTRANSIT';
+							
+				$Query_WIP			= "SELECT
+											det_delv.*,
+											head_delv.ekspedisi,
+											head_delv.diterima_oleh,
+											head_delv.nomor_sj,
+											DATE_FORMAT( head_delv.lock_delivery_date, '%Y-%m-%d' ) AS tgl_lock,
+										IF
+											( det_trans.nilai_unit > 0, det_trans.nilai_unit, 0 ) AS unit_value,
+											det_trans.id_material,
+											det_trans.nm_material
+										FROM
+											delivery_product_detail det_delv
+											INNER JOIN delivery_product head_delv ON det_delv.kode_delivery = head_delv.kode_delivery
+											LEFT JOIN data_erp_in_transit det_trans ON det_delv.id_pro = det_trans.id_pro 
+											AND LOWER( det_trans.jenis ) IN ( 'in', 'in spool' ) 
+										WHERE
+											NOT ( head_delv.lock_delivery_date IS NULL OR TRIM(head_delv.lock_delivery_date) = '' OR TRIM(head_delv.lock_delivery_date) = '-' ) 
+											AND DATE_FORMAT( head_delv.lock_delivery_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+											
+											AND (
+												head_delv.confirm_date IS NULL 
+												OR TRIM(head_delv.confirm_date) = '' 
+											OR TRIM(head_delv.confirm_date) = '-' 
+											OR DATE_FORMAT( head_delv.confirm_date, '%Y-%m-%d' ) > '".$Tgl_Stock."')
+											
+											ORDER BY DATE_FORMAT( head_delv.lock_delivery_date, '%Y-%m-%d' ) ASC";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
+			}else if(strtolower($Type_Find) == 'incustomer'){
+				$Title_Jurnal	= 'PREVIEW DETAIL STOCK IN CUSTOMER';
+				
+				$Sub_Query		= "SELECT
+										det_delv.*,
+										head_delv.ekspedisi,
+										head_delv.diterima_oleh,
+										head_delv.nomor_sj,
+										DATE_FORMAT( head_delv.confirm_date, '%Y-%m-%d' ) AS tgl_confrim,
+									IF
+										( det_trans.nilai_unit > 0, det_trans.nilai_unit, det_trans.cost_book ) AS unit_value,
+										det_trans.id_material,
+										det_trans.nm_material,
+										head_inv.tgl_invoice,
+										head_inv.id AS id_penagihan 
+									FROM
+										delivery_product_detail det_delv
+										INNER JOIN delivery_product head_delv ON det_delv.kode_delivery = head_delv.kode_delivery
+										LEFT JOIN data_erp_in_customer det_trans ON det_delv.id_pro = det_trans.id_pro 
+										AND LOWER( det_trans.jenis ) IN ( 'in', 'in spool' )
+										LEFT JOIN penagihan head_inv ON FIND_IN_SET( head_delv.kode_delivery, head_inv.delivery_no ) > 0 
+									WHERE
+										NOT ( head_delv.confirm_date IS NULL OR TRIM( head_delv.confirm_date ) = '' OR TRIM( head_delv.confirm_date ) = '-' ) 
+										AND DATE_FORMAT( head_delv.confirm_date, '%Y-%m-%d' ) <= '".$Tgl_Stock."' 
+									ORDER BY
+										DATE_FORMAT( head_delv.confirm_date, '%Y-%m-%d' ) ASC";
+				$Query_WIP			= "SELECT
+											x_summary.*
+										FROM
+											(".$Sub_Query.")x_summary
+										WHERE
+											(x_summary.tgl_invoice IS NULL OR TRIM(x_summary.tgl_invoice) ='' OR TRIM(x_summary.tgl_invoice) ='-' OR x_summary.tgl_invoice > '".$Tgl_Stock."')											
+											ORDER BY x_summary.tgl_confrim ASC";
+				
+				$rows_NonMaterial	= $this->ori_operasional->query($Query_WIP)->result();
 			}
+			
+			$Title_Jurnal	.=' '.date('d-m-Y',strtotime($Tgl_Stock));
 			
 			
 		}
@@ -2030,7 +2713,8 @@ class Report extends CI_Controller
 			'rows_coa'			=> $rows_COA,
 			'rows_material'		=> $rows_Material,
 			'rows_nonmaterial'	=> $rows_NonMaterial,
-			'tgl_stock'			=> $Tgl_Stock
+			'tgl_stock'			=> $Tgl_Stock,
+			'type_find'			=> $Type_Find
 		);
 		
 		$this->load->view('report/'.$Name_View, $data);
