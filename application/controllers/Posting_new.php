@@ -864,8 +864,7 @@ class Posting_new extends CI_Controller
 										
 
 										 $Tgl_Inv=$thn_aktif.'-'.$bln_aktif.'-'.$hari ;
-										 print_r($Tgl_Inv);
-										 exit;
+										
 									   	 $convertDate   = $Tgl_Inv;
 										 $nojvcost		= $this->get_Nomor_Jurnal_Sales('101', $convertDate);
 										
@@ -1228,7 +1227,7 @@ class Posting_new extends CI_Controller
 		if($bulan=='01'){
 			$hari =31;
 		} elseif($bulan=='02'){
-			$hari =29;
+			$hari =28;
 		} elseif($bulan=='03'){
 			$hari =31;
 		} elseif($bulan=='04'){
