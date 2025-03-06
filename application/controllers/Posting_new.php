@@ -838,7 +838,7 @@ class Posting_new extends CI_Controller
 										 if($bln_aktif=='01'){
 												$hari =31;
 											} elseif($bln_aktif=='02'){
-												$hari =29;
+												$hari =28;
 											} elseif($bln_aktif=='03'){
 												$hari =31;
 											} elseif($bln_aktif=='04'){
