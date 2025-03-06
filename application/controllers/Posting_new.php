@@ -861,6 +861,9 @@ class Posting_new extends CI_Controller
 												$hari =31;
 											}
 										 
+										print_r($hari);
+										exit;
+
 										 $Tgl_Inv=$thn_aktif.'-'.$bln_aktif.'-'.$hari ;
 									   	 $convertDate   = $Tgl_Inv;
 										 $nojvcost		= $this->get_Nomor_Jurnal_Sales('101', $convertDate);
