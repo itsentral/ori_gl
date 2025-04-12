@@ -62,7 +62,7 @@
 						echo "<option value=''>Pilih Jabatan</option>";
 						foreach($list_jabatan as $row1){
 							echo "<option value='".$row1->id."'>".$row1->nm_jabatan."</option>";
-						}
+						} 
 					?>
 				  </select>
                 </div>
