@@ -101,6 +101,9 @@ error_reporting(E_ALL & ~E_NOTICE);
 										<th>
 											<center>Kredit Kurs</center>
 										</th>
+											<th>
+											<center>Edit COA</center>
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -141,6 +144,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 												<td align="right"><input id="kredit_<?= $row->id ?>" name="kredit_<?= $row->id ?>" value="<?= $format_kredit ?>" onblur="edit('<?php echo $row->id?>','<?= $row->nomor ?>')"></td>
 												<td align="right"><input id="debet_kurs_<?= $row->id ?>" name="debet_kurs_<?= $row->id ?>" value="<?= $format_debet_kurs ?>" onblur="edit('<?php echo $row->id?>','<?= $row->nomor ?>')"></td>
 												<td align="right"><input id="kredit_kurs_<?= $row->id ?>" name="kredit_kurs_<?= $row->id ?>" value="<?= $format_kredit_kurs ?>" onblur="edit('<?php echo $row->id?>','<?= $row->nomor ?>')"></td>
+											    <td align="right"><input id="coa_<?= $row->id ?>" name="coa_<?= $row->id ?>" value="<?= $row->no_perkiraan ?>" onblur="edit('<?php echo $row->id?>','<?= $row->nomor ?>')"></td>
 											</tr>
 									<?php
 										}
@@ -229,6 +233,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 		var kredit =$('#kredit_'+id).val();
 		var debetkurs  =$('#debet_kurs_'+id).val();
 		var kreditkurs =$('#kredit_kurs_'+id).val();
+		var coa =$('#coa_'+id).val();
 		
 		swal({
           title: "Peringatan !",
@@ -247,7 +252,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 					url: base_url+"index.php/jurnal/save_edit_jv",
 					dataType : "json",
 					type: 'POST',
-					data: "id="+id+"&debet="+debet+"&kredit="+kredit+"&debetkurs="+debetkurs+"&kreditkurs="+kreditkurs,
+					data: "id="+id+"&debet="+debet+"&kredit="+kredit+"&debetkurs="+debetkurs+"&kreditkurs="+kreditkurs+"&coa="+coa,
 					success: function(data){
 						if(data.status == 1){
 						swal({

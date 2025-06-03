@@ -191,14 +191,16 @@ class Jurnal extends CI_Controller
 		$debet    = str_replace(".","",$post['debet']);
 		$kredit   = str_replace(".","",$post['kredit']);
 		$debetkurs    = $post['debetkurs'];
-		$kreditkurs   = $post['kreditkurs']; 
+		$kreditkurs   = $post['kreditkurs'];  
+		$coa   = $post['coa'];  
+		
 		
 		// print_r($debet);
 		// exit;
 		
 		$this->db->trans_begin();
 		
-	 	$this->db->query("UPDATE jurnal set debet='$debet', kredit='$kredit', nilai_valas_debet='$debetkurs', nilai_valas_kredit='$kreditkurs', modified_on=NOW() where id='$id'");
+	 	$this->db->query("UPDATE jurnal set no_perkiraan='$coa', debet='$debet', kredit='$kredit', nilai_valas_debet='$debetkurs', nilai_valas_kredit='$kreditkurs', modified_on=NOW() where id='$id'");
 		
 	    if($this->db->trans_status() === FALSE){
 			 $this->db->trans_rollback(); 
