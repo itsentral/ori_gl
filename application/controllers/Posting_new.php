@@ -860,10 +860,24 @@ class Posting_new extends CI_Controller
 											} elseif($bln_aktif=='12'){
 												$hari =31;
 											}
-										 
-										
 
-										 $Tgl_Inv=$thn_aktif.'-'.$bln_aktif.'-'.$hari ;
+											if($bln_aktif=='02'){
+												// Ambil tahun lalu
+											$tahunLalu = $thn_aktif;
+
+											// Buat tanggal 1 Maret tahun lalu
+											$tanggal = new DateTime("$tahunLalu-03-01");
+
+											// Kurangi 1 hari untuk mendapatkan akhir Februari
+											$tanggal->modify("-1 day");
+
+											// Tampilkan hasilnya
+											$Tgl_Inv =  $tanggal->format("Y-m-d");
+
+											}else{
+											$Tgl_Inv = $thn_aktif.'-'.$bln_aktif.'-'.$hari;
+											}
+										 
 										
 									   	 $convertDate   = $Tgl_Inv;
 										 $nojvcost		= $this->get_Nomor_Jurnal_Sales('101', $convertDate);
