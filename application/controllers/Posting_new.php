@@ -1226,8 +1226,19 @@ class Posting_new extends CI_Controller
 		
 		if($bulan=='01'){
 			$hari =31;
-		} elseif($bulan=='02'){
-			$hari =29;
+		} elseif($bulan=='02'){	
+			// Ambil tahun lalu
+		$tahunLalu = $tahun;
+
+		// Buat tanggal 1 Maret tahun lalu
+		$tanggal = new DateTime("$tahunLalu-03-01");
+
+		// Kurangi 1 hari untuk mendapatkan akhir Februari
+		$tanggal->modify("-1 day");
+
+		// Tampilkan hasilnya
+		$tglfeb =  $tanggal->format("Y-m-d");
+
 		} elseif($bulan=='03'){
 			$hari =31;
 		} elseif($bulan=='04'){
