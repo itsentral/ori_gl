@@ -67,13 +67,14 @@ class Kartu_hutang extends CI_Controller
 		$awal               = $this->uri->segment(3);
 		$akhir              = $this->uri->segment(4);
 		$supplier			= $this->uri->segment(5);
-		$tipe			= $this->uri->segment(6);
+		$tipe			    = $this->uri->segment(6);
 
 
 
 		$data['datawal']               = $awal;
 		$data['datakhir']              = $akhir;
 		$data['datvendor']             = $supplier;
+		$data['tipe']				   = $tipe;
 
 	    if($supplier =='0'){
 		$data['coa_sa']				= $this->Kartuhutang_model->GetDataAll($awal,$supplier,$tipe);
