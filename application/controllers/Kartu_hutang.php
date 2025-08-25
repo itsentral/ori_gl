@@ -56,7 +56,7 @@ class Kartu_hutang extends CI_Controller
 			$data['datvendor']          = $supplier;
 			$data['tipe']				= $tipe;
 
-			$this->load->view("report/v_kartu_hutang", $data);
+			$this->load->view("report/v_kartu_hutang", $data); 
 		}
 	}
 
@@ -74,7 +74,11 @@ class Kartu_hutang extends CI_Controller
 		$data['datakhir']              = $akhir;
 		$data['datvendor']             = $supplier;
 
-	    $data['coa_sa']				= $this->Kartuhutang_model->GetData($awal,$supplier);
+	    if($supplier =='0'){
+		$data['coa_sa']				= $this->Kartuhutang_model->GetDataAll($awal,$supplier,$tipe);
+		}else{
+		$data['coa_sa']				= $this->Kartuhutang_model->GetData($awal,$supplier,$tipe);	
+		}
 		$data['detail_jurnal']		= $this->Kartuhutang_model->get_detail_kartu_hutang($awal,$akhir,$supplier);
 
 		$this->load->view("report/v_kartu_hutang_excel", $data);
