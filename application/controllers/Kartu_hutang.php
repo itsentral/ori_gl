@@ -42,7 +42,7 @@ class Kartu_hutang extends CI_Controller
 		$data['judul']			= "Kartu Hutang";
 
 		if ($this->input->post('tampilkan') == "View Excel") {
-			redirect('kartu_hutang/excel_kartuhutang/' . $awal . '/' . $akhir . '/' . $supplier);
+			redirect('kartu_hutang/excel_kartuhutang/' . $awal . '/' . $akhir . '/' . $supplier.'/' . $tipe);
 		} else {
 
             $data['datklien']           = $this->Report_model->pilih_vendor();
@@ -67,6 +67,7 @@ class Kartu_hutang extends CI_Controller
 		$awal               = $this->uri->segment(3);
 		$akhir              = $this->uri->segment(4);
 		$supplier			= $this->uri->segment(5);
+		$supplier			= $this->uri->segment(6);
 
 
 
