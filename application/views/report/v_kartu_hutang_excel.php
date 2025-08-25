@@ -83,7 +83,12 @@ header("Expires: 0");
 				$nilai_debet = array();
 				$nilai_kredit = array();
 
-				$detail_jurnal	= $this->Kartuhutang_model->get_detail_kartu_hutang($awal,$akhir,$vendor);
+				if($vendor=='0'){
+				$detail_jurnal	= $this->Kartuhutang_model->get_detail_kartu_hutang_all($awal,$akhir,$vendor,$tipe);
+				}else{
+				$detail_jurnal	= $this->Kartuhutang_model->get_detail_kartu_hutang($awal,$akhir,$vendor,$tipe);
+				}
+				
 				if ($detail_jurnal > 0) {
 					$count2 = 0;
 					$count3 = 0;
