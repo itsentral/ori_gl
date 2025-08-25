@@ -67,7 +67,7 @@ class Kartu_hutang extends CI_Controller
 		$awal               = $this->uri->segment(3);
 		$akhir              = $this->uri->segment(4);
 		$supplier			= $this->uri->segment(5);
-		$supplier			= $this->uri->segment(6);
+		$tipe			= $this->uri->segment(6);
 
 
 
