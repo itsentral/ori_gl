@@ -16,7 +16,7 @@ header("Expires: 0");
 
 							
 
-								<tbody>
+									<tbody>
 
 									<tr>
 										<?php
@@ -25,69 +25,94 @@ header("Expires: 0");
 										$akhir		= $datakhir;
 																			
 																	
-										echo "<tr><th colspan='8' style='text-align:center;font-size:15px;'><center>REKAP KARTU PIUTANG<br>Periode :  " . date_format(new DateTime($awal), "d-m-Y") . "</center></th></tr>";
+										echo "<tr><th colspan='8' style='text-align:center;font-size:15px;'><center>REKAP KARTU PIUTANG<br>Periode :  " . date_format(new DateTime($awal), "d-m-Y") . " S/D ". date_format(new DateTime($akhir), "d-m-Y") ."</center></th></tr>";
 										
 										?>
 									</tr>
 
 									<tr>
 									    <td>
-										<center><b>Kode Supplier</b></center>
+										<center><b>Kode Customer</b></center>
 										</td>
 										<td>
-											<center><b>Nama Supplier</b></center>
+											<center><b>Nama Customer</b></center>
 										</td>
 										<td>
-											<center><b>0-30 hari</b></center>
+											<center><b>Saldo Awal</b></center>
+										</td>
+										
+										<td>
+											<center><b>Debet</b></center>
 										</td>
 										<td>
-											<center><b>31-60 hari</b></center>
+											<center><b>Kredit</b></center>
 										</td>
 										<td>
-											<center><b>61-90 hari</b></center>
-										</td>
-										<td>
-											<center><b>91-120 hari</b></center>
-										</td>
-										<td>
-											<center><b>>120 hari</b></center>
-										</td>
-										<td>
-											<center><b>Jumlah</b></center>
+											<center><b>Saldo Akhir</b></center>
 										</td>
 									</tr>
 									
-									 <?php   
-										   
-										   $dt_jurnal	= $this->Kartupiutang_model->get_umur_piutang($id_supplier);
-											         
-												if ($dt_jurnal > 0) {
-												
-												     foreach ($dt_jurnal as $row) {
-													 $total = $row->saldo30+$row->saldo31+$row->saldo90+$row->saldo120+$row->saldo120plus;
-										
-											?>
-													<tr>
-													   
-													    <td align="center"><?= $row->id_supplier  ?></td>
-														<td align="left"><?= $row->nama_supplier ?></td>
-													    <td align="right"><?= number_format($row->saldo30, 0, ',', '.'); ?></td>
-														<td align="right"><?= number_format($row->saldo31, 0, ',', '.'); ?></td>
-														<td align="right"><?= number_format($row->saldo90, 0, ',', '.'); ?></td>
-														<td align="right"><?= number_format($row->saldo120, 0, ',', '.'); ?></td>
-														<td align="right"><?= number_format($row->saldo120plus, 0, ',', '.'); ?></td>
-														<td align="right"><?= number_format($total, 0, ',', '.'); ?></td>
-														
-													</tr>
-											
+									<?php
 									
-									       
-									         <?php
-													 }
+										$count = 0;
+										foreach ($vendor as $vend) {
+											$count++;
+     										$id_supplier   = $vend->id_supplier;
+											$nm_supplier   = $vend->nama_supplier;
+											$tipe		= $tipe;
+											
+											$detail_jurnal	= $this->Kartupiutang_model->get_rekap_kartu_piutang($awal,$akhir,$id_supplier,$tipe);
+											
+											if ($detail_jurnal > 0) {
+												$count2 = 0;
+												$count3 = 0;
+
+												foreach ($detail_jurnal as $row_dj) {
+													$count2++;
+													$count3++;
+													$saldo_awal	= $row_dj->saldo_awal;
+													$debet 	= $row_dj->debet;
+													$kredit	= $row_dj->kredit;
+													$saldo_akhir	= $row_dj->saldo_akhir;
+													$salakh			= $saldo_awal+$saldo_akhir;
+													
+													$tot_saldoawal    += $saldo_awal;
+													$tot_debet        += $debet;
+													$tot_kredit       += $kredit;
+													$tot_saldoakhir   += $saldo_akhir;
+													$tot_salakh       = $tot_saldoawal + $tot_saldoakhir;
+									?>
+																									
+												<tr>
+												<td><a href="<?=base_url("kartu_piutang/dtl_invoice/".$id_supplier."/".$datakhir)?>" target="_blank"><?= $id_supplier ?></a> </td>
+												<td><?= $nm_supplier ?> </td>
+												<td align="right"><?= number_format($saldo_awal, 2, ',', '.'); ?></td>
+												<td align="right"><?= number_format($debet, 2, ',', '.'); ?></td>
+												<td align="right"><?= number_format($kredit, 2, ',', '.'); ?></td>
+												<td align="right"><?= number_format($salakh, 2, ',', '.'); ?></td>
+												</tr>
+												
+												
+									<?php
+									
 												}
-											 ?>
-							
-                            </tbody>
+												
+											}
+											
+										}
+									
+									?>
+									         <tr>
+												<td> </td>
+												<td></td>
+												<td align="right"><b><?= number_format($tot_saldoawal, 2, ',', '.'); ?></td>
+												<td align="right"><b><?= number_format($tot_debet, 2, ',', '.'); ?></td>
+												<td align="right"><b><?= number_format($tot_kredit, 2, ',', '.'); ?></td>
+												<td align="right"><b><?= number_format($tot_salakh, 2, ',', '.'); ?></td>
+											</tr>
+
+
+								</tbody>
 
 		</table>
 
