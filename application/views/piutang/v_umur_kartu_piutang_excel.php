@@ -23,7 +23,7 @@ header("Expires: 0");
 										$akhir		= $datakhir;
 										$vendor 	= $datvendor;
 										
-										$supp  = $this->db->query("SELECT * FROM prisma_system.ms_customer WHERE id_klien='$vendor'")->row();
+										$supp  = $this->db->query("SELECT * FROM  ".DBACC.".customer WHERE id_customer='$vendor'")->row();
 											
 										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>KARTU PIUTANG<br>Periode :  " . date_format(new DateTime($awal), "d-m-Y") . " </center></th></tr>";
 										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>NAMA KLIEN : " . $supp->nama_klien . "</center></th></tr>";
