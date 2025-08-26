@@ -178,6 +178,8 @@ class Kartu_piutang extends CI_Controller
 
 	    $data['coa_sa']				= $this->Kartupiutang_model->GetDataUmur($awal,$akhir,$supplier);
 
+       print_r($data['coa_sa']);
+	   exit;
 
 		$this->load->view("piutang/v_umur_kartu_piutang_excel", $data);
 
