@@ -172,14 +172,13 @@ class Kartu_piutang extends CI_Controller
 		$awal    			= $this->uri->segment(5);
 
 
-
-
-		$data['datvendor']             = $supplier;
+      		 $data['datawal']               = $awal;
+			$data['datakhir']              = $akhir;
+			$data['datvendor']             = $supplier;
 
 	    $data['coa_sa']				= $this->Kartupiutang_model->GetDataUmur($awal,$akhir,$supplier);
 
-       print_r($data['coa_sa']);
-	   exit;
+      
 
 		$this->load->view("piutang/v_umur_kartu_piutang_excel", $data);
 
