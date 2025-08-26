@@ -25,7 +25,7 @@ header("Expires: 0");
 										$akhir		= $datakhir;
 																			
 																	
-										echo "<tr><th colspan='8' style='text-align:center;font-size:15px;'><center>REKAP KARTU PIUTANG<br>Periode :  " . date_format(new DateTime($awal), "d-m-Y") . " S/D ". date_format(new DateTime($akhir), "d-m-Y") ."</center></th></tr>";
+										echo "<tr><th colspan='8' style='text-align:center;font-size:15px;'><center>REKAP KARTU PIUTANG<br>Periode :  " .date_format(new DateTime($akhir), "d-m-Y") ."</center></th></tr>";
 										
 										?>
 									</tr>
