@@ -35,6 +35,18 @@ class Kartupiutang_model extends CI_Model
 			return 0;
 		}
 	}
+
+	public function get_detail_kartu_piutang_all($awal,$akhir,$klien,$tipe='')
+	{
+		$query 	= "SELECT * from kartu_piutang WHERE tanggal BETWEEN '$awal' AND '$akhir' and no_perkiraan like '%".$tipe."%' ORDER BY tanggal ASC ";
+
+		$query	= $this->db->query($query);
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return 0;
+		}
+	}
 	
 	public function GetKlien(){
 		//$query = $this->db->get(DBACC.".ms_vendor");

@@ -185,8 +185,13 @@ if ($data_perkiraan) {
 											$sum_kredit = array();
 											$nilai_debet = array();
 											$nilai_kredit = array();
-
+                                            if($klien=='0'){
+											$detail_jurnal	= $this->Kartupiutang_model->get_detail_kartu_piutang_all($awal,$akhir,$klien,$tipe);
+											}else{
 											$detail_jurnal	= $this->Kartupiutang_model->get_detail_kartu_piutang($awal,$akhir,$klien,$tipe);
+											
+											}
+											
 											if ($detail_jurnal > 0) {
 												$count2 = 0;
 												$count3 = 0;
