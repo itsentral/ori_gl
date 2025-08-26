@@ -118,7 +118,7 @@ class Kartupiutang_model extends CI_Model
 		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_piutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 91  AND 120) GROUP BY no_reff) AS saldo90,
 		(SELECT sum(debet)-sum(kredit) as saldo FROM kartu_piutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) > 120) GROUP BY no_reff) AS saldo120,
 		
-		tanggal,keterangan from kartu_piutang WHERE no_reff = '$bukti' AND id_supplier='$vendor' GROUP BY no_reff ";
+		tanggal,keterangan from kartu_piutangx WHERE no_reff = '$bukti' AND id_supplier='$vendor' GROUP BY no_reff ";
 
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
@@ -132,7 +132,7 @@ class Kartupiutang_model extends CI_Model
 		$query 	= "SELECT no_reff, id_supplier, nama_supplier FROM kartu_piutang GROUP BY no_reff";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
-			return $query->result();
+			return $query->result(); 
 		} else {
 			return 0;
 		}
