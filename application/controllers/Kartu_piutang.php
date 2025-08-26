@@ -192,7 +192,7 @@ class Kartu_piutang extends CI_Controller
 
 		if ($this->input->post('tampilkan') == "View Excel") {
 
-		redirect('kartu_piutang/excel_rekapumurkartuhutang/'.$akhir);
+		redirect('kartu_piutang/excel_rekapumurkartupiutang/'.$akhir);
 
 
 		} else {
@@ -214,8 +214,6 @@ class Kartu_piutang extends CI_Controller
 		$data['datakhir']       = $akhir;
 		$data['judul']			= "Rekap Umur Kartu Piutang";
 
-		print_r($akhir);
-		exit;
 		$this->load->view("piutang/v_rekap_umur_kartu_piutang_excel", $data);
 
 	}
