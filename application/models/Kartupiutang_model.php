@@ -23,6 +23,23 @@ class Kartupiutang_model extends CI_Model
 			return false;
 		}
 	}
+
+	function GetData_all($awal,$vendor,$tipe=''){
+		$query 	= "SELECT sum(debet-kredit) as saldo
+		FROM kartu_piutang WHERE tanggal < '$awal' and no_perkiraan like '%".$tipe."%' ";
+		$query	= $this->db->query($query);
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return 0;
+		}
+		$query = $this->db->get();
+		if($query->num_rows() != 0) {
+			return $query->result();
+		} else {
+			return false;
+		}
+	}
 	
 	public function get_detail_kartu_piutang($awal,$akhir,$klien,$tipe='')
 	{

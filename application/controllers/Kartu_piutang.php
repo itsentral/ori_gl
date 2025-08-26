@@ -48,9 +48,14 @@ class Kartu_piutang extends CI_Controller
 			redirect('kartu_piutang/excel_kartupiutang/' . $awal . '/' . $akhir . '/' . $klien. '/' . $tipe);
 		} else {
             $data['datklien']           = $this->Report_model->pilih_klien();
+
+			if($klien =='0'){
+			$data['coa_sa']				= $this->Kartupiutang_model->GetData_all($awal,$klien,$tipe);
+			}else{
 			$data['coa_sa']				= $this->Kartupiutang_model->GetData($awal,$klien,$tipe);
+			}
 			$data['datawal']            = $awal;
-			$data['datakhir']           = $akhir;
+			$data['datakhir']           = $akhir; 
 			$data['datvendor']          = $klien;
 			$data['tipe']				= $tipe;
 			$this->load->view("piutang/v_kartu_piutang", $data);
@@ -73,7 +78,11 @@ class Kartu_piutang extends CI_Controller
 		$data['datvendor']             = $supplier;
 		$data['dattipe']                  = $tipe;
 
-	    $data['coa_sa']				= $this->Kartupiutang_model->GetData($awal,$supplier,$tipe);
+	   if($supplier =='0'){
+			$data['coa_sa']				= $this->Kartupiutang_model->GetData_all($awal,$supplier,$tipe);
+			}else{
+			$data['coa_sa']				= $this->Kartupiutang_model->GetData($awal,$supplier,$tipe);
+			}
 		$data['detail_jurnal']		= $this->Kartupiutang_model->get_detail_kartu_piutang($awal,$akhir,$supplier,$tipe);
 
 		$this->load->view("piutang/v_kartu_piutang_excel", $data);
