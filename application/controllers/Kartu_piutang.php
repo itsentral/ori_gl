@@ -148,7 +148,7 @@ class Kartu_piutang extends CI_Controller
 
 		if ($this->input->post('tampilkan') == "View Excel") {
 
-		redirect('kartu_piutang/excel_umurkartupiutang/'. $supplier);
+		redirect('kartu_piutang/excel_umurkartupiutang/'. $supplier.'/'.$akhir);
 
 
 		} else {
