@@ -87,8 +87,11 @@ header("Expires: 0");
 											$sum_debet[$count] =0;
 											$sum_kredit[$count] =0;
 
+											if($klien=='0'){
+											$detail_jurnal	= $this->Kartupiutang_model->get_detail_kartu_piutang_all($awal,$akhir,$klien,$tipe);
+											}else{
 											$detail_jurnal	= $this->Kartupiutang_model->get_detail_kartu_piutang($awal,$akhir,$klien,$tipe);
-											
+											}
 											// print_r($detail_jurnal);
 											// exit;
 											
