@@ -79,8 +79,6 @@ header("Expires: 0");
 
 											$detail_jurnal	= $this->Kartupiutang_model->get_detail_umur_kartu_piutang($awal,$akhir,$vendor, $bukti);
 
-											print_r($detail_jurnal);
-											exit;
 											if ($detail_jurnal > 0) {
 												
 												foreach ($detail_jurnal as $row_dj) {
