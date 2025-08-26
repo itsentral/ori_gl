@@ -215,10 +215,6 @@ class Kartu_piutang extends CI_Controller
 		$data['coa_sa']				   = $this->Kartupiutang_model->GetDataBukti();
         $data['vendor']				   = $this->Kartupiutang_model->GetVendor();
 		$data['judul']			       = "Rekap Umur Kartu Piutang";
-
-		print_r($data['vendor']);
-		exit;
-
 		$this->load->view("piutang/v_rekap_umur_kartu_piutang_excel", $data);
 
 	}
