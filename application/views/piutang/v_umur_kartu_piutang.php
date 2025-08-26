@@ -96,12 +96,12 @@ if ($data_perkiraan) {
 										
 										$awal 		= $datawal;
 										$akhir		= $datakhir;
-										$vendor 	= $datvendor;
+										$vendor 	= $datvendor; 
 										
 										$supp  = $this->db->query("SELECT * FROM  ".DBACC.".customer WHERE id_customer='$vendor'")->row();
 											
 										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>KARTU UMUR PIUTANG<br>Periode :  " . date_format(new DateTime($akhir), "d-m-Y") . " </center></th></tr>";
-										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>NAMA CUSTOMER : " . $supp->nama_klien . "</center></th></tr>";
+										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>NAMA CUSTOMER : " . $supp->nm_customer . "</center></th></tr>";
 										
 										?>
 									</tr>

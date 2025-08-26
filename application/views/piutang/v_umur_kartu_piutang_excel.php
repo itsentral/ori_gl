@@ -26,7 +26,7 @@ header("Expires: 0");
 										$supp  = $this->db->query("SELECT * FROM  ".DBACC.".customer WHERE id_customer='$vendor'")->row();
 											
 										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>KARTU PIUTANG<br>Periode :  " . date_format(new DateTime($awal), "d-m-Y") . " </center></th></tr>";
-										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>NAMA KLIEN : " . $supp->nama_klien . "</center></th></tr>";
+										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>NAMA KLIEN : " . $supp->nm_customer . "</center></th></tr>";
 										
 										?>
 									</tr>
