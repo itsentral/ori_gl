@@ -148,7 +148,12 @@ header("Expires: 0");
 													$totalall = $totsaldo30+$totsaldo31+$totsaldo60+$totsaldo90+$totsaldo120;
 													
 												
-													
+													$tot30 += $totsaldo30;
+													$tot31 += $totsaldo31;
+													$tot60 += $totsaldo60;
+													$tot90 += $totsaldo90;
+													$tot120 += $totsaldo120;
+													$totall += $totalall;
 													
 													
 													
@@ -181,4 +186,16 @@ header("Expires: 0");
 									?>
 
 								</tbody>
-</table>
+								
+								<tr>
+									<td align="center" colspan="3"><b>TOTAL</td>
+									<td align="right"><b><?= number_format($tot30, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($tot31, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($tot60, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($tot90, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($tot120, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($totall, 0, ',', '.'); ?></td>
+									
+								</tr>
+
+							</table>
