@@ -950,7 +950,7 @@ class Posting_new extends CI_Controller
 
 															 );
 															 
-														// $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnalhutang);
+														 $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnalhutang);
 														
 														
 													  
@@ -1047,7 +1047,7 @@ class Posting_new extends CI_Controller
 
 															 );
 															 
-														// $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnalhutang);
+														 $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnalhutang);
 														
 														
 													  
