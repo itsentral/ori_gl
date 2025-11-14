@@ -944,8 +944,8 @@ class Posting_new extends CI_Controller
 																   'no_reff'       => $kurs_histori, 
 																   'debet'         => $selisih_kurs,
 																   'kredit'        => 0,
-																   'id_supplier'   => '-',
-																   'nama_supplier' => 'PERIODE END',
+																   'id_supplier'   => 'IDN-2206030',
+																   'nama_supplier' => 'OTHER',
 																
 
 															 );
@@ -1041,8 +1041,8 @@ class Posting_new extends CI_Controller
 																   'no_reff'       => $kurs_histori, 
 																   'debet'         => 0,
 																   'kredit'        => $selisih_kurs*(-1),
-																   'id_supplier'   => '-',
-																   'nama_supplier' => 'PERIODE END',
+																   'id_supplier'   => 'IDN-2206030',
+																   'nama_supplier' => 'OTHER',
 																
 
 															 );
