@@ -945,7 +945,7 @@ class Posting_new extends CI_Controller
 																   'debet'         => $selisih_kurs,
 																   'kredit'        => 0,
 																   'id_supplier'   => '-',
-																   'nama_supplier' => '-',
+																   'nama_supplier' => 'PERIODE END',
 																
 
 															 );
@@ -1042,7 +1042,7 @@ class Posting_new extends CI_Controller
 																   'debet'         => 0,
 																   'kredit'        => $selisih_kurs*(-1),
 																   'id_supplier'   => '-',
-																   'nama_supplier' => '-',
+																   'nama_supplier' => 'PERIODE END',
 																
 
 															 );
