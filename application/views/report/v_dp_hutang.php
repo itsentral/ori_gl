@@ -122,7 +122,7 @@ if ($data_perkiraan) {
 										<?php
 										
 										$awal 		= $datawal;
-										$akhir		= $datakhir;
+										$akhir		= $datakhir; 
 										$vendor 	= $datvendor;
 										
 										$supp  = $this->db->query("SELECT * FROM ".DBACC.".supplier WHERE id_supplier='$vendor'")->row();
@@ -134,6 +134,9 @@ if ($data_perkiraan) {
 									</tr>
 
 									<tr>
+										<td>
+										<center><b>Nomor</b></center>
+										</td>
 									    <td>
 										<center><b>Tanggal Bukti</b></center>
 										</td>
@@ -200,6 +203,7 @@ if ($data_perkiraan) {
 													$count3++;
 													$supplier[$count2]			= $row_dj->nama_supplier;
 													$nama_perkiraan2[$count2] 	= $row_dj->keterangan;
+													$nomorjurnal[$count2] 	    = $row_dj->nomor;
 													$tgl_bukti[$count2]			= $row_dj->tanggal;
 													$nomor_bukti[$count2] 		= $row_dj->nomor;
 													$tipe_sm[$count2] 			= $row_dj->tipe;
@@ -222,6 +226,7 @@ if ($data_perkiraan) {
 													$saldo_akhir				= $current_saldo[$count3];
 											?>
 													<tr>
+														<td><?= $nomorjurnal[$count2] ?></td>
 													    <td align="center"><?= date_format(new DateTime($tgl_bukti[$count2]), "d-m-Y")  ?></td>
 														
 														<td><?= $nama_perkiraan2[$count2] ?></td>
