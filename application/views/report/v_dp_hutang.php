@@ -170,7 +170,7 @@ if ($data_perkiraan) {
 									?>
 									
 									<tr>
-												
+												<td></td>
 												<td></td>
 												<td></td>
 												<td align="center"></td>
@@ -250,7 +250,7 @@ if ($data_perkiraan) {
 												<td></td>
 												<td></td>
 												<td align="right">Saldo Akhir -></td>
-
+                                                <td></td>
 												<td align="right"><b><?= number_format($sum_debet[$count], 0, ',', '.'); ?></td>
 												<td align="right"><b><?= number_format($sum_kredit[$count], 0, ',', '.'); ?></td>
 												<td align="right"><b><?= number_format($saldo_akhir, 0, ',', '.'); ?></td>
