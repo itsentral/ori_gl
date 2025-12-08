@@ -245,7 +245,11 @@ class Kartu_piutang extends CI_Controller
 			// exit;
 			
             $data['datklien']           = $this->Report_model->pilih_klien();
+			if($klien =='0'){
+			$data['coa_sa']				= $this->Kartupiutang_model->GetData_all_DP($awal,$klien,$tipe);
+			}else{
 			$data['coa_sa']				= $this->Kartupiutang_model->GetDataDP($awal,$klien,$tipe);
+			}
 			$data['datawal']            = $awal;
 			$data['datakhir']           = $akhir;
 			$data['datvendor']          = $klien;
@@ -270,7 +274,11 @@ class Kartu_piutang extends CI_Controller
 		$data['datvendor']             = $supplier;
 		$data['dattipe']                  = $tipe;
 
-	    $data['coa_sa']				= $this->Kartupiutang_model->GetData($awal,$supplier,$tipe);
+	        if($supplier =='0'){
+			$data['coa_sa']				= $this->Kartupiutang_model->GetData_all_DP($awal,$klien,$tipe);
+			}else{
+			$data['coa_sa']				= $this->Kartupiutang_model->GetDataDP($awal,$klien,$tipe);
+			}
 		$data['detail_jurnal']		= $this->Kartupiutang_model->get_detail_kartu_piutang($awal,$akhir,$supplier,$tipe);
 
 		$this->load->view("piutang/v_kartu_dp_excel", $data);
