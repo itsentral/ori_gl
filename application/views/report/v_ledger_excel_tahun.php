@@ -6,7 +6,7 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
 header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=Laporan_Ledger_$bln_ledger-$thn_ledger.xls"); //ganti nama sesuai keperluan
+header("Content-Disposition: attachment; filename=Laporan_Ledger_$thn_ledger.xls"); //ganti nama sesuai keperluan
 header("Pragma: no-cache");
 header("Expires: 0");
 //disini script laporan anda
@@ -15,34 +15,9 @@ header("Expires: 0");
 <table width='50%' border="1" cellpadding="5" cellspacing="0">
 	<?php
 	//
-	if ($bln_ledger > 0) {
-		$nm_bln = $bln_ledger;
-		if ($nm_bln == 1) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br>Periode : Januari " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 2) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : Februari " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 3) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : Maret " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 4) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : April " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 5) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : Mei " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 6) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : Juni " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 7) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : Juli " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 8) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : Agustus " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 9) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : September " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 10) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : Oktober " . $thn_ledger . "</center></th></tr>";
-		} elseif ($nm_bln == 11) {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : November " . $thn_ledger . "</center></th></tr>";
-		} else {
-			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br><br>Periode : Desember " . $thn_ledger . "</center></th></tr>";
-		}
-	}
+
+			echo "<tr><th colspan='7' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br>Periode : " . $thn_ledger . "</center></th></tr>";
+		
 	?>
 	</tr>
 	<!-- DATA DARI COA -->
@@ -50,8 +25,8 @@ header("Expires: 0");
 	//$count=0;
 	$var_bulan = $this->uri->segment(3);
 	$var_tahun = $this->uri->segment(4);
-	$var_tgl_awal=date("Y-m-d", strtotime($var_tahun.'-'.$var_bulan.'-01'));
-	$var_tgl_akhir=date("Y-m-t", strtotime($var_tgl_awal));
+	// $var_tgl_awal=date("Y-m-d", strtotime($var_tahun.'-'.$var_bulan.'-01'));
+	// $var_tgl_akhir=date("Y-m-t", strtotime($var_tgl_awal));
 
 	if ($coa_sa > 0) {
 
