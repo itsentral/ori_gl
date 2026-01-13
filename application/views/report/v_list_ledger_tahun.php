@@ -105,7 +105,6 @@ if ($data_perkiraan) {
 							<td width="25%" align="left">
 								<input type="submit" name="tampilkan" value="Tampilkan" onclick="return check()" class="btn btn-success pull-center">
 								<input type="submit" name="tampilkan" value="View Excel" onclick="return check()" class="btn btn-success pull-center">
-								<input type="submit" name="tampilkan" value="View Detail" onclick="return check()" class="btn btn-success pull-center">
 							</td>
 						</tr>
 					</table>
