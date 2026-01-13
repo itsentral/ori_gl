@@ -998,8 +998,7 @@ class Report extends CI_Controller
 
 	function excel_ledger()
 	{
-		$data['judul']			= "Laporan Laba Rugi";
-
+		$data['judul']			= "Laporan Ledger";
 		$var_bulan = $this->uri->segment(3);
 		$var_tahun = $this->uri->segment(4);
 
@@ -1028,7 +1027,7 @@ class Report extends CI_Controller
 	
 	function detail_ledger()
 	{
-		$data['judul']			= "Laporan Laba Rugi";
+		$data['judul']			= "Laporan Ledger";
 
 		$var_bulan = $this->uri->segment(3);
 		$var_tahun = $this->uri->segment(4);
@@ -1052,6 +1051,145 @@ class Report extends CI_Controller
 		}
 
 		$data['coa_sa']				= $this->Report_model->get_coa_sa($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun);
+//		$data['detail_jurnal']		= $this->Report_model->get_detail_jurnal($filter_nokir, $filter_nokir2, $var_tgl_awal, $var_tgl_akhir);
+		//echo"<pre>";print_r($data);exit;
+		$this->load->view("report/v_ledger_detail", $data);
+		//redirect('report/print_labarugi');		
+	}
+
+
+
+	function tampilkan_ledger_tahun()
+	{
+		$data['judul']			= "Laporan Ledger";
+		
+		if ($this->input->post('tampilkan') == "View Excel") {
+			$var_bln					= $this->input->post('bulan_ledger');
+			$var_thn					= $this->input->post('tahun_ledger');
+			$var_filter_nokir			= $this->input->post('filter_nokir');
+			$var_filter_nokir2			= $this->input->post('filter_nokir2');
+			$filter_nokir = substr($var_filter_nokir, 0, 10);
+			$filter_nokir2 = substr($var_filter_nokir2, 0, 10);
+			redirect('report/excel_ledger_tahun/' . $var_bln . '/' . $var_thn . '/' . $filter_nokir . '/' . $filter_nokir2);
+			//redirect('report/ledger');
+
+		} elseif ($this->input->post('tampilkan') == "View Detail") {
+			$var_bln					= $this->input->post('bulan_ledger');
+			$var_thn					= $this->input->post('tahun_ledger');
+			$var_filter_nokir			= $this->input->post('filter_nokir');
+			$var_filter_nokir2			= $this->input->post('filter_nokir2');
+			$filter_nokir = substr($var_filter_nokir, 0, 10);
+			$filter_nokir2 = substr($var_filter_nokir2, 0, 10);
+			redirect('report/detail_ledger_tahun/' . $var_bln . '/' . $var_thn . '/' . $filter_nokir . '/' . $filter_nokir2);
+			//redirect('report/ledger');
+
+		}
+		
+		else {
+			$cek_periode_aktif			= $this->Report_model->cek_periode_aktif();
+			//print_r( $cek_periode_aktif);
+			if ($cek_periode_aktif > 0) {
+				foreach ($cek_periode_aktif as $row_periode_aktif) {
+					$tgl_periode_aktif	= $row_periode_aktif->periode;
+					$bln_aktif			= substr($tgl_periode_aktif, 0, 2);
+					$thn_aktif			= substr($tgl_periode_aktif, 3, 4);
+				}
+			}
+			$data['data_perkiraan']		= $this->Jurnal_model->get_noperkiraan($bln_aktif, $thn_aktif);
+
+			$var_bulan					= $this->input->post('bulan_ledger');
+			$var_tahun					= $this->input->post('tahun_ledger');
+			$data['bln_ledger']			= $this->input->post('bulan_ledger');
+			$data['thn_ledger']			= $this->input->post('tahun_ledger');
+			$var_filter_nokir			= $this->input->post('filter_nokir');
+			$var_filter_nokir2			= $this->input->post('filter_nokir2');
+			$data['filter_nokir']			= $this->input->post('filter_nokir');
+			$data['filter_nokir2']			= $this->input->post('filter_nokir2');
+			$filter_nokir = substr($var_filter_nokir, 0, 10);
+			$filter_nokir2 = substr($var_filter_nokir2, 0, 10);
+
+			$awal = 1;
+			$bulan1 =01;
+			$bulan2 =12;
+			$akhir =31;
+			$enol = 0;
+			if ($var_bulan > 9) {
+				$var_tgl_awal = $var_tahun . "-" . $bulan1 . "-0" . $awal;
+				$data['var_tgl_awal'] = $var_tahun . "-" . $bulan1 . "-0" . $awal;
+				$var_tgl_akhir = $var_tahun . "-" . $bulan2 . "-" . $akhir;
+				$data['var_tgl_akhir'] = $var_tahun . "-" . $bulan2 . "-" . $akhir;
+			} else {
+				$var_tgl_awal = $var_tahun . "-" . $bulan1. "-0" . $awal;
+				$data['var_tgl_awal'] = $var_tahun . "-" . $bulan1 . "-0" . $awal;
+				$var_tgl_akhir = $var_tahun . "-" . $enol . $bulan2 . "-" . $akhir;
+				$data['var_tgl_akhir'] = $var_tahun . "-" .$bulan2 . "-" . $akhir;
+			}
+
+			$data['coa_sa']				= $this->Report_model->get_coa_sa_tahun($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun);
+			// $data['detail_jurnal']		= $this->Report_model->get_detail_jurnal($filter_nokir,$filter_nokir2,$var_tgl_awal,$var_tgl_akhir);
+			
+			$data['cutoff_stock']		= $this->cutoff_stock;
+			$this->load->view("report/v_list_ledger_tahun", $data);
+		}
+	}
+
+
+	function excel_ledger_tahun()
+	{
+		$data['judul']			= "Laporan Ledger";
+
+		$var_bulan = $this->uri->segment(3);
+		$var_tahun = $this->uri->segment(4);
+
+		$data['bln_ledger']			= $var_bulan;
+		$data['thn_ledger']			= $var_tahun;
+		$filter_nokir			= $this->uri->segment(5);
+		$filter_nokir2			= $this->uri->segment(6);
+
+		$awal = 1;
+		$akhir = date("t",strtotime($var_tahun . "-" . $var_bulan ."-01"));
+		$enol = 0;
+		if ($var_bulan > 9) {
+			$var_tgl_awal = $var_tahun . "-" . $var_bulan . "-0" . $awal;
+			$var_tgl_akhir = $var_tahun . "-" . $var_bulan . "-" . $akhir;
+		} else {
+			$var_tgl_awal = $var_tahun . "-" . $enol . $var_bulan . "-0" . $awal;
+			$var_tgl_akhir = $var_tahun . "-" . $enol . $var_bulan . "-" . $akhir;
+		}
+
+		$data['coa_sa']				= $this->Report_model->get_coa_sa_tahun($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun);
+//		$data['detail_jurnal']		= $this->Report_model->get_detail_jurnal($filter_nokir, $filter_nokir2, $var_tgl_awal, $var_tgl_akhir);
+
+		$this->load->view("report/v_ledger_excel", $data);
+		//redirect('report/print_labarugi');		
+	}
+	
+	function detail_ledger_tahun()
+	{
+		$data['judul']			= "Laporan Ledger";
+
+		$var_bulan = $this->uri->segment(3);
+		$var_tahun = $this->uri->segment(4);
+
+		$data['bln_ledger']			= $var_bulan;
+		$data['thn_ledger']			= $var_tahun;
+		$filter_nokir			= $this->uri->segment(5);
+		$filter_nokir2			= $this->uri->segment(6);
+		$data['coa_filter1']			= $filter_nokir;
+		$data['coa_filter2']			= $filter_nokir2;
+
+		$awal = 1;
+		$akhir = date("t",strtotime($var_tahun . "-" . $var_bulan ."-01"));
+		$enol = 0;
+		if ($var_bulan > 9) {
+			$var_tgl_awal = $var_tahun . "-" . $var_bulan . "-0" . $awal;
+			$var_tgl_akhir = $var_tahun . "-" . $var_bulan . "-" . $akhir;
+		} else {
+			$var_tgl_awal = $var_tahun . "-" . $enol . $var_bulan . "-0" . $awal;
+			$var_tgl_akhir = $var_tahun . "-" . $enol . $var_bulan . "-" . $akhir;
+		}
+
+		$data['coa_sa']				= $this->Report_model->get_coa_sa_tahun($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun);
 //		$data['detail_jurnal']		= $this->Report_model->get_detail_jurnal($filter_nokir, $filter_nokir2, $var_tgl_awal, $var_tgl_akhir);
 		//echo"<pre>";print_r($data);exit;
 		$this->load->view("report/v_ledger_detail", $data);

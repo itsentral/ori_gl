@@ -864,6 +864,47 @@ class Report_model extends CI_Model
 		}
 	}
 
+	public function get_coa_sa_tahun($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun)
+	{
+		$kode_cabang = $this->session->userdata('kode_cabang');
+		$query 	= "SELECT * from COA where no_perkiraan between '$filter_nokir' and '$filter_nokir2' and bln='1' and thn='$var_tahun' and level='5'  and kdcab like '%$kode_cabang%' order by no_perkiraan";
+
+		$query	= $this->db->query($query);
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return 0;
+		}
+	}
+
+		public function get_detail_jurnal_tahun($filter_nokir, $filter_nokir2, $var_tgl_awal, $var_tgl_akhir)
+	{
+		$kode_cabang = $this->session->userdata('kode_cabang');
+		$query 	= "SELECT * from jurnal where no_perkiraan between '$filter_nokir' and '$filter_nokir2' and tanggal between '$var_tgl_awal' and '$var_tgl_akhir' and nomor like '$kode_cabang%' order by id";
+		//$query 	= "SELECT * from jurnal where no_perkiraan = '$nokir_induk' and tanggal between '$var_tgl_awal' and '$var_tgl_akhir' order by tanggal, nomor asc";
+
+		$query	= $this->db->query($query);
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return 0;
+		}
+	}
+
+	public function get_detail_jurnal2_tahun($nokir_induk, $var_tgl_awal, $var_tgl_akhir)
+	{
+		$kode_cabang = $this->session->userdata('kode_cabang');
+		//$query 	= "SELECT * from jurnal where no_perkiraan between '$filter_nokir' and '$filter_nokir2' and tanggal between '$var_tgl_awal' and '$var_tgl_akhir' and nomor like '$kode_cabang%' order by id";
+		$query 	= "SELECT * from jurnal where no_perkiraan = '$nokir_induk' and tanggal between '$var_tgl_awal' and '$var_tgl_akhir' order by id, tanggal, nomor asc";
+
+		$query	= $this->db->query($query);
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return 0;
+		}
+	}
+
 	public function get_jurnal($nokir, $var_tgl_awal, $var_tgl_akhir)
 	{
 		$kode_cabang = $this->session->userdata('kode_cabang');
