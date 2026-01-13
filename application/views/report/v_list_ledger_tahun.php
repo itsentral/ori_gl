@@ -141,7 +141,7 @@ if ($data_perkiraan) {
 											
 											$nm_bln = $bln_ledger;
 											$Name_Bulan		= $Arr_Bulan[$nm_bln];
-											echo "<tr><th colspan='8' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br>Periode : ".ucwords(strtolower($Name_Bulan))." " . $thn_ledger . "</center></th></tr>";
+											echo "<tr><th colspan='8' style='text-align:center;font-size:15px;'><center>LAPORAN LEDGER<br>Periode : ". $thn_ledger . "</center></th></tr>";
 											
 										}else{
 											$Periode_Awal = date('Y-m-d',mktime(0,0,0,1,1,$thn_ledger));

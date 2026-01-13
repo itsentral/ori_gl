@@ -1146,21 +1146,28 @@ class Report extends CI_Controller
 		$filter_nokir			= $this->uri->segment(5);
 		$filter_nokir2			= $this->uri->segment(6);
 
-		$awal = 1;
-		$akhir = date("t",strtotime($var_tahun . "-" . $var_bulan ."-01"));
-		$enol = 0;
-		if ($var_bulan > 9) {
-			$var_tgl_awal = $var_tahun . "-" . $var_bulan . "-0" . $awal;
-			$var_tgl_akhir = $var_tahun . "-" . $var_bulan . "-" . $akhir;
-		} else {
-			$var_tgl_awal = $var_tahun . "-" . $enol . $var_bulan . "-0" . $awal;
-			$var_tgl_akhir = $var_tahun . "-" . $enol . $var_bulan . "-" . $akhir;
-		}
+		    $awal = 1;
+			$bulan1 =01;
+			$bulan2 =12;
+			$akhir =31;
+			$enol = 0;
+			if ($var_bulan > 9) {
+				$var_tgl_awal = $var_tahun . "-" . $bulan1 . "-0" . $awal;
+				$data['var_tgl_awal'] = $var_tahun . "-" . $bulan1 . "-0" . $awal;
+				$var_tgl_akhir = $var_tahun . "-" . $bulan2 . "-" . $akhir;
+				$data['var_tgl_akhir'] = $var_tahun . "-" . $bulan2 . "-" . $akhir;
+			} else {
+				$var_tgl_awal = $var_tahun . "-" . $bulan1. "-0" . $awal;
+				$data['var_tgl_awal'] = $var_tahun . "-" . $bulan1 . "-0" . $awal;
+				$var_tgl_akhir = $var_tahun . "-" . $enol . $bulan2 . "-" . $akhir;
+				$data['var_tgl_akhir'] = $var_tahun . "-" .$bulan2 . "-" . $akhir;
+			}
+
 
 		$data['coa_sa']				= $this->Report_model->get_coa_sa_tahun($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun);
 //		$data['detail_jurnal']		= $this->Report_model->get_detail_jurnal($filter_nokir, $filter_nokir2, $var_tgl_awal, $var_tgl_akhir);
 
-		$this->load->view("report/v_ledger_excel", $data);
+		$this->load->view("report/v_ledger_excel_tahun", $data);
 		//redirect('report/print_labarugi');		
 	}
 	
@@ -1192,7 +1199,7 @@ class Report extends CI_Controller
 		$data['coa_sa']				= $this->Report_model->get_coa_sa_tahun($filter_nokir, $filter_nokir2, $var_bulan, $var_tahun);
 //		$data['detail_jurnal']		= $this->Report_model->get_detail_jurnal($filter_nokir, $filter_nokir2, $var_tgl_awal, $var_tgl_akhir);
 		//echo"<pre>";print_r($data);exit;
-		$this->load->view("report/v_ledger_detail", $data);
+		$this->load->view("report/v_ledger_detail_tahun", $data);
 		//redirect('report/print_labarugi');		
 	}
 
