@@ -893,11 +893,11 @@ class Posting_new extends CI_Controller
 										$ap_usd  ='2101-01-04';
 										
 										
-										if (strpos($no_perkiraan, '2102-01-03') !== false || strpos($no_perkiraan, '2101-01-04') !== false  || strpos($no_perkiraan, '2101-01-05') !== false) {
+									if (strpos($no_perkiraan, '2102-01-03') !== false || strpos($no_perkiraan, '2101-01-04') !== false  || strpos($no_perkiraan, '2101-01-05') !== false || strpos($no_perkiraan, '1111-01-02') !== false) {
 																								
 										 
 										 
-													if($selisih_kurs > 0){
+												if($selisih_kurs > 0){
 														 
 													$det_Jurnal[]			= array(
 														   'nomor'         => $nojvcost,
@@ -977,12 +977,7 @@ class Posting_new extends CI_Controller
 														$this->db->insert('javh',$dataJVhead);
 													  
 													  
-													 }
-													 
-													 
-													 
-													 
-													 elseif($selisih_kurs < 0){
+													}elseif($selisih_kurs < 0){
 														 
 																				 
 													
@@ -1075,7 +1070,7 @@ class Posting_new extends CI_Controller
 
 														$this->db->insert('javh',$dataJVhead);
 							 
-												}
+													}
 									
 									
 									} else {
