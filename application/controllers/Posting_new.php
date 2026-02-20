@@ -829,7 +829,7 @@ class Posting_new extends CI_Controller
 								
                                 $Saldo_Akhir			= ($Saldo_Awal + $Tot_Debet - $Tot_Kredit) * $Faktor_Kali;								
 								$saldo_idr_baru = $Saldo_Akhir_Valas*$kurs;								
-								$selisih_kurs   = $Saldo_Akhir-$saldo_idr_baru;
+								$selisih_kurs   = round($Saldo_Akhir-$saldo_idr_baru);
 								$total          = $saldo_idr_baru+$selisih_kurs;
 								
 								
