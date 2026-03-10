@@ -814,7 +814,7 @@ class Posting_new extends CI_Controller
 								$Tot_Debet  = $carisaldo->debet;
 								$Tot_Kredit = $carisaldo->kredit;
 								$Faktor_Kali = $carisaldo->faktor;
-								$Saldo_Akhir			= ($Saldo_Awal + $Tot_Debet - $Tot_Kredit) * $Faktor_Kali;
+								$Saldo_Akhir			= ($Saldo_Awal + $Tot_Debet - $Tot_Kredit) * $Faktor_Kali; 
 								
 								$Saldo_Awal_Valas = $carisaldo->saldo_valas;
 								$TotVal_Debet  = $carisaldo->nilai_valas_debet;
@@ -1265,8 +1265,8 @@ class Posting_new extends CI_Controller
 														   'no_perkiraan'  => $no_perkiraan,
 														   'keterangan'    => $Keterangan_INV,
 														   'no_reff'       => $kurs_histori, 
-														   'debet'         => 0,
-														   'kredit'        => $selisih_kurs,
+														   'debet'         => $selisih_kurs,
+														   'kredit'        => 0,
 														  
 							 
 													 );									 
@@ -1279,8 +1279,8 @@ class Posting_new extends CI_Controller
 														   'no_perkiraan'  => '7101-01-02',
 														   'keterangan'    => $Keterangan_INV,
 														   'no_reff'       => $kurs, 
-														   'debet'         => $selisih_kurs,
-														   'kredit'        => 0,
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs,
 														
 							 
 													 );
@@ -1339,7 +1339,18 @@ class Posting_new extends CI_Controller
 													}elseif($selisih_kurs < 0){
 														 
 																				 
-													
+													 $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => $no_perkiraan,
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs, 
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs*(-1),
+														   
+							 
+													 );
 													
 													 
 													 $det_Jurnal[]			= array(
@@ -1355,18 +1366,7 @@ class Posting_new extends CI_Controller
 							 
 													 );
 													 
-													  $det_Jurnal[]			= array(
-														   'nomor'         => $nojvcost,
-														   'tanggal'       => $Tgl_Inv,
-														   'tipe'          => 'JV',
-														   'no_perkiraan'  => $no_perkiraan,
-														   'keterangan'    => $Keterangan_INV,
-														   'no_reff'       => $kurs, 
-														   'debet'         => 0,
-														   'kredit'        => $selisih_kurs*(-1),
-														   
-							 
-													 );
+													 
 													
 																					
 													 
