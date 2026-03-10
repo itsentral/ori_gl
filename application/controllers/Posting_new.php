@@ -893,7 +893,7 @@ class Posting_new extends CI_Controller
 										$ap_usd  ='2101-01-04';
 										
 										
-									if (strpos($no_perkiraan, '2102-01-03') !== false || strpos($no_perkiraan, '2101-01-04') !== false  || strpos($no_perkiraan, '2101-01-05') !== false || strpos($no_perkiraan, '1111-01-02') !== false) {
+									if (strpos($no_perkiraan, '2102-01-03') !== false || strpos($no_perkiraan, '2101-01-04') !== false  || strpos($no_perkiraan, '2101-01-05') !== false ) {
 																								
 										 
 										 
@@ -1071,8 +1071,544 @@ class Posting_new extends CI_Controller
 														$this->db->insert('javh',$dataJVhead);
 							 
 													}
+
+									} else if (strpos($no_perkiraan, '1111-01-02') !== false ){
+
+                                                   if($selisih_kurs > 0){
+														 
+													$det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => $no_perkiraan,
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs_histori, 
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs,
+														  
+							 
+													 );									 
+													
+													 
+													 $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => '7101-01-02',
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs, 
+														   'debet'         => $selisih_kurs,
+														   'kredit'        => 0,
+														
+							 
+													 );
+													 
+													  $this->db->insert_batch('jurnal',$det_Jurnal);
+													  
+													  
+													  //$Keterangan_INV		    = 'Periode End '.$bulan.'-'.$tahun;
+														$nojvcosthutang		    = 'SYSTEM';
+																					 
+														$det_Jurnalhutang				= array(); 
+														
+														
+														$det_Jurnalhutang[]			= array(
+																   'nomor'         => $nojvcosthutang,
+																   'tanggal'       => $Tgl_Inv,
+																   'tipe'          => 'JV',
+																   'no_perkiraan'  => $no_perkiraan,
+																   'keterangan'    => $Keterangan_INV,
+																   'no_reff'       => $kurs_histori, 
+																   'debet'         => 0,
+																   'kredit'        => $selisih_kurs,
+																   'id_supplier'   => 'IDN-2206030',
+																   'nama_supplier' => 'OTHER',
+																
+
+															 );
+															 
+														 $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnalhutang);
+														
+														
+													  
+													  
+													  
+																			
+														$dataJVhead = array(
+															'nomor' 	    	=> $nojvcost,
+															'tgl'	         	=> $Tgl_Inv,
+															'jml'	            => $selisih_kurs,
+															'koreksi_no'		=> '-',
+															'kdcab'				=> '101',
+															'jenis'			    => 'JV',
+															'keterangan' 		=> $Keterangan_INV,
+															'bulan'				=> $bln_aktif,
+															'tahun'				=> $thn_aktif,
+															'user_id'			=> $this->session->userdata('pn_name'),
+															'memo'			    => $Keterangan_INV2,
+															'tgl_jvkoreksi'	    => $Tgl_Inv,
+															'ho_valid'			=> ''
+														);
+
+
+														$this->db->insert('javh',$dataJVhead);
+													  
+													  
+													}elseif($selisih_kurs < 0){
+														 
+																				 
+													
+													
+													 
+													 $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => '7101-01-02',
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs_histori, 
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs*(-1),
+														  
+							 
+													 );
+													 
+													  $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => $no_perkiraan,
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs, 
+														   'debet'         => $selisih_kurs*(-1),
+														   'kredit'        => 0,
+														   
+							 
+													 );
+													
+																					
+													 
+							 
+													 // $this->db->where('no_reff', $id);
+													 // $this->db->where('jenis_jurnal', $ket);
+													 // $this->db->delete('jurnal');
+											 
+													 $this->db->insert_batch('jurnal',$det_Jurnal);
+													 
+													 
+													 
+													 
+													 //$Keterangan_INV		    = 'Periode End '.$bulan.'-'.$tahun;
+														$nojvcosthutang		    = 'SYSTEM';
+																					 
+														$det_Jurnalhutang				= array(); 
+														
+														
+														$det_Jurnalhutang[]			= array(
+																   'nomor'         => $nojvcosthutang,
+																   'tanggal'       => $Tgl_Inv,
+																   'tipe'          => 'JV',
+																   'no_perkiraan'  => $no_perkiraan,
+																   'keterangan'    => $Keterangan_INV,
+																   'no_reff'       => $kurs_histori, 
+																   'debet'         => $selisih_kurs*(-1),
+																   'kredit'        => 0,
+																   'id_supplier'   => 'IDN-2206030',
+																   'nama_supplier' => 'OTHER',
+																
+
+															 );
+															 
+														 $this->db->insert_batch('sentralsistem.tr_kartu_hutang',$det_Jurnalhutang);
+														
+														
+													  
+													 
+													 
+													 
+																			
+																		
+														$dataJVhead = array(
+															'nomor' 	    	=> $nojvcost,
+															'tgl'	         	=> $Tgl_Inv,
+															'jml'	            => $selisih_kurs*(-1),
+															'koreksi_no'		=> '-',
+															'kdcab'				=> '101',
+															'jenis'			    => 'JV',
+															'keterangan' 		=> $Keterangan_INV,
+															'bulan'				=> $bln_aktif,
+															'tahun'				=> $thn_aktif,
+															'user_id'			=> $this->session->userdata('pn_name'),
+															'memo'			    => $Keterangan_INV2,
+															'tgl_jvkoreksi'	    => $Tgl_Inv,
+															'ho_valid'			=> ''
+														);
+
+
+														$this->db->insert('javh',$dataJVhead);
+							 
+													}
+
+
+
+													
 									
+									// 09/03/2025 SYAMSUDIN
+									} else if (strpos($no_perkiraan, '1102-01-02') !== false || strpos($no_perkiraan, '1102-01-04') !== false) {
+																								
+										      	if($selisih_kurs > 0){
+														 
+													$det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => $no_perkiraan,
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs_histori, 
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs,
+														  
+							 
+													 );									 
+													
+													 
+													 $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => '7101-01-02',
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs, 
+														   'debet'         => $selisih_kurs,
+														   'kredit'        => 0,
+														
+							 
+													 );
+													 
+													  $this->db->insert_batch('jurnal',$det_Jurnal);
+													  
+													  
+													  //$Keterangan_INV		    = 'Periode End '.$bulan.'-'.$tahun;
+														$nojvcosthutang		    = 'SYSTEM';
+																					 
+														$det_Jurnalpiutang				= array(); 
+														
+														
+														$det_Jurnalpiutang[]			= array(
+																   'nomor'         => $nojvcosthutang,
+																   'tanggal'       => $Tgl_Inv,
+																   'tipe'          => 'JV',
+																   'no_perkiraan'  => $no_perkiraan,
+																   'keterangan'    => $Keterangan_INV,
+																   'no_reff'       => $kurs_histori, 
+																   'debet'         => 0,
+																   'kredit'        => $selisih_kurs,
+																   'id_supplier'   => 'IDN-2206030',
+																   'nama_supplier' => 'OTHER',
+																
+
+															 );
+															 
+														 $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnalpiutang);
+														
+														
+													  
+													  
+													  
+																			
+														$dataJVhead = array(
+															'nomor' 	    	=> $nojvcost,
+															'tgl'	         	=> $Tgl_Inv,
+															'jml'	            => $selisih_kurs,
+															'koreksi_no'		=> '-',
+															'kdcab'				=> '101',
+															'jenis'			    => 'JV',
+															'keterangan' 		=> $Keterangan_INV,
+															'bulan'				=> $bln_aktif,
+															'tahun'				=> $thn_aktif,
+															'user_id'			=> $this->session->userdata('pn_name'),
+															'memo'			    => $Keterangan_INV2,
+															'tgl_jvkoreksi'	    => $Tgl_Inv,
+															'ho_valid'			=> ''
+														);
+
+
+														$this->db->insert('javh',$dataJVhead);
+													  
+													  
+													}elseif($selisih_kurs < 0){
+														 
+																				 
+													
+													
+													 
+													 $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => '7101-01-02',
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs_histori, 
+														   'debet'         => $selisih_kurs*(-1),
+														   'kredit'        => 0,
+														  
+							 
+													 );
+													 
+													  $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => $no_perkiraan,
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs, 
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs*(-1),
+														   
+							 
+													 );
+													
+																					
+													 
+							 
+													 // $this->db->where('no_reff', $id);
+													 // $this->db->where('jenis_jurnal', $ket);
+													 // $this->db->delete('jurnal');
+											 
+													 $this->db->insert_batch('jurnal',$det_Jurnal);
+													 
+													 
+													 
+													 
+													 //$Keterangan_INV		    = 'Periode End '.$bulan.'-'.$tahun;
+														$nojvcosthutang		    = 'SYSTEM';
+																					 
+														$det_Jurnalpiutang				= array(); 
+														
+														
+														$det_Jurnalpiutang[]			= array(
+																   'nomor'         => $nojvcosthutang,
+																   'tanggal'       => $Tgl_Inv,
+																   'tipe'          => 'JV',
+																   'no_perkiraan'  => $no_perkiraan,
+																   'keterangan'    => $Keterangan_INV,
+																   'no_reff'       => $kurs_histori, 
+																   'debet'         => $selisih_kurs*(-1),
+																   'kredit'        => 0,
+																   'id_supplier'   => 'IDN-2206030',
+																   'nama_supplier' => 'OTHER',
+																
+
+															 );
+															 
+														 $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnalpiutang);
+														
+														
+													  
+													 
+													 
+													 
+																			
+																		
+														$dataJVhead = array(
+															'nomor' 	    	=> $nojvcost,
+															'tgl'	         	=> $Tgl_Inv,
+															'jml'	            => $selisih_kurs*(-1),
+															'koreksi_no'		=> '-',
+															'kdcab'				=> '101',
+															'jenis'			    => 'JV',
+															'keterangan' 		=> $Keterangan_INV,
+															'bulan'				=> $bln_aktif,
+															'tahun'				=> $thn_aktif,
+															'user_id'			=> $this->session->userdata('pn_name'),
+															'memo'			    => $Keterangan_INV2,
+															'tgl_jvkoreksi'	    => $Tgl_Inv,
+															'ho_valid'			=> ''
+														);
+
+
+														$this->db->insert('javh',$dataJVhead);
+							 
+													}
 									
+									} else if (strpos($no_perkiraan, '2102-01-03') !== false) {
+
+                                                if($selisih_kurs > 0){
+														 
+													$det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => $no_perkiraan,
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs_histori, 
+														   'debet'         => $selisih_kurs,
+														   'kredit'        => 0,
+														  
+							 
+													 );									 
+													
+													 
+													 $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => '7101-01-02',
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs, 
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs,
+														
+							 
+													 );
+													 
+													  $this->db->insert_batch('jurnal',$det_Jurnal);
+													  
+													  
+													  //$Keterangan_INV		    = 'Periode End '.$bulan.'-'.$tahun;
+														$nojvcosthutang		    = 'SYSTEM';
+																					 
+														$det_Jurnalpiutang				= array(); 
+														
+														
+														$det_Jurnalpiutang[]			= array(
+																   'nomor'         => $nojvcosthutang,
+																   'tanggal'       => $Tgl_Inv,
+																   'tipe'          => 'JV',
+																   'no_perkiraan'  => $no_perkiraan,
+																   'keterangan'    => $Keterangan_INV,
+																   'no_reff'       => $kurs_histori, 
+																   'debet'         => $selisih_kurs,
+																   'kredit'        => 0,
+																   'id_supplier'   => 'IDN-2206030',
+																   'nama_supplier' => 'OTHER',
+																
+
+															 );
+															 
+														 $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnalpiutang);
+														
+														
+													  
+													  
+													  
+																			
+														$dataJVhead = array(
+															'nomor' 	    	=> $nojvcost,
+															'tgl'	         	=> $Tgl_Inv,
+															'jml'	            => $selisih_kurs,
+															'koreksi_no'		=> '-',
+															'kdcab'				=> '101',
+															'jenis'			    => 'JV',
+															'keterangan' 		=> $Keterangan_INV,
+															'bulan'				=> $bln_aktif,
+															'tahun'				=> $thn_aktif,
+															'user_id'			=> $this->session->userdata('pn_name'),
+															'memo'			    => $Keterangan_INV2,
+															'tgl_jvkoreksi'	    => $Tgl_Inv,
+															'ho_valid'			=> ''
+														);
+
+
+														$this->db->insert('javh',$dataJVhead);
+													  
+													  
+													}elseif($selisih_kurs < 0){
+														 
+																				 
+													
+													
+													 
+													 $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => '7101-01-02',
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs_histori, 
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs*(-1),
+														  
+														  
+							 
+													 );
+													 
+													  $det_Jurnal[]			= array(
+														   'nomor'         => $nojvcost,
+														   'tanggal'       => $Tgl_Inv,
+														   'tipe'          => 'JV',
+														   'no_perkiraan'  => $no_perkiraan,
+														   'keterangan'    => $Keterangan_INV,
+														   'no_reff'       => $kurs, 
+														   'debet'         => $selisih_kurs*(-1),
+														   'kredit'        => 0,
+														   
+							 
+													 );
+													
+																					
+													 
+							 
+													 // $this->db->where('no_reff', $id);
+													 // $this->db->where('jenis_jurnal', $ket);
+													 // $this->db->delete('jurnal');
+											 
+													 $this->db->insert_batch('jurnal',$det_Jurnal);
+													 
+													 
+													 
+													 
+													 //$Keterangan_INV		    = 'Periode End '.$bulan.'-'.$tahun;
+														$nojvcosthutang		    = 'SYSTEM';
+																					 
+														$det_Jurnalpiutang				= array(); 
+														
+														
+														$det_Jurnalpiutang[]			= array(
+																   'nomor'         => $nojvcosthutang,
+																   'tanggal'       => $Tgl_Inv,
+																   'tipe'          => 'JV',
+																   'no_perkiraan'  => $no_perkiraan,
+																   'keterangan'    => $Keterangan_INV,
+																   'no_reff'       => $kurs_histori, 
+																   'debet'         => 0,
+																   'kredit'        => $selisih_kurs*(-1),
+																   'id_supplier'   => 'IDN-2206030',
+																   'nama_supplier' => 'OTHER',
+																
+
+															 );
+															 
+														 $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnalpiutang);
+														
+														
+													  
+													 
+													 
+													 
+																			
+																		
+														$dataJVhead = array(
+															'nomor' 	    	=> $nojvcost,
+															'tgl'	         	=> $Tgl_Inv,
+															'jml'	            => $selisih_kurs*(-1),
+															'koreksi_no'		=> '-',
+															'kdcab'				=> '101',
+															'jenis'			    => 'JV',
+															'keterangan' 		=> $Keterangan_INV,
+															'bulan'				=> $bln_aktif,
+															'tahun'				=> $thn_aktif,
+															'user_id'			=> $this->session->userdata('pn_name'),
+															'memo'			    => $Keterangan_INV2,
+															'tgl_jvkoreksi'	    => $Tgl_Inv,
+															'ho_valid'			=> ''
+														);
+
+
+														$this->db->insert('javh',$dataJVhead);
+							 
+													}
+
 									} else {
 											
 											if($selisih_kurs > 0){
@@ -1205,7 +1741,7 @@ class Posting_new extends CI_Controller
 						}
 			
               
-			 $this->update_invoice($matauang,$kurs);
+			 //$this->update_invoice($matauang,$kurs);
 			
 			}
 			
