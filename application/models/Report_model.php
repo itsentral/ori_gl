@@ -854,7 +854,7 @@ class Report_model extends CI_Model
 	{
 		$kode_cabang = $this->session->userdata('kode_cabang');
 		//$query 	= "SELECT * from jurnal where no_perkiraan between '$filter_nokir' and '$filter_nokir2' and tanggal between '$var_tgl_awal' and '$var_tgl_akhir' and nomor like '$kode_cabang%' order by id";
-		$query 	= "SELECT * from jurnal where no_perkiraan = '$nokir_induk' and tanggal between '$var_tgl_awal' and '$var_tgl_akhir' order by id, tanggal, nomor asc";
+		$query 	= "SELECT * from jurnal where no_perkiraan = '$nokir_induk' and tanggal between '$var_tgl_awal' and '$var_tgl_akhir' order by id asc";
 
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
