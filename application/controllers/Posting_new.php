@@ -1472,7 +1472,7 @@ class Posting_new extends CI_Controller
 														
 														
 														$det_Jurnalpiutang[]			= array(
-																   'nomor'         => $nojvcosthutang,
+																   'nomor'         => $nojvcost,
 																   'tanggal'       => $Tgl_Inv,
 																   'tipe'          => 'JV',
 																   'no_perkiraan'  => $no_perkiraan,
@@ -1513,8 +1513,7 @@ class Posting_new extends CI_Controller
 														$this->db->insert('javh',$dataJVhead);
 													  
 													  
-													}elseif($selisih_kurs < 0){
-														 
+												}else if($selisih_kurs < 0){								 
 																				 
 													
 													
@@ -1565,7 +1564,7 @@ class Posting_new extends CI_Controller
 														
 														
 														$det_Jurnalpiutang[]			= array(
-																   'nomor'         => $nojvcosthutang,
+																   'nomor'         => $nojvcost,
 																   'tanggal'       => $Tgl_Inv,
 																   'tipe'          => 'JV',
 																   'no_perkiraan'  => $no_perkiraan,
@@ -1607,7 +1606,7 @@ class Posting_new extends CI_Controller
 
 														$this->db->insert('javh',$dataJVhead);
 							 
-													}
+												}
 
 									} else {
 											
