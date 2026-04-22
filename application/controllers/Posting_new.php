@@ -1486,7 +1486,7 @@ class Posting_new extends CI_Controller
 
 															 );
 															 
-														 $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnalpiutang);
+														// $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnalpiutang);
 														
 														
 													  
