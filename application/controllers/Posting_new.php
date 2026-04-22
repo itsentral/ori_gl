@@ -1443,7 +1443,7 @@ class Posting_new extends CI_Controller
 														   'keterangan'    => $Keterangan_INV,
 														   'no_reff'       => $kurs_histori, 
 														   'debet'         => 0,
-														   'kredit'        => $selisih_kurs,
+														   'kredit'        => $selisih_kurs*(-1),
 														  
 							 
 													 );									 
@@ -1456,7 +1456,7 @@ class Posting_new extends CI_Controller
 														   'no_perkiraan'  => '7101-01-02',
 														   'keterangan'    => $Keterangan_INV,
 														   'no_reff'       => $kurs, 
-														   'debet'         => $selisih_kurs,
+														   'debet'         => $selisih_kurs*(-1),
 														   'kredit'        => 0,
 														
 							 
@@ -1479,7 +1479,7 @@ class Posting_new extends CI_Controller
 																   'keterangan'    => $Keterangan_INV,
 																   'no_reff'       => $kurs_histori, 
 																   'debet'         => 0,
-																   'kredit'        => $selisih_kurs,
+																   'kredit'        => $selisih_kurs*(-1),
 																   'id_supplier'   => 'IDN-2206030',
 																   'nama_supplier' => 'OTHER',
 																
@@ -1496,7 +1496,7 @@ class Posting_new extends CI_Controller
 														$dataJVhead = array(
 															'nomor' 	    	=> $nojvcost,
 															'tgl'	         	=> $Tgl_Inv,
-															'jml'	            => $selisih_kurs,
+															'jml'	            => $selisih_kurs*(-1),
 															'koreksi_no'		=> '-',
 															'kdcab'				=> '101',
 															'jenis'			    => 'JV',
@@ -1526,7 +1526,7 @@ class Posting_new extends CI_Controller
 														   'keterangan'    => $Keterangan_INV,
 														   'no_reff'       => $kurs_histori, 
 														   'debet'         => 0,
-														   'kredit'        => $selisih_kurs*(-1),
+														   'kredit'        => $selisih_kurs,
 														  
 														  
 							 
@@ -1539,7 +1539,7 @@ class Posting_new extends CI_Controller
 														   'no_perkiraan'  => $no_perkiraan,
 														   'keterangan'    => $Keterangan_INV,
 														   'no_reff'       => $kurs, 
-														   'debet'         => $selisih_kurs*(-1),
+														   'debet'         => $selisih_kurs,
 														   'kredit'        => 0,
 														   
 							 
@@ -1570,7 +1570,7 @@ class Posting_new extends CI_Controller
 																   'no_perkiraan'  => $no_perkiraan,
 																   'keterangan'    => $Keterangan_INV,
 																   'no_reff'       => $kurs_histori, 
-																   'debet'         => $selisih_kurs*(-1),
+																   'debet'         => $selisih_kurs,
 																   'kredit'        => 0,
 																   'id_supplier'   => 'IDN-2206030',
 																   'nama_supplier' => 'OTHER',
@@ -1590,7 +1590,7 @@ class Posting_new extends CI_Controller
 														$dataJVhead = array(
 															'nomor' 	    	=> $nojvcost,
 															'tgl'	         	=> $Tgl_Inv,
-															'jml'	            => $selisih_kurs*(-1),
+															'jml'	            => $selisih_kurs,
 															'koreksi_no'		=> '-',
 															'kdcab'				=> '101',
 															'jenis'			    => 'JV',
