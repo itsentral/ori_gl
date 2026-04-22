@@ -893,7 +893,7 @@ class Posting_new extends CI_Controller
 										$ap_usd  ='2101-01-04';
 										
 										
-									if (strpos($no_perkiraan, '2102-01-03') !== false || strpos($no_perkiraan, '2101-01-04') !== false  || strpos($no_perkiraan, '2101-01-05') !== false ) {
+									if (strpos($no_perkiraan, '2101-01-04') !== false  || strpos($no_perkiraan, '2101-01-05') !== false ) {
 																								
 										 
 										 
@@ -1254,7 +1254,7 @@ class Posting_new extends CI_Controller
 													
 									
 									// 09/03/2025 SYAMSUDIN
-									} else if (strpos($no_perkiraan, '1102-01-02') !== false || strpos($no_perkiraan, '1102-01-04') !== false) {
+									} else if (strpos($no_perkiraan, '1102-01-02') !== false || strpos($no_perkiraan, '1102-01-04') !== false ) {
 																								
 										      	if($selisih_kurs > 0){
 														 
