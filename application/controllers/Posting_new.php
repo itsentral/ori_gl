@@ -1433,7 +1433,7 @@ class Posting_new extends CI_Controller
 									
 									} else if (strpos($no_perkiraan, '2102-01-03') !== false) {
 
-                                                if($selisih_kurs > 0){
+                                                if($selisih_kurs < 0){
 														 
 													$det_Jurnal[]			= array(
 														   'nomor'         => $nojvcost,
@@ -1513,7 +1513,7 @@ class Posting_new extends CI_Controller
 														$this->db->insert('javh',$dataJVhead);
 													  
 													  
-												}else if($selisih_kurs < 0){								 
+												}else if($selisih_kurs > 0){								 
 																				 
 													
 													
