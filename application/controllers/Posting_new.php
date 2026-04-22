@@ -1442,8 +1442,8 @@ class Posting_new extends CI_Controller
 														   'no_perkiraan'  => $no_perkiraan,
 														   'keterangan'    => $Keterangan_INV,
 														   'no_reff'       => $kurs_histori, 
-														   'debet'         => $selisih_kurs,
-														   'kredit'        => 0,
+														   'debet'         => 0,
+														   'kredit'        => $selisih_kurs,
 														  
 							 
 													 );									 
@@ -1456,8 +1456,8 @@ class Posting_new extends CI_Controller
 														   'no_perkiraan'  => '7101-01-02',
 														   'keterangan'    => $Keterangan_INV,
 														   'no_reff'       => $kurs, 
-														   'debet'         => 0,
-														   'kredit'        => $selisih_kurs,
+														   'debet'         => $selisih_kurs,
+														   'kredit'        => 0,
 														
 							 
 													 );
@@ -1478,15 +1478,15 @@ class Posting_new extends CI_Controller
 																   'no_perkiraan'  => $no_perkiraan,
 																   'keterangan'    => $Keterangan_INV,
 																   'no_reff'       => $kurs_histori, 
-																   'debet'         => $selisih_kurs,
-																   'kredit'        => 0,
+																   'debet'         => 0,
+																   'kredit'        => $selisih_kurs,
 																   'id_supplier'   => 'IDN-2206030',
 																   'nama_supplier' => 'OTHER',
 																
 
 															 );
 															 
-														// $this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnalpiutang);
+														$this->db->insert_batch('sentralsistem.tr_kartu_piutang',$det_Jurnalpiutang);
 														
 														
 													  
@@ -1570,8 +1570,8 @@ class Posting_new extends CI_Controller
 																   'no_perkiraan'  => $no_perkiraan,
 																   'keterangan'    => $Keterangan_INV,
 																   'no_reff'       => $kurs_histori, 
-																   'debet'         => 0,
-																   'kredit'        => $selisih_kurs*(-1),
+																   'debet'         => $selisih_kurs*(-1),
+																   'kredit'        => 0,
 																   'id_supplier'   => 'IDN-2206030',
 																   'nama_supplier' => 'OTHER',
 																
