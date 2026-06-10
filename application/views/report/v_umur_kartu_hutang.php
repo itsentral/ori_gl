@@ -30,9 +30,9 @@ if ($data_perkiraan) {
 						<form method="post" action="<?=base_url()?>index.php/kartu_hutang/tampilkan_umur_kartuhutang" autocomplete="off">
               <table class="table table-bordered">			 
 								<tr>
-									<td width="15%" align="right"><b></b></td>
+									<td width="15%" align="right"><b>Periode Awal</b></td>
 									<td width="15%">
-									 <input type="hidden" id="tgl_awal" name="tgl_awal" value="" class="datepicker" /> 
+									 <input type="text" id="tgl_awal" name="tgl_awal" value="" class="datepicker" /> 
                                     </td>
 									<td width="15%">
 									</td>
@@ -40,7 +40,7 @@ if ($data_perkiraan) {
 									</td>
 								</tr>
 								<tr>
-									<td width="15%" align="right"><b>PERIODE</b></td>
+									<td width="15%" align="right"><b>Periode Akhir</b></td>
 									<td width="15%">
 									<input type="text" id="tgl_akhir" name="tgl_akhir" value="" class="datepicker" />	
                                     </td>
@@ -340,17 +340,14 @@ if ($data_perkiraan) {
 <script src="<?= base_url() ?>dist/moment.min.js"></script>
 <script>
 	function check() {
-		if ($("#bulan_ledger").val() == "0") {
-			alert("Silahkan Pilih Bulan");
+		if ($("#tgl_awal").val() == "") {
+			alert("Silahkan Pilih Periode Awal");
 			return false;
-		} else if ($("#tahun_ledger").val() == "0") {
-			alert("Silahkan Pilih Tahun");
+		} else if ($("#tgl_akhir").val() == "") {
+			alert("Silahkan Pilih Periode Akhir");
 			return false;
-		} else if ($("#filter_nokir").val() == "0") {
-			alert("Silahkan Pilih Dari Nomor Perkiraan Mana");
-			return false;
-		} else if ($("#filter_nokir2").val() == "0") {
-			alert("Silahkan Pilih Sampai Nomor Perkiraan Mana");
+		} else if ($("#id_klien").val() == "0" || $("#id_klien").val() == "") {
+			alert("Silahkan Pilih Vendor");
 			return false;
 		}
 	}

@@ -97,19 +97,16 @@ class Kartuhutang_model extends CI_Model
 		}
 	}
 	
-	function GetDataUmur($awal,$akhir,$vendor,$tipe){
+	function GetDataUmur($awal,$akhir,$vendor,$tipe=''){
+		if(empty($awal) || empty($akhir) || empty($vendor)){
+			return 0;
+		}
 		$query 	= "SELECT no_reff FROM kartu_hutang WHERE id_supplier='$vendor' AND tanggal BETWEEN '$awal' AND '$akhir' and no_perkiraan like '%".$tipe."%' GROUP BY no_reff";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		} else {
 			return 0;
-		}
-		$query = $this->db->get();
-		if($query->num_rows() != 0) {
-			return $query->result();
-		} else {
-			return false;
 		}
 	}
 	
