@@ -24,32 +24,23 @@ if ($data_perkiraan) {
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-					<b>PERIODE : </b><br><br>
+					<b></b><br><br>
             <!-- /.box-header -->
            <!-- <div class="box-body table-responsive no-padding"> -->
 						<form method="post" action="<?=base_url()?>index.php/kartu_hutang/tampilkan_umur_kartuhutang" autocomplete="off">
               <table class="table table-bordered">			 
 								<tr>
-									<td width="15%" align="right"><b>Periode Awal</b></td>
-									<td width="15%">
-									 <input type="text" id="tgl_awal" name="tgl_awal" value="" class="datepicker" /> 
-                                    </td>
-									<td width="15%">
-									</td>
-									<td width="15%">																			 
-									</td>
-								</tr>
-								<tr>
-									<td width="15%" align="right"><b>Periode Akhir</b></td>
+									<td width="15%" align="right"><b>PERIODE</b></td>
 									<td width="15%">
 									<input type="text" id="tgl_akhir" name="tgl_akhir" value="" class="datepicker" />	
+									<input type="hidden" id="tgl_awal" name="tgl_awal" value="2000-01-01" />
                                     </td>
 									<td width="15%">																			 
 									</td>
 									<td width="15%">																			 
 									</td>
-								</tr>
-                                <tr>
+					            </tr>
+								<tr>
 									<td width="15%" align="right"><b>Tipe</b></td>
 									<td width="15%">
 									<select name="tipe">
@@ -124,14 +115,11 @@ if ($data_perkiraan) {
 										$awal 		= $datawal;
 										$akhir		= $datakhir;
 										$vendor 	= $datvendor;
-										$tipe 	    = $tipe;
-										
-										$akhir2     = date_format(new DateTime($akhir), "Y-m-d");
 										
 										$supp  = $this->db->query("SELECT * FROM sentralsistem.supplier WHERE id_supplier='$vendor'")->row();
 											
-										echo "<tr><th colspan='8' style='text-align:center;font-size:15px;'><center>UMUR KARTU HUTANG " .$tipe. " <br>Periode :  " .$akhir. " </center></th></tr>";
-										echo "<tr><th colspan='8' style='text-align:center;font-size:15px;'><center>NAMA SUPPLIER : " . $supp->nm_supplier . "</center></th></tr>";
+										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>KARTU UMUR HUTANG<br>Periode :  " . date_format(new DateTime($akhir), "d-m-Y") . " </center></th></tr>";
+										echo "<tr><th colspan='9' style='text-align:center;font-size:15px;'><center>NAMA SUPPLIER : " . $supp->nm_supplier . "</center></th></tr>";
 										
 										?>
 									</tr>
@@ -145,9 +133,6 @@ if ($data_perkiraan) {
 										</td>
 										<td>
 											<center><b>Keterangan</b></center>
-										</td>
-										<td>
-											<center><b>No Hutang</b></center>
 										</td>
 										
 										<td>
@@ -176,7 +161,6 @@ if ($data_perkiraan) {
 										foreach ($coa_sa as $row_sa) {
 											$count++;
      										$bukti	= $row_sa->no_reff;
-											$tgl_bukti	= $row_sa->tanggal;
 											
 									?>
 									
@@ -185,16 +169,13 @@ if ($data_perkiraan) {
 											<?php
 											
 
-											$detail_jurnal	= $this->Kartuhutang_model->get_detail_umur_kartu_hutang($awal,$akhir2,$vendor, $bukti);
+											$detail_jurnal	= $this->Kartuhutang_model->get_detail_umur_kartu_hutang($awal,$akhir,$vendor, $bukti);
 											if ($detail_jurnal > 0) {
 												
 												foreach ($detail_jurnal as $row_dj) {
 													
 													$tgl_j       		= $row_dj->tanggal;
-													$nilai_debet 		= $row_dj->debet;
-													$nilai_kredit 		= $row_dj->kredit;
 													$keterangan         = $row_dj->keterangan;
-													$no_request         = $row_dj->no_request;
                                                     $saldo30         = $row_dj->saldo30;
 													$saldo31         = $row_dj->saldo31;
 													$saldo60         = $row_dj->saldo60;
@@ -210,11 +191,6 @@ if ($data_perkiraan) {
 													$totsaldo90     = 0;
 													$totsaldo120    = 0;
 													}
-													
-													if  ($saldo30 == 0 ){
-													$totsaldo30     = 0;													
-													}
-													
 													if ($saldo31 != 0 ) {
 													$totsaldo30     = 0;
 													$totsaldo31     = $saldo31+$saldo30;
@@ -222,11 +198,6 @@ if ($data_perkiraan) {
 													$totsaldo90     = 0;
 													$totsaldo120    = 0;
 													}
-													
-													if ($saldo31 == 0 ) {
-													$totsaldo31     = 0;
-													}
-													
 													if  ( $saldo60 != 0 ) {
 													$totsaldo30     = 0;
 													$totsaldo31     = 0;
@@ -234,11 +205,6 @@ if ($data_perkiraan) {
 													$totsaldo90     = 0;
 													$totsaldo120    = 0;
 													}
-													
-												    if ($saldo60 == 0 ) {
-													$totsaldo60     = 0;
-													}
-													
 													if ( $saldo90 != 0 ) {
 													$totsaldo30     = 0;
 													$totsaldo31     = 0;
@@ -246,11 +212,6 @@ if ($data_perkiraan) {
 													$totsaldo90     = $saldo90+$saldo60+$saldo31+$saldo30;
 													$totsaldo120    = 0;
 													}
-													
-													if ($saldo90 == 0 ) {
-													$totsaldo90     = 0;
-													}
-													
 													if ($saldo120 != 0) {
 													$totsaldo30     = 0;
 													$totsaldo31     = 0;
@@ -259,20 +220,15 @@ if ($data_perkiraan) {
 													$totsaldo120     = $saldo120+$saldo90+$saldo60+$saldo31+$saldo30;
 													}
 													
-													if ($saldo120 == 0 ) {
-													$totsaldo120     = 0;
-													}
-													
 													$totalall = $totsaldo30+$totsaldo31+$totsaldo60+$totsaldo90+$totsaldo120;
 													
 												
-												    $tot30 += $totsaldo30;
+													$tot30 += $totsaldo30;
 													$tot31 += $totsaldo31;
 													$tot60 += $totsaldo60;
 													$tot90 += $totsaldo90;
 													$tot120 += $totsaldo120;
 													$totall += $totalall;
-													
 													
 													
 													
@@ -282,7 +238,6 @@ if ($data_perkiraan) {
 													    <td align="center"><?= date_format(new DateTime($tgl_j), "d-m-Y")  ?></td>
 														<td align="center"><?= $bukti ?></td>
 														<td><?= $keterangan?></td>
-														<td><?= $no_request?></td>
 														<td align="right"><?= number_format($totsaldo30, 0, ',', '.'); ?></td>
 														<td align="right"><?= number_format($totsaldo31, 0, ',', '.'); ?></td>
 														<td align="right"><?= number_format($totsaldo60, 0, ',', '.'); ?></td>
@@ -307,16 +262,16 @@ if ($data_perkiraan) {
 
 								</tbody>
 								
-									                <tr>
-													    <td align="center" colspan="4"><b>TOTAL</td>
-														<td align="right"><b><?= number_format($tot30, 0, ',', '.'); ?></td>
-														<td align="right"><b><?= number_format($tot31, 0, ',', '.'); ?></td>
-														<td align="right"><b><?= number_format($tot60, 0, ',', '.'); ?></td>
-														<td align="right"><b><?= number_format($tot90, 0, ',', '.'); ?></td>
-														<td align="right"><b><?= number_format($tot120, 0, ',', '.'); ?></td>
-														<td align="right"><b><?= number_format($totall, 0, ',', '.'); ?></td>
-														
-													</tr>
+								<tr>
+									<td align="center" colspan="3"><b>TOTAL</td>
+									<td align="right"><b><?= number_format($tot30, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($tot31, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($tot60, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($tot90, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($tot120, 0, ',', '.'); ?></td>
+									<td align="right"><b><?= number_format($totall, 0, ',', '.'); ?></td>
+									
+								</tr>
 
 							</table>
 
@@ -340,11 +295,8 @@ if ($data_perkiraan) {
 <script src="<?= base_url() ?>dist/moment.min.js"></script>
 <script>
 	function check() {
-		if ($("#tgl_awal").val() == "") {
-			alert("Silahkan Pilih Periode Awal");
-			return false;
-		} else if ($("#tgl_akhir").val() == "") {
-			alert("Silahkan Pilih Periode Akhir");
+		if ($("#tgl_akhir").val() == "") {
+			alert("Silahkan Pilih Periode");
 			return false;
 		} else if ($("#id_klien").val() == "0" || $("#id_klien").val() == "") {
 			alert("Silahkan Pilih Vendor");

@@ -131,23 +131,12 @@ class Kartu_hutang extends CI_Controller
 
 	function tampilkan_umur_kartuhutang(){
 
-		$post_awal				= $this->input->post('tgl_awal');
-		$post_akhir				= $this->input->post('tgl_akhir');
-		$awal					= !empty($post_awal) ? date_format(new DateTime($post_awal), "Y-m-d") : '';
-		$akhir					= !empty($post_akhir) ? date_format(new DateTime($post_akhir), "Y-m-d") : '';
+		$awal					= date_format(new DateTime($this->input->post('tgl_awal')), "Y-m-d");
+		$akhir					= date_format(new DateTime($this->input->post('tgl_akhir')), "Y-m-d");
 		$supplier    			= $this->input->post('id_klien');
         $tipe                   = $this->input->post('tipe');
 
 		$data['judul']			= "Umur Kartu Hutang";
-
-		// Validasi: jika tanggal atau supplier kosong, kembali ke halaman form
-		if(empty($akhir) || empty($supplier) || $supplier == '0'){
-			$data['datklien']     = $this->Report_model->pilih_vendor();
-			$data['combo_coa']	  = $this->combo_coa;
-			$this->session->set_flashdata('error', 'Silahkan isi Periode dan pilih Vendor');
-			$this->load->view("report/v_kartu_h", $data);
-			return;
-		}
 
 		if ($this->input->post('tampilkan') == "View Excel") {
 

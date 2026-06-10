@@ -98,10 +98,7 @@ class Kartuhutang_model extends CI_Model
 	}
 	
 	function GetDataUmur($awal,$akhir,$vendor,$tipe=''){
-		if(empty($awal) || empty($akhir) || empty($vendor)){
-			return 0;
-		}
-		$query 	= "SELECT no_reff FROM kartu_hutang WHERE id_supplier='$vendor' AND tanggal BETWEEN '$awal' AND '$akhir' and no_perkiraan like '%".$tipe."%' GROUP BY no_reff";
+		$query 	= "SELECT no_reff FROM kartu_hutang WHERE id_supplier='$vendor' and no_perkiraan like '%".$tipe."%' GROUP BY no_reff";
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
 			return $query->result();
@@ -114,13 +111,13 @@ class Kartuhutang_model extends CI_Model
 	public function get_detail_umur_kartu_hutang($awal,$akhir,$vendor,$bukti )		
 	{
 		$query 	= "SELECT 
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND datediff('$akhir', tanggal)  BETWEEN 0  AND 30 GROUP BY no_reff ORDER BY tanggal DESC) AS saldo30,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 31  AND 60) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo31,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 61  AND 90) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo60,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) BETWEEN 91  AND 120) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo90,
-		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND id_supplier='$vendor' AND (datediff('$akhir', tanggal) > 120) GROUP BY no_reff ORDER BY tanggal DESC) AS saldo120,
+		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND datediff('$akhir', tanggal) BETWEEN 0 AND 30 GROUP BY no_reff) AS saldo30,
+		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND (datediff('$akhir', tanggal) BETWEEN 31  AND 60) GROUP BY no_reff) AS saldo31,
+		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND (datediff('$akhir', tanggal) BETWEEN 61  AND 90) GROUP BY no_reff) AS saldo60,
+		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND (datediff('$akhir', tanggal) BETWEEN 91  AND 120) GROUP BY no_reff) AS saldo90,
+		(SELECT sum(kredit)-sum(debet) as saldo FROM kartu_hutang WHERE id_supplier='$vendor' AND no_reff = '$bukti' AND (datediff('$akhir', tanggal) > 120) GROUP BY no_reff) AS saldo120,
 		
-		tanggal,keterangan,no_request from kartu_hutang WHERE no_reff = '$bukti' AND id_supplier='$vendor' GROUP BY no_reff  ORDER BY tanggal DESC";
+		tanggal,keterangan from kartu_hutang WHERE no_reff = '$bukti' AND id_supplier='$vendor' GROUP BY no_reff ";
 
 		$query	= $this->db->query($query);
 		if ($query->num_rows() > 0) {
