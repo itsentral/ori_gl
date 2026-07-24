@@ -80,7 +80,7 @@ header("Expires: 0");
 					<center><b>Nomor Bukti</b></center>
 				</td>
 				<td>
-					<center><b>SM</b></center>
+					<center><b>No Reff</b></center>
 				</td>
 				<td>
 					<center><b>Debet</b></center>
@@ -116,7 +116,7 @@ header("Expires: 0");
 					$nama_perkiraan2[$count2] 	= $row_dj->keterangan;
 					$tgl_bukti[$count2]			= $row_dj->tanggal;
 					$nomor_bukti[$count2] 		= $row_dj->nomor;
-					$tipe_sm[$count2] 			= $row_dj->tipe;
+					$no_reff[$count2] 			= $row_dj->no_reff;
 					$nilai_debet[$count2] 		= $row_dj->debet;
 					$nilai_kredit[$count2] 		= $row_dj->kredit;
 					$sum_debet					+= $nilai_debet[$count2];
@@ -129,7 +129,7 @@ header("Expires: 0");
 						<td><?= $nama_perkiraan2[$count2] ?></td>
 						<td align="center"><?= date_format(new DateTime($tgl_bukti[$count2]), "d-m-Y") ?></td>
 						<td align="center"><?= $nomor_bukti[$count2] ?></td>
-						<td align="center"><?= $tipe_sm[$count2] ?></td>
+						<td align="center"><?= $no_reff[$count2] ?></td>
 						<td align="right"><?= $nilai_debet[$count2]; ?></td>
 						<td align="right"><?= $nilai_kredit[$count2]; ?></td>
 						<td align="right"><?= $current_saldo; ?></td>
